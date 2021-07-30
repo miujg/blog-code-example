@@ -1,9 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
-
-
 module.exports = {
   //模式
   // mode: 'development', // production development
@@ -18,6 +15,8 @@ module.exports = {
     compress: true
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../src/public/index.html'),
+    })
   ]
 }
