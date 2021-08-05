@@ -29,6 +29,20 @@ router.put('/name', async (ctx) => {
   }
 })
 
+router.get('/jsonp', async (ctx) => {
+  let callbackName = ctx.query.callback || 'callback'
+  let returnData = {
+    success: true,
+    data: {
+      text: 'this is a jsonp api',
+      time: new Date().getTime(),
+    }
+  }
+  let jsonpStr = `${callbackName}(${JSON.stringify(returnData)})`
+  ctx.type = 'text/javascript'
+  ctx.body = jsonpStr
+})
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 
