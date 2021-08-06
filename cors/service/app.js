@@ -15,6 +15,16 @@ app.use(async (ctx, next) => {
   next()
 })
 
+// // 解决跨域问题
+// app.use(cors({
+//     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+//     maxAge: 5,
+//     // 允许接收cookie
+//     credentials: true,
+//     allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
+//     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+// }))
+
 router.get('/name', async (ctx) => {
   ctx.body = {
     name: 'miujg',

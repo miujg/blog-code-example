@@ -24,3 +24,6 @@ npm install
 node app.js
 ```
 > 启动一个端口为3000的本地服务
+
+### jsonp
+先运行服务端，浏览器打开jsonp.html文件，即可测试。
