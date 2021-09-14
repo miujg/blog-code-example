@@ -61,9 +61,8 @@ const isString = type('String')
 // console.log(isNumber(12))
 
 // 订阅 && 发布
-
+// 订阅与发布可以分开
 // 读取文件
-
 const fs = require('fs')
 
 const event = {
@@ -75,16 +74,56 @@ const event = {
     this._arr.forEach(fn => fn(...args))
   }
 }
-
+// 订阅
 event.on((data) => console.log(data))
-
 fs.readFile('./aa.text', 'utf8', (err, data) => {
+  // 发布
   event.emit(data)
 })
 
 fs.readFile('./bb.text', 'utf8', (err, data) => {
   event.emit(data)
 })
+
+// 观察者模式
+
+// 被观察
+class Subject {
+  constructor(name) {
+    this.name = name
+    this._arr = []
+    this.emo = '开心'
+  }
+  // 注册观察者
+  attch(o) {
+    this._arr.push(o)
+  }
+  setEmo(emo) {
+    this.emo = emo
+    this._arr.forEach(o => o.update(emo))
+  }
+}
+// 观察者
+class Observer {
+  constructor(name) {
+    this.name = name
+  }
+  update(data) {
+    console.log(`${this.name},${data}`)
+  }
+}
+
+let mom = new Observer('mon')
+let father = new Observer('father')
+
+let baby = new Subject('baby')
+baby.attch(mom)
+baby.attch(father)
+baby.setEmo('sad')
+baby.setEmo('happy')
+
+
+
 
 
 
