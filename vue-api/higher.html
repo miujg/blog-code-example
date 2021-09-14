@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态渲染标签</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="demo_4_5">
+      <smart-avatar />
+    </div>
+</body>
+<script> 
+    const Avatar = Vue.component('avatar', {
+      props: ['src'],
+      // template: `<img :src="src" />`
+      render(h) {
+        return h('img', {attrs: {src: this.src}})
+      }
+    })
+
+    function withAvatarUrl (InnerComponent) {
+      return Vue.component('smartAvatar', {
+        data() {
+          return {
+            url: 'https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF'
+          }
+        },
+        // components: {InnerComponent},
+        created() {
+          console.log('xxxx')
+        },
+        render(h) {
+          return h(InnerComponent, {props: {src: this.url}})
+        }
+      })
+    }
+
+    const SmartAvatar = withAvatarUrl(Avatar)
+
+    new Vue({ 
+        el: '#demo_4_5',
+        data: { ok: false }
+    })
+</script>
+
+</html>

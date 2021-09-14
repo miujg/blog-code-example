@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态渲染标签</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="demo_4_5">
+        <example :ok="ok">
+        </example>
+    </div>
+</body>
+<script>
+    const Foo = Vue.component('foo', {
+        render(h) {
+            return h('div', 'foo')
+        }
+    })
+    const Bar = Vue.component('bar', {
+        render(h) {
+            return h('div', 'bar')
+        }
+    })
+    Vue.component('example', {
+        props: ['ok'],
+        render(h, ctx) {
+          // 获取插槽内容
+          // 第二参数是可选参数，可接受vnodes类型的数组，数组可以是数字和字符串
+          // return this.ok ? h(Test) : h(Bar)
+          return this.ok ? h(Foo) : h(Bar)
+        }
+    })
+    new Vue({ 
+        el: '#demo_4_5',
+        data: { ok: false }
+    })
+</script>
+
+</html>
