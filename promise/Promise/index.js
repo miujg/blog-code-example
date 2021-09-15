@@ -56,6 +56,7 @@ class Promise {
     }
   }
   then(onFulfilled, onRejected) {
+    console.log(this.status)
     typeof onFulfilled === 'function'? onFulfilled : v => v
     typeof onRejected === 'function'? onRejected : err => {throw err}
     const promise2 = new Promise((resolve, reject) => {
