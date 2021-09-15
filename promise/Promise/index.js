@@ -1,7 +1,11 @@
 const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
 const REJECTED = 'REJECTED'
-
+const resolvePromise = (x, promise2, resolve, reject) => {
+  if(x === promise2) {
+    throw new TypeError('Chaining cycle detected for promise')
+  }
+}
 class Promise {
   constructor(execute) {
     this.status = PENDING
@@ -13,22 +17,68 @@ class Promise {
       if(this.status !== PENDING) return
       this.status = REJECTED
       this.reason = reason
+      this.onRejectedCallback.forEach(fn => fn())
     }
     const resolve = value => {
       if(this.status !== PENDING) return
       this.status = FULFILLED
       this.value = value
+      this.onResolvedCallback.forEach(fn => fn())
     }
     try {
+      // 同步执行函数
       execute(resolve, reject)
-    } catch(err) {
+    } catch (err) {
       this.status = REJECTED
       this.reason = err
     }
   }
   then(onFulfilled, onRejected) {
-    if(this.status === REJECTED) onRejected(this.reason)
-    if(this.status === FULFILLED) onFulfilled(this.value)
+    const promise2 = new Promise((resolve, reject) => {
+      if(this.status === REJECTED) {
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason)
+            resolvePromise(x, promise2, resolve, reject)        
+          } catch (error) {
+            reject(error)
+          }
+        }, 0)
+      } 
+      if(this.status === FULFILLED) {
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value)
+            resolvePromise(x, promise2, resolve, reject)         
+          } catch (error) {
+            reject(error)
+          }
+        }, 0)
+      } 
+      // 订阅&发布处理异步
+      if(this.status === PENDING) {
+          this.onResolvedCallback.push(() => {
+            setTimeout(() => {
+              try {
+                let x = onFulfilled(this.value)
+                resolvePromise(x, promise2, resolve, reject)         
+              } catch (error) {
+                co
+                reject(error)
+              }
+            }, 0)
+          })
+          this.onRejectedCallback.push(() => {
+            try {
+              let x = onRejected(this.reason)
+              resolvePromise(x, promise2, resolve, reject)
+            } catch (error) {
+              reject(error)
+            }
+          })
+      }
+    }) 
+    return promise2
   }
 }
 

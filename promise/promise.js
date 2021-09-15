@@ -2,15 +2,42 @@
 // 解决异步问题
 
 const Promise = require('./Promise/index.js')
+const fs = require('fs')
 
-const p1 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('success')
-  }, 1000)
+function readFile(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if(err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+// const p1 = new Promise((resolve, reject) => {
+//   resolve('111')
+//   reject('xxx')
+// })
+const p1 = readFile('aa.text')
+
+let p = p1.then(data => {
+  return p 
 })
 
-p1.then(data => {
-  console.log(data)
-}, err => {
-  console.log(err)
-})
+// p1.then(data => {
+//   console.log(data, 222)
+//   // return readFile(data)
+// })
+
+// p2.then(data => {
+//   console.log(data)
+// })
+
+
+// p1.then(data => {
+//   console.log(data, 13)
+// }, err => {
+//   console.log(err, 2222)
+// })
