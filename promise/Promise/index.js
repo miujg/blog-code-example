@@ -40,6 +40,9 @@ class Promise {
     }
     const resolve = value => {
       if(this.status !== PENDING) return
+      if(value instanceof Promise) {
+        return value.then(resolve, reject)
+      }
       this.status = FULFILLED
       this.value = value
       this.onResolvedCallback.forEach(fn => fn())
@@ -53,6 +56,8 @@ class Promise {
     }
   }
   then(onFulfilled, onRejected) {
+    typeof onFulfilled === 'function'? onFulfilled : v => v
+    typeof onRejected === 'function'? onRejected : err => {throw err}
     const promise2 = new Promise((resolve, reject) => {
       if(this.status === REJECTED) {
         setTimeout(() => {
@@ -97,6 +102,14 @@ class Promise {
       }
     }) 
     return promise2
+  }
+  catch(onRejected) {
+    this.then(null, onRejected)
+  }
+  static resolve(value) {
+    return new Promise((resolve, reject) => {
+      resolve(value)
+    })
   }
 }
 

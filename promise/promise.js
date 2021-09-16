@@ -16,22 +16,37 @@ function readFile(filePath) {
   })
 }
 
+
+const p = new Promise((resolve, reject) => {
+  resolve(1000)
+})
+// p.then(data => {throw new Error('xxx')}).catch(err => console.log(err, 111))
+
+// const t = Promise.resolve(123).then(res => console.log(res))
+Promise.resolve(new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('xxxx')
+  }, 1000)
+})).then(res => console.log(res))
+
+// catch
+
 // const p1 = new Promise((resolve, reject) => {
 //   resolve('111')
 //   reject('xxx')
 // })
 // const p1 = readFile('aa.text')
-const p1 = new Promise((resolve, reject) => {
-  resolve(new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(111)
-    }, 100)
-  }))
-})
+// const p1 = new Promise((resolve, reject) => {
+//   resolve(new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve(111)
+//     }, 100)
+//   }))
+// })
 
-let p = p1.then(data => {
-  return data
-})
+// let p = p1.then(data => {
+//   return data
+// })
 // .then(data => {
 //   console.log(data, 28)
 // })
@@ -52,3 +67,15 @@ let p = p1.then(data => {
 //   console.log(err, 2222)
 // })
 
+// 测试promise 是否符合promise a+规范
+// Promise.deferred = function() {
+//   let def = {}
+//   def.promise = new Promise((resolve, reject) => {
+//     def.resolve = resolve
+//     def.reject = reject
+//   })
+//   return def
+// }
+
+// npm install -g promises-aplus-tests
+// promises-aplus-tests xx.js
