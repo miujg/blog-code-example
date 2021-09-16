@@ -23,7 +23,9 @@ function readFile(filePath) {
 const p1 = readFile('aa.text')
 
 let p = p1.then(data => {
-  return p 
+  return readFile(data) 
+}).then(data => {
+  console.log(data, 28)
 })
 
 // p1.then(data => {
@@ -41,3 +43,9 @@ let p = p1.then(data => {
 // }, err => {
 //   console.log(err, 2222)
 // })
+
+
+function a() {}
+
+console.log(typeof {a: 11})
+console.log(typeof a)

@@ -5,6 +5,24 @@ const resolvePromise = (x, promise2, resolve, reject) => {
   if(x === promise2) {
     throw new TypeError('Chaining cycle detected for promise')
   }
+  // 如果x是一个对象或函数(可能是一个promise)
+  if((typeof x === 'object' || typeof x === 'function') && x !== null) {
+    console.log(x)
+    try {
+      let then = x.then
+      // 判断是否有then方法
+      if(then && typeof then === 'function') {
+          then.call(x, y => resolve(y), r => reject(r))
+      } else{
+        resolve(x)
+      }
+    } catch (error) {
+      reject(error)
+    }
+  } else {
+    // 普通值
+    resolve(x)
+  }
 }
 class Promise {
   constructor(execute) {
@@ -63,7 +81,6 @@ class Promise {
                 let x = onFulfilled(this.value)
                 resolvePromise(x, promise2, resolve, reject)         
               } catch (error) {
-                co
                 reject(error)
               }
             }, 0)
