@@ -20,13 +20,21 @@ function readFile(filePath) {
 //   resolve('111')
 //   reject('xxx')
 // })
-const p1 = readFile('aa.text')
+// const p1 = readFile('aa.text')
+const p1 = new Promise((resolve, reject) => {
+  resolve(new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(111)
+    }, 100)
+  }))
+})
 
 let p = p1.then(data => {
-  return readFile(data) 
-}).then(data => {
-  console.log(data, 28)
+  return data
 })
+// .then(data => {
+//   console.log(data, 28)
+// })
 
 // p1.then(data => {
 //   console.log(data, 222)
@@ -44,8 +52,3 @@ let p = p1.then(data => {
 //   console.log(err, 2222)
 // })
 
-
-function a() {}
-
-console.log(typeof {a: 11})
-console.log(typeof a)

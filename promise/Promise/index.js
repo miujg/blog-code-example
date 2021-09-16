@@ -1,18 +1,19 @@
 const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
 const REJECTED = 'REJECTED'
+
+// promise A+ 多个promise箭筒
 const resolvePromise = (x, promise2, resolve, reject) => {
   if(x === promise2) {
     throw new TypeError('Chaining cycle detected for promise')
   }
   // 如果x是一个对象或函数(可能是一个promise)
   if((typeof x === 'object' || typeof x === 'function') && x !== null) {
-    console.log(x)
     try {
       let then = x.then
       // 判断是否有then方法
       if(then && typeof then === 'function') {
-          then.call(x, y => resolve(y), r => reject(r))
+        then.call(x, y => resolvePromise(y, promise2, resolve, reject), r => reject(r))
       } else{
         resolve(x)
       }
