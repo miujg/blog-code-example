@@ -135,6 +135,16 @@ state.a = 2
 console.log(state.b)
 
 
+let data1 = {name: 'xxx'}
+Object.keys(data1).forEach(key => {
+  Object.defineProperty(data1, key, {
+    get() {},
+    set() {}
+  })
+})
+console.log(data1)
+
+
 
 
 

@@ -7,9 +7,22 @@
   <title>Document</title>
 </head>
 <body>
+
   <script src="/dist/umd/vue.js"></script>
   <script>
-    console.log(Vue)
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          name: 'jgmiu',
+          firend: [
+            {name: 'xxx'},
+            {name: 'yyy'},
+          ]
+        }
+      }
+    }) 
+    console.log(vm._data)
   </script>
 </body>
 </html>
