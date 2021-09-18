@@ -24,12 +24,4 @@ function initData(vm) {
   // 对象劫持 用户改变数据 我得到通知
   // Object.defineProperties 响应式原理
   observe(data)
-  // console.log(data)
-  // Object.keys(data).forEach(key => {
-  //   Object.defineProperty(data, key, {
-  //     get() {},
-  //     set() {}
-  //   })
-  // })
-  
 }

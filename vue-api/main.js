@@ -100,8 +100,8 @@ class Dep {
   depend() {
     if(activeUpdate)
       this._arr.add(activeUpdate)
-    if(this._arr.size === 2)
-      console.log('不可能为2')
+    // if(this._arr.size === 2)
+    //   console.log('不可能为2')
   }
   // 通知 发布 emit
   notify() {

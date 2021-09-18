@@ -1,10 +1,15 @@
-// 对应 https://www.bilibili.com/video/BV1d4411v7UX?p=18
+// 对应 尤大大 https://www.bilibili.com/video/BV1d4411v7UX?p=18
 // Object.defineProperty 不能兼容ie8 及以下
-import { isObject } from '../util/index'
+import { isObject, def } from '../util/index'
 import { arrayMethods } from './array.js' 
 
+// 数据劫持类
 class Observe{
   constructor(value) {
+    // 这种会形成递归 每次defineReactive都会在value上添加__ob__,继续观测，往复循环。
+    // 解决方法:不观测__ob__。不可枚举
+    // value.__ob__ = this
+    def(value, '__ob__', this)
     // 如果value层次过多
     if(Array.isArray(value)) {
       // 如果是数组并不会对索引进行观测
@@ -16,13 +21,13 @@ class Observe{
     }
   }
   observeArray(value) {
+    // 重写数组方法，达到劫持效果
+    value.__proto__ = arrayMethods
+    // 对数组里面的对象进行劫持
     value.forEach(item => observe(item))
   }
   walk(data) {
     let keys = Object.keys(data)
-    // for(let key of keys) {
-    //   defineReactive(data, key, data[key])
-    // }
     keys.forEach(key => {
       defineReactive(data, key, data[key])
     })
@@ -34,7 +39,6 @@ function defineReactive(data, key, value) {
   observe(value)
   Object.defineProperty(data, key, {
     get() { 
-      console.log('xxx')
       // 依赖搜集
       return value
     },
@@ -47,6 +51,7 @@ function defineReactive(data, key, value) {
 }
 
 export function observe(data) {
+  // 如果不是对象不需要劫持
   if(!isObject(data)) return
   new Observe(data)
 
