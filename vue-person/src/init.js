@@ -19,6 +19,7 @@ export function initMixin(Vue) {
     const vm = this
     const options = vm.$options
     el = document.querySelector(el)
+    vm.$options.el = el
     // 渲染顺序：默认查找render 然后采用template el下的outerHTML
 
     if(!options.render) {
