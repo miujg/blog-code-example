@@ -6,7 +6,8 @@ export function compileToFunction(template) {
   let code = generate(ast)
   // with 欺骗作用域
   let render = `with(this){return ${code}}`
-  let fn = new Function(render)
+  // eval 不干净的执行 词法作用域无法像函数那样动态
+  let fn = new Function(render) 
   return fn
 }
 
