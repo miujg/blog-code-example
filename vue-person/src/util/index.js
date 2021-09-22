@@ -9,3 +9,7 @@ export function def(data, key, value) {
     value
   })
 }
+
+export function proxy(vm, key) {
+  
+}

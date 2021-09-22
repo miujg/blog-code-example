@@ -36,4 +36,7 @@ export function initMixin(Vue) {
     // 组件挂载
     mountComponent(vm, el)
   }
+
+  
+
 }
