@@ -10,7 +10,7 @@ export function patch(oldVnode, vnode) {
     const parentElm = oldElm.parentNode
 
     let el = createElm(vnode) // 根据虚拟节点创建真实节点
-    parentElm.insertBefore(el, oldElm.nextSibling) // 将生成的el放到oldElm下一个的前面 === oldElm的后面
+    parentElm.insertBefore(el, oldElm.nextSibling) // 将生成的el放到oldElm下一个的前面 === oldElm的后面(这个更好理解)
     // 移除oldElm
     parentElm.removeChild(oldElm)
     return el

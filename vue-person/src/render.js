@@ -12,7 +12,6 @@ export function renderMixin(Vue) {
   }
   // 调用render函数 生成vnode
   Vue.prototype._render = function() {
-    console.log('render')
     const vm = this
     let render = vm.$options.render // 获取编译后的render
     let vnode = render.call(this) // 调用render 获取vnode

@@ -29,7 +29,6 @@ export function initMixin(Vue) {
         template = el.outerHTML
         // template ==> AST ==> render方法 
         const render = compileToFunction(template)
-        console.log(render)
         options.render = render
       } 
     }

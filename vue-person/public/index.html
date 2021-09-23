@@ -24,6 +24,10 @@
         }
       },
     }) 
+
+    vm.name = '肖肖'
+    // 强制更新， 直接替换 性能浪费
+    vm._update(vm._render())
   </script>
 </body>
 </html>
