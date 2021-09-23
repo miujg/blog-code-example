@@ -8,13 +8,13 @@ class Dep {
   }
   depend() {
     // 让watcher记住dep
-    // 获取watcher
-    this.addSub(Dep.target)
+    Dep.target.addDep(this)
   }
-  addSub(watcher) { // 存储watcher 
+  addSub(watcher) { // 存储watcher
     this.subs.push(watcher)
   }
   notify() {
+
     this.subs.forEach(watcher => watcher.update())
   }
 }

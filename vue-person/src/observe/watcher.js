@@ -1,4 +1,5 @@
 import { popTarget, pushTarget } from "./dep"
+import { queueWatcher } from "./schedular"
 
 // 调用 render 渲染
 let id = 0
@@ -23,6 +24,7 @@ class Watcher {
   }
   // 当属性取值的时候 需要记住watcher 数据变化通知watcher执行
   addDep(dep) {
+    // dep记住watcher
     let id = dep.id
     if(!(this.depsId.has(id))) { // dep 是非重复 watcher 肯定不会重复 
       this.depsId.add(id)
@@ -30,9 +32,16 @@ class Watcher {
       dep.addSub(this)
     }
   }
-  update() {
-    this.get() 
+  update() { // 如果多次更改 希望合并成一次 （防抖）
+    // this.get()  // 每一次复制都会执行相应key的watcher 不停的重新渲染
+    // queueWatcher(this)
+    queueWatcher(this)
+  }
+  run() {
+    this.get()
   }
 }
+
+
 
 export default Watcher

@@ -24,12 +24,15 @@
           address: '武隆'
         }
       },
-    }) 
+    })  
     setTimeout(() => {
       // 以来收集
-      // 强制更新， 直接替换 性能浪费。暴力 手动更新
-      vm.name = '肖肖'
+      vm.name = '肖肖1'
+      vm.name = '肖肖2'
+      vm.name = '肖肖3'
+      // vm.name = '肖肖4'
       // vm._update(vm._render())
+      console.log(vm.$options.el.innerHTML)
     }, 1000)
   </script>
 </body>
