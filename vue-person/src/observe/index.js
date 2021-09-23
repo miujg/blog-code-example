@@ -2,6 +2,7 @@
 // Object.defineProperty 不能兼容ie8 及以下
 import { isObject, def } from '../util/index'
 import { arrayMethods } from './array.js' 
+import Dep from './dep'
 
 // 数据劫持类
 class Observe{
@@ -37,15 +38,23 @@ class Observe{
 function defineReactive(data, key, value) {
   // 递归实现深度劫持
   observe(value)
-  Object.defineProperty(data, key, {
+  // 每一个属性都有一个dep dep用于操作当前的watcher
+  let dep = new Dep()
+  Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep
     get() { 
       // 依赖搜集
+      if(Dep.target) {
+        dep.depend() // 让属性的dep记住watcher，也要让watcher记住 （双向）
+      }
       return value
     },
     set(newValue) {
+      console.log(dep)
       if(newValue == value) return
       observe(newValue) // 继续劫持用户设置的值，有可能设置了一个新对象
       value = newValue
+
+      dep.notify() // 通知dep中记录的watcher去执行
     }
   })
 }

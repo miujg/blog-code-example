@@ -8,10 +8,10 @@
 </head>
 <body>
   <div id="app" class="app-wrapper" style="color: red">
-    <span style="color: red">
-      {{name}} aa {{age}} haha
-      <a>hello</a>
-    </span>
+    <ul>
+      <li>{{name}}</li>
+      <li>{{age}}</li>
+    </ul>
   </div>
   <script src="/dist/umd/vue.js"></script>
   <script>
@@ -20,14 +20,17 @@
       data() {
         return {
           name: 'jgmiu',
-          age: 26
+          age: 26,
+          address: '武隆'
         }
       },
     }) 
-
-    vm.name = '肖肖'
-    // 强制更新， 直接替换 性能浪费
-    vm._update(vm._render())
+    setTimeout(() => {
+      // 以来收集
+      // 强制更新， 直接替换 性能浪费。暴力 手动更新
+      vm.name = '肖肖'
+      // vm._update(vm._render())
+    }, 1000)
   </script>
 </body>
 </html>
