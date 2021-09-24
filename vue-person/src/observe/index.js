@@ -39,6 +39,15 @@ class Observe{
   }
 }
 
+function  dependArray(value) {
+  for(let i = 0; i < value.length; i++) { // 数组中是对象，
+    let current = value[i]
+    // 子数组依赖收集
+    current.__ob__ && current.__ob__.dep.depend()
+    if(Array.isArray(current)) dependArray(current)
+  }
+}
+
 function defineReactive(data, key, value) {
   // 递归实现深度劫持
   // 数组的专用dep
@@ -54,6 +63,10 @@ function defineReactive(data, key, value) {
         if(childOb) {
           // 数组的依赖搜集 将当前得watcher和数组里联系起来
           childOb.dep.depend()
+          if(Array.isArray(value)) {
+            // 子序列也要收集依赖
+            dependArray(value)
+          }
         }
       }
       return value
