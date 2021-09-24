@@ -29,6 +29,7 @@ methods.forEach(method => {
         break
     }
     if(inserted) ob.observeArray(inserted)
+    ob.dep.notify()
     // 对insert进行观测
     return result
   }

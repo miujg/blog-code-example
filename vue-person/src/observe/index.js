@@ -19,14 +19,15 @@ class Observe{
       // 如果是数组并不会对索引进行观测
       // push, shift, unshift
       // 如果数组是对象再监控， 重写数组的方法重写
+      Object.setPrototypeOf(value, arrayMethods)
       this.observeArray(value)
     } else {
       this.walk(value)
     }
   }
   observeArray(value) {
-    // 重写数组方法，达到劫持效果
-    value.__proto__ = arrayMethods
+    // // 重写数组方法，达到劫持效果
+    // value.__proto__ = arrayMethods
     // 对数组里面的对象进行劫持
     value.forEach(item => observe(item))
   }
@@ -40,7 +41,9 @@ class Observe{
 
 function defineReactive(data, key, value) {
   // 递归实现深度劫持
-  observe(value)
+  // 数组的专用dep
+  let childOb = observe(value)
+  console.log(childOb.dep)
   // 每一个属性都有一个dep dep用于操作当前的watcher
   let dep = new Dep()
   Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep
@@ -48,6 +51,10 @@ function defineReactive(data, key, value) {
       // 依赖搜集
       if(Dep.target) {
         dep.depend() // 让属性的dep记住watcher，也要让watcher记住 （双向）
+        if(childOb) {
+          // 数组的依赖搜集 将当前得watcher和数组里联系起来
+          childOb.dep.depend()
+        }
       }
       return value
     },
@@ -63,6 +70,7 @@ function defineReactive(data, key, value) {
 export function observe(data) {
   // 如果不是对象不需要劫持
   if(!isObject(data)) return
-  new Observe(data)
+  if(data.__ob__) return
+  return new Observe(data)
 
 }

@@ -18,7 +18,7 @@
       el: '#app',
       data() {
         return {
-          arr: [1,2,3,4]
+          arr: [1,2,3,4],
         }
       },
     })  
@@ -30,8 +30,8 @@
       // vm.$nextTick(() => {
       //   console.log(vm.$options.el.innerHTML)
       // })
+      // debugger
       vm.arr.push(5)
-      console.log(vm.arr)
     }, 1000)
   </script>
 </body>
