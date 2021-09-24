@@ -7,6 +7,9 @@ import Dep from './dep'
 // 数据劫持类
 class Observe{
   constructor(value) {
+    // 给对象和数组都加一个dep
+    this.dep = new Dep()
+
     // 这种会形成递归 每次defineReactive都会在value上添加__ob__,继续观测，往复循环。
     // 解决方法:不观测__ob__。不可枚举
     // value.__ob__ = this

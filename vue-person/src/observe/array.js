@@ -14,7 +14,6 @@ const methods = [
 
 methods.forEach(method => {
   arrayMethods[method] = function(...args) {
-    console.log(args)
     const result = oldArrayMethods[method].apply(this, args)
     let inserted
     let ob = this.__ob__

@@ -9,8 +9,7 @@
 <body>
   <div id="app" class="app-wrapper" style="color: red">
     <ul>
-      <li>{{name}}</li>
-      <li>{{age}}</li>
+      {{arr}}
     </ul>
   </div>
   <script src="/dist/umd/vue.js"></script>
@@ -19,20 +18,20 @@
       el: '#app',
       data() {
         return {
-          name: 'jgmiu',
-          age: 26,
-          address: '武隆'
+          arr: [1,2,3,4]
         }
       },
     })  
     setTimeout(() => {
-      // 以来收集
-      vm.name = '肖肖1'
-      vm.name = '肖肖2'
-      vm.name = '肖肖3'
-      // vm.name = '肖肖4'
-      // vm._update(vm._render())
-      console.log(vm.$options.el.innerHTML)
+      // 依赖收集
+      // 面试题 vue的异步更新逻辑 异步执行更新视图逻辑
+      // vm.name = '肖肖1'
+      // vm.name = '肖肖2'
+      // vm.$nextTick(() => {
+      //   console.log(vm.$options.el.innerHTML)
+      // })
+      vm.arr.push(5)
+      console.log(vm.arr)
     }, 1000)
   </script>
 </body>
