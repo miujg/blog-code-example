@@ -1,12 +1,16 @@
 import { initState } from './state'
 import { compileToFunction } from './compiler/index.js'
 import { mountComponent } from'./lifecycle'
-import { nextTick } from "./util/index";
+import { megerOptions, nextTick } from "./util/index";
 
 export function initMixin(Vue) {
-  Vue.prototype._init = function(options) {
+  Vue.prototype._init = function(options) { // 用户传入的对象
     const vm = this 
-    vm.$options = options
+    // Vue.options 是mixin的
+    // 合并两者
+    // vm.$options = options
+    vm.$options = megerOptions(vm.constructor.options, options)
+    console.log(vm.options)
     
     // 初始化状态
     initState(vm)
@@ -23,7 +27,7 @@ export function initMixin(Vue) {
     const vm = this
     const options = vm.$options
     el = document.querySelector(el)
-    vm.$options.el = el
+    vm.$el = el
     // 渲染顺序：默认查找render 然后采用template el下的outerHTML
 
     if(!options.render) {

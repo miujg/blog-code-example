@@ -37,3 +37,60 @@ export function nextTick(cb) {
     Promise.resolve().then(flushCallbacks)
   }
 }
+
+// 策略合计
+const LIFECYCLE_HOOKS = ['beforeCreate', 'created']
+const strats = {}
+
+function mergeHook(parentVal, childVal) {
+  if(childVal) {
+    if(parentVal) {
+      return parentVal.concat[childVal]
+    } else {
+      // 儿子有 父亲没有 
+      return [childVal]
+    }
+  } else {
+    // 儿子没有直接用父亲
+    return parentVal
+  }
+}
+
+LIFECYCLE_HOOKS.forEach(hook => {
+  strats[hook] = mergeHook
+})
+
+// 合并
+export function megerOptions(parent, child) {
+  const options = {}
+  // 1. 父亲有的 儿子也有 用儿子
+  // 2. 父亲有值 儿子没有 用父亲
+  // 3. 自定义策略 
+  for(let key in parent) {
+    mergeField(key)
+  }
+
+  for(let key in child) {
+    if(!parent.hasOwnProperty(key)) {
+      mergeField(key)
+    }
+  }
+  
+  function mergeField(key) {
+    // 策略模式
+    if(strats[key]) {
+      return options[key] = strats[key](parent[key], child[key])
+    }
+    if(isObject(parent[key]) && isObject(child[key])) {
+      options[key] = {...parent[key], ...child[key]}
+    } else {
+      if(child[key]) {
+        options[key] = child[key]
+      } else {
+        options[key] = parent[key]
+      }
+    }
+  }
+  console.log(options)
+  return options
+}

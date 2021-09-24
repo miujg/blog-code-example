@@ -4,7 +4,6 @@ import { nextTick } from "../util/index"
 let has = {}
 let quenu = []
 function flushSchedularQueue() {
-  console.log('调度watcher')
   for(let i = 0; i< quenu.length; i++) {
     let watcher = quenu[i]
     watcher.run()
