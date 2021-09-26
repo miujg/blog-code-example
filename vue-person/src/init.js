@@ -10,6 +10,7 @@ export function initMixin(Vue) {
     // 合并两者
     // vm.$options = options
     vm.$options = megerOptions(vm.constructor.options, options)
+    console.log(vm.$options)
     callHook(vm, 'beforeCreate')
     // 初始化状态
     initState(vm)

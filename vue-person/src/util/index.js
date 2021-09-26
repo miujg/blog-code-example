@@ -56,9 +56,22 @@ function mergeHook(parentVal, childVal) {
   }
 }
 
+// 生命周期合并
 LIFECYCLE_HOOKS.forEach(hook => {
   strats[hook] = mergeHook
 })
+
+// 组件合并
+strats.components = function(parentVal, childVal) {
+  // 原型链
+  const res = Object.create(parentVal)
+  if(childVal) {
+    for(let key in childVal) {
+      res[key] = childVal[key]
+    }
+  }
+  return res
+}
 
 // 合并
 export function megerOptions(parent, child) {

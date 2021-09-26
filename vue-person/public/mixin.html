@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app" class="app-wrapper" style="color: red">
+    <ul>
+      {{arr}}
+    </ul>
+  </div>
+  <script src="/dist/umd/vue.js"></script>
+  <script>
+    // 面试题： mergeOptions 实现原理 Vue.mixin
+    Vue.mixin({
+      beforeCreate() { //组件创建之前
+        console.log('beforeCreate1')
+      },
+      created() { // 数据已经劫持
+        console.log('created1')
+      },
+    })
+    Vue.mixin({
+      beforeCreate() { //组件创建之前
+        console.log('beforeCreate2')
+      },
+      created() { // 数据已经劫持
+        console.log('created2')
+      },
+    })
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          arr: [[1,2,3,4]],
+        }
+      },
+      // 钩子 this都指向实例
+      beforeCreate() { //组件创建之前
+        console.log('beforeCreate3')
+      },
+      created() { // 数据已经劫持
+        console.log('created3')
+      },
+    })  
+    setTimeout(() => {
+      // 依赖收集
+      // 面试题 vue的异步更新逻辑 异步执行更新视图逻辑
+      // vm.name = '肖肖1'
+      // vm.name = '肖肖2'
+      vm.$nextTick(() => {
+        // console.log(vm.$el.innerHTML)
+      })
+      // debugger
+      vm.arr.push(5)
+    }, 1000)
+  </script>
+</body>
+</html>
