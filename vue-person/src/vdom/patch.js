@@ -20,8 +20,25 @@ export function patch(oldVnode, vnode) {
     parentElm.removeChild(oldElm)
     return el
   } else {
-    // diff算法
+    // diff算法 两个虚拟节点对比
+    // 1.如果标签（tag）不一致 直接替换
+    if(oldVnode.tag !== vnode.tag) {
+      // 直接dom操作 不算diff算法
+      return oldVnode.el.parentNode.replaceChild(createElm(vnode), oldVnode.el)
+    }
 
+    // 2.标签一样但是是两个文本元素(tag: undefined, text),对比text
+    if(!oldVnode.tag) {
+      // 标签相同 一定是文本
+      if(oldVnode.text !== oldVnode.text) {
+        return oldVnode.el.textContent = vnode.text
+      }
+    }
+
+    // 3. 元素相同， 复用老节点 更新属性
+    let el = vnode.el = oldVnode.el
+    // 用老的属性和新的虚拟节点进行比对
+    updateProperties(vnode, oldVnode.data)
   }
 }
 
@@ -37,7 +54,7 @@ function createComponent(vnode) {
 }
 
 // 通过vnode创建真实节点
-function createElm(vnode) {
+export function createElm(vnode) {
   let { tag, children, key, data, text, vm } = vnode
   // 可能是自定义组件
   if(typeof tag === 'string') {
@@ -61,10 +78,18 @@ function createElm(vnode) {
   return vnode.el
 }
 
-function updateProperties(vnode) {
+function updateProperties(vnode, oldProps = {}) {
   let newProps = vnode.data || {}
   let el = vnode.el
 
+  // 1.老的属性， 新的没有 删除属性
+  for(let key in oldProps) {
+    if(!newProps[key]) {
+      el.removeAttribute(key)
+    }
+  }
+
+  // 2. 新的属性，老的没有 直接用新的覆盖 不考虑有没有
   for(let key in newProps) {
     el.setAttribute(key, newProps[key])
   }
