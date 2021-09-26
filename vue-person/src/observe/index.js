@@ -84,5 +84,5 @@ export function observe(data) {
   if(!isObject(data)) return
   if(data.__ob__) return
   return new Observe(data)
-
+  
 }

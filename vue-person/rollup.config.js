@@ -1,8 +1,6 @@
 import babel from 'rollup-plugin-babel'
 import serve from 'rollup-plugin-serve'
 
-console.log('~~~~~')
-
 export default {
   // 入口
   input: 'src/index.js',
