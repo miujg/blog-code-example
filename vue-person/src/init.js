@@ -10,7 +10,6 @@ export function initMixin(Vue) {
     // 合并两者
     // vm.$options = options
     vm.$options = megerOptions(vm.constructor.options, options)
-    console.log(vm.$options)
     callHook(vm, 'beforeCreate')
     // 初始化状态
     initState(vm)
@@ -27,7 +26,7 @@ export function initMixin(Vue) {
   Vue.prototype.$mount = function(el) {
     const vm = this
     const options = vm.$options
-    el = document.querySelector(el)
+    el = el && document.querySelector(el)
     vm.$el = el
     // 渲染顺序：默认查找render 然后采用template el下的outerHTML
 
@@ -43,7 +42,7 @@ export function initMixin(Vue) {
     }
 
     // 组件挂载
-    mountComponent(vm, el)
+    mountComponent(vm)
   }
 
   

@@ -19,12 +19,14 @@ export function initGlobalApi(Vue) {
     definition = this.options._base.extend(definition)
     this.options.components[id] = definition
   }
+  let cid = 0
   Vue.extend = function(options) {
     const Super = this
     // 子组件初始化是 会new VueComponent
     const Sub = function VueComponent (options){
       this._init(options)
     }
+    Sub.cid = cid++
     Sub.prototype = Object.create(Super.prototype) // 都是通过Vue继承 保证只有两层继承关系
     Sub.prototype.constructor = Super.extend // constructor指向修正
     // options 合并

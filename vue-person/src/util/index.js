@@ -106,3 +106,15 @@ export function megerOptions(parent, child) {
   }
   return options
 }
+
+function makeUp(str) {
+  const map = {}
+  str.split(',').forEach(tagName => {
+    map[tagName] = true
+  })
+  return tag => map[tag] || false
+}
+
+export const isReservedTag = makeUp('a,p,div,ul,li,span,input,button')
+
+

@@ -1,4 +1,4 @@
-import { createElement } from "."
+import { isReservedTag } from "../util/index"
 
 export function patch(oldVnode, vnode) {
   // 首次渲染 产生真实节点
@@ -20,11 +20,28 @@ export function patch(oldVnode, vnode) {
   }
 }
 
+function createComponent(vnode) {
+  let i = vnode.data
+  if((i = i.hook) && (i = i.init)) {
+    i(vnode)
+  }
+  
+  return false
+}
+
 // 通过vnode创建真实节点
 function createElm(vnode) {
   let { tag, children, key, data, text, vm } = vnode
+  // 可能是自定义组件
   if(typeof tag === 'string') {
-    // 可能是自定义组件
+
+    if(createComponent(vnode)) {
+      // 如果返回true 虚拟节点是组件
+      // 如果是组件，就将组件渲染后的真实元素给我
+
+      return
+    }
+
     vnode.el = document.createElement(tag) // 之所以会挂载，是方便指令的时候拿到真实dom
     // 更新属性
     updateProperties(vnode) 
@@ -32,6 +49,7 @@ function createElm(vnode) {
       vnode.el.appendChild(createElm(child))
     })
   } else {
+    // 文本节点
     vnode.el = document.createTextNode(text)
   }
   return vnode.el

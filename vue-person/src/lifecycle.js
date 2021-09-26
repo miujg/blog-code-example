@@ -21,7 +21,7 @@ export function callHook(vm, hook) {
   }
 }
 
-export function mountComponent(vm, el) {
+export function mountComponent(vm) {
   // vue是通过watcher 来进行渲染 渲染过程 每一个组件都有一个渲染watcher
 
   let updateComponent = () => {
@@ -30,7 +30,7 @@ export function mountComponent(vm, el) {
   }
 
   new Watcher(vm, updateComponent, () => {
-
+    
   }, {})
 
 }
