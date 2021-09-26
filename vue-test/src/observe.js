@@ -13,14 +13,16 @@ class Observe {
   }
   work(value) {
     Object.keys(value).forEach(key => {
+      debugger
       // 这里可以定义 dep 每一个key都会记住（闭包）
       let val = value[key]
-      if(isObject(val)) observe(val)
+      observe(val)
       Object.defineProperty(value, key, {
         get() {
           return val
         },
         set(newVal) {
+          console.log(`set ${key} ${newVal}`)
           if(newVal !== val) {
             val = newVal
             observe(newVal)

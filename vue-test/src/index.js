@@ -21,6 +21,8 @@ const data = {
 observe(data)
 // 这种 school的setter 并不可以拦截 这是vue的一个弊端
 // data.school.type = '本科'
+data.friends[0].name = 'kobe'
+// data.friends[0] = {}
 
 console.log(data)
 
