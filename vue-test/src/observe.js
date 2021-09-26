@@ -6,14 +6,17 @@ import { isObject } from "./util";
 class Observe {
   constructor(value) {
     this.value = value
+    if(Array.isArray(value)) {
+      this.obserArray(value)
+      return
+    }
     this.work(value)
-  }
-  obserArray() {
-    
+  } 
+  obserArray(arr) {
+    arr.forEach(item => observe(item))
   }
   work(value) {
     Object.keys(value).forEach(key => {
-      debugger
       // 这里可以定义 dep 每一个key都会记住（闭包）
       let val = value[key]
       observe(val)
@@ -39,5 +42,4 @@ export function observe(data) {
   } else {
     return
   }
-
 }

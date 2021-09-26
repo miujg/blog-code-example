@@ -8,21 +8,22 @@ import { observe } from "./observe"
 
 
 const data = {
-  name: 'jgmiu',
-  age: 26,
+  // name: 'jgmiu',
+  // age: 26,
   friends: [
     {name: 'jackson', age: 25}, {name: 'pual', age: 30}, {name: 'pual', age: 30}
   ],
-  school: {
-    name: '重交',
-    address: '南岸-七公里'
-  }
+  // school: {
+  //   name: '重交',
+  //   address: '南岸-七公里'
+  // }
 }
 observe(data)
 // 这种 school的setter 并不可以拦截 这是vue的一个弊端
 // data.school.type = '本科'
-data.friends[0].name = 'kobe'
 // data.friends[0] = {}
+
+data.friends.push({name: 'jgmiu', age: 31})
 
 console.log(data)
 

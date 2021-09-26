@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    {{friends}}
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        name: 'jgmiu',
+        age: 26,
+        friends: [
+          {name: 'jackson', age: 25}, {name: 'pual', age: 30}, {name: 'pual', age: 30}
+        ],
+        school: {
+          name: '重交',
+          address: '南岸-七公里'
+        }
+      }
+    })
+
+    console.log(vm.$options.data())
+    setTimeout(() => {
+      vm.friends[0].name = 'jgmiu'
+    }, 2000)
+  </script>
+</body>
+</html>
