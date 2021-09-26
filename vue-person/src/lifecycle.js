@@ -8,6 +8,7 @@ export function lifecycleMixin(Vue) {
     let vm = this 
     // 首次渲染 需要用虚拟dom创建真实的dom元素
     // 第一次渲染完毕之后，拿到新的节点，下次再次渲染替换上次的结果
+    // 组件调用之后产生真实dom
     vm.$el = patch(vm.$el, vnode)
   }
 }

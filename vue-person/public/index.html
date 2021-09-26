@@ -13,6 +13,9 @@
   <script src="/dist/umd/vue.js"></script>
   <script>
     // Vue.component => Vue.extend => 返回通过对象创建一个类，通过这个类去创建一个组件去使用
+    // Vue.component => Vue.extend
+    // 如果组件添加了 init hook Component ==> Ctor
+    // 创建真实节点的时候 调用init钩子 new Ctor().$mount()
     Vue.component('my-button', {
       template: `<button>外部按钮</button>`
     })
@@ -25,11 +28,11 @@
     // 先找自己的是否存在，没有的话查找父亲的__proto__ Object.create
     const vm = new Vue({
       el: '#app',
-      components: {
-        'my-button': {
-          template: `<button>内部按钮</button>`
-        }
-      },
+      // components: {
+      //   'my-button': {
+      //     template: `<button>内部按钮</button>`
+      //   }
+      // },
       data() {
         return {
           arr: [[1,2,3,4]],

@@ -4,7 +4,6 @@ import { generate } from './generate'
 export function compileToFunction(template) {
   let ast = parseHTML(template)
   let code = generate(ast)
-  debugger
   // with 欺骗作用域
   let render = `with(this){return ${code}}`
   // eval 不干净的执行 词法作用域无法像函数那样动态

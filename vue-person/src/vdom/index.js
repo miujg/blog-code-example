@@ -15,6 +15,7 @@ export function createElement(vm, tag, data={}, ...children) {
 function createComponent(vm, tag, data, key, children, Ctor) {
   if(isObject(Ctor)) {
     Ctor = vm.$options._base.extend(Ctor)
+    console.log(Ctor.options)
   }
   // 给组件增加生命周期
   data.hook = {
@@ -25,7 +26,6 @@ function createComponent(vm, tag, data, key, children, Ctor) {
       child.$mount() // 手动挂载
     }
   }
-  console.log(vnode(vm, `vue-component-${Ctor.cid}-${tag}`, data, key, undefined, undefined, {Ctor}))
   // 组件的虚拟节点 拥有hook componentOptions（存放组件的构造函数）
   return vnode(vm, `vue-component-${Ctor.cid}-${tag}`, data, key, undefined, undefined, {Ctor})
 }

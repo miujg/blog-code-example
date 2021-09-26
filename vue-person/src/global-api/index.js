@@ -28,7 +28,7 @@ export function initGlobalApi(Vue) {
     }
     Sub.cid = cid++
     Sub.prototype = Object.create(Super.prototype) // 都是通过Vue继承 保证只有两层继承关系
-    Sub.prototype.constructor = Super.extend // constructor指向修正
+    Sub.prototype.constructor = Sub // constructor指向修正
     // options 合并
     Sub.options = megerOptions(Super.options, options)
     return Sub // 返回构造函数 由对象产生

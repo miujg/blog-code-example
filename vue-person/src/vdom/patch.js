@@ -1,6 +1,11 @@
 import { isReservedTag } from "../util/index"
 
 export function patch(oldVnode, vnode) {
+  // old是一个真实dom
+  if(!oldVnode) {
+    // 根据虚拟节点创建元素
+    return createElm(vnode)
+  }
   // 首次渲染 产生真实节点
   // 真实element有一个nodeType 1表示元素节点 2表示属性节点
   const isRealElement = oldVnode.nodeType
@@ -23,9 +28,11 @@ export function patch(oldVnode, vnode) {
 function createComponent(vnode) {
   let i = vnode.data
   if((i = i.hook) && (i = i.init)) {
-    i(vnode)
+    i(vnode) // 执行完之后产生真实dom ==》 vnode.componentInstance
   }
-  
+  if(vnode.componentInstance) {
+    return true
+  }
   return false
 }
 
@@ -38,8 +45,7 @@ function createElm(vnode) {
     if(createComponent(vnode)) {
       // 如果返回true 虚拟节点是组件
       // 如果是组件，就将组件渲染后的真实元素给我
-
-      return
+      return vnode.componentInstance.$el
     }
 
     vnode.el = document.createElement(tag) // 之所以会挂载，是方便指令的时候拿到真实dom
