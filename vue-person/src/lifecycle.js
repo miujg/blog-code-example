@@ -16,6 +16,7 @@ export function lifecycleMixin(Vue) {
 export function callHook(vm, hook) {
   const handles = vm.$options[hook]
   if(handles) {
+    // 生命周期为什么不能是箭头函数？
     handles.forEach(handler => handler.call(vm))
   }
 }
@@ -31,6 +32,5 @@ export function mountComponent(vm, el) {
   new Watcher(vm, updateComponent, () => {
 
   }, {})
-
 
 }

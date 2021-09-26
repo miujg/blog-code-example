@@ -52,7 +52,6 @@ function defineReactive(data, key, value) {
   // 递归实现深度劫持
   // 数组的专用dep
   let childOb = observe(value)
-  console.log(childOb.dep)
   // 每一个属性都有一个dep dep用于操作当前的watcher
   let dep = new Dep()
   Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep

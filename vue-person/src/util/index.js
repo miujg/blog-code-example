@@ -45,7 +45,7 @@ const strats = {}
 function mergeHook(parentVal, childVal) {
   if(childVal) {
     if(parentVal) {
-      return parentVal.concat[childVal]
+      return parentVal.concat(childVal)
     } else {
       // 儿子有 父亲没有 
       return [childVal]
@@ -91,6 +91,5 @@ export function megerOptions(parent, child) {
       }
     }
   }
-  console.log(options)
   return options
 }

@@ -1,6 +1,6 @@
 import { initState } from './state'
 import { compileToFunction } from './compiler/index.js'
-import { mountComponent } from'./lifecycle'
+import { callHook, mountComponent } from'./lifecycle'
 import { megerOptions, nextTick } from "./util/index";
 
 export function initMixin(Vue) {
@@ -10,10 +10,10 @@ export function initMixin(Vue) {
     // 合并两者
     // vm.$options = options
     vm.$options = megerOptions(vm.constructor.options, options)
-    console.log(vm.options)
-    
+    callHook(vm, 'beforeCreate')
     // 初始化状态
     initState(vm)
+    callHook(vm, 'created')
   
     // 如果用户传入了el属性，需要将页面渲染， 实现挂载
     if(vm.$options.el) {
