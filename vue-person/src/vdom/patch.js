@@ -121,11 +121,22 @@ function updateChildren(parent, oldChildren, newChildren) {
       newEndVnode = newChildren[--newEndIndex]
     } else if(isSameVnode(oldStartVnode, newEndVnode)) {
       // 比较老头新尾 
+      // 头移动到尾
       patch(oldStartVnode, newEndVnode)
       // dom操作具备移动性 dom映射
       parent.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling)
       oldStartVnode = oldChildren[++oldStartIndex]
       newEndVnode = newChildren[--newEndIndex]
+    } else if(isSameVnode(oldEndVnode, newStartVnode)) {
+      // 比较老尾新头
+      patch(oldEndVnode, newStartVnode)
+      parent.insertBefore(oldEndVnode.el, oldStartVnode.el)
+      oldEndVnode = oldChildren[--oldEndIndex]
+      newStartVnode = newChildren[++newStartIndex]
+    } else {
+      // 乱序
+
+
     }
     // 为什么v-for要增加key属性（dom diff）？key不能用index（理解， 反序产场景）
   }

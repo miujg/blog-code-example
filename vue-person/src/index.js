@@ -30,10 +30,11 @@ let vm1 = new Vue({
 
 // 将模板变成render函数
 let rende1 = compileToFunction(`<ul>
-  <li key="1">1</li>
-  <li key="2">2</li>
-  <li key="3">3</li>
-  <li key="4">4</li>
+  <li key="1">A</li>
+  <li key="2">B</li>
+  <li key="3">C</li>
+  <li key="4">D</li>
+  <li key="4">F</li>
 </ul>`) // 将模板编译成render函数
 let oldVnode = rende1.call(vm1) // 老大虚拟节点
 // 创建真实节点
@@ -49,10 +50,10 @@ let vm2 = new Vue({
 })
 
 let rende2 = compileToFunction(`<ul>
-  <li key="4">4</li>
-  <li key="3">3</li>
-  <li key="2">2</li>
-  <li key="1">1</li>
+<li key="4">4</li>
+<li key="1">1</li>
+<li key="2">2</li>
+<li key="3">3</li>
 </ul>`) // 将模板编译成render函数
 let newVnode = rende2.call(vm2)
 
