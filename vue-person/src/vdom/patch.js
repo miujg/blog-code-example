@@ -81,7 +81,7 @@ export function createElm(vnode) {
       return vnode.componentInstance.$el
     }
 
-    vnode.el = document.createElement(tag) // 之所以会挂载，是方便指令的时候拿到真实dom
+    vnode.el = document.createElement(tag) // 之所以会挂载，dom-diff的时候可以直接操作真实dom
     // 更新属性
     updateProperties(vnode) 
     children.forEach(child => {

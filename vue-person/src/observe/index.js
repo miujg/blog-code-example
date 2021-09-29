@@ -71,7 +71,6 @@ function defineReactive(data, key, value) {
       return value
     },
     set(newValue) {
-      debugger
       if(newValue == value) return
       observe(newValue) // 继续劫持用户设置的值，有可能设置了一个新对象
       value = newValue

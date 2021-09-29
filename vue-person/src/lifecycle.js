@@ -9,7 +9,17 @@ export function lifecycleMixin(Vue) {
     // 首次渲染 需要用虚拟dom创建真实的dom元素
     // 第一次渲染完毕之后，拿到新的节点，下次再次渲染替换上次的结果
     // 组件调用之后产生真实dom
-    vm.$el = patch(vm.$el, vnode)
+
+
+    // 1. 第一次 初始化 第二次 diff 算法
+    const prevVnode = vm._vnode // 先取上一次的vnode
+    vm._vnode = vnode // 保存上一次的虚拟节点
+    if(!prevVnode) {
+      // 初渲染
+      vm.$el = patch(vm.$el, vnode)
+    } else {
+      vm.$el = patch(prevVnode, vnode)
+    }
   }
 }
 

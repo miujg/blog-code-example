@@ -17,52 +17,54 @@ renderMixin(Vue)
 // 混合全局api
 initGlobalApi(Vue)
 
+
 // diff算法理解
+// 双指针 几步优化
 // 自己构建两个虚拟dom， 手动进行比对
 
-let vm1 = new Vue({
-  data() {
-    return {
-      name: 'shaexiao'
-    }
-  }
-})
 
-// 将模板变成render函数
-let rende1 = compileToFunction(`<ul>
-  <li key="A">A</li>
-  <li key="B">B</li>
-  <li key="C">C</li>
-  <li key="D">D</li>
-  <li key="F">F</li>
-</ul>`) // 将模板编译成render函数
-let oldVnode = rende1.call(vm1) // 老大虚拟节点
-// 创建真实节点
-let el = createElm(oldVnode)
-document.body.appendChild(el)
+// let vm1 = new Vue({
+//   data() {
+//     return {
+//       name: 'shaexiao'
+//     }
+//   }
+// })
 
-let vm2 = new Vue({
-  data() {
-    return {
-      name: 'jgmiu'
-    }
-  }
-})
+// // 将模板变成render函数
+// let rende1 = compileToFunction(`<ul>
+//   <li key="A">A</li>
+//   <li key="B">B</li>
+//   <li key="C">C</li>
+//   <li key="D">D</li>
+//   <li key="F">F</li>
+// </ul>`) // 将模板编译成render函数
+// let oldVnode = rende1.call(vm1) // 老大虚拟节点
+// // 创建真实节点
+// let el = createElm(oldVnode)
+// document.body.appendChild(el)
 
-let rende2 = compileToFunction(`<ul>
-  <li key="N">N</li>
-  <li key="A">A</li>
-  <li key="C">C</li>
-  <li key="B">B</li>
-  <li key="E">E</li>
-</ul>`) // 将模板编译成render函数
-let newVnode = rende2.call(vm2)
+// let vm2 = new Vue({
+//   data() {
+//     return {
+//       name: 'jgmiu'
+//     }
+//   }
+// })
 
-setTimeout(() => {
-  patch(oldVnode, newVnode)
-}, 1000);
+// let rende2 = compileToFunction(`<ul>
+//   <li key="N">N</li>
+//   <li key="A">A</li>
+//   <li key="C">C</li>
+//   <li key="B">B</li>
+//   <li key="E">E</li>
+// </ul>`) // 将模板编译成render函数
+// let newVnode = rende2.call(vm2)
 
-// 初渲染和diff算法逻辑
+// setTimeout(() => {
+//   patch(oldVnode, newVnode)
+// }, 1000);
+
 
 
 export default Vue

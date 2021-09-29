@@ -7,6 +7,24 @@
   <title>Document</title>
 </head>
 <body>
+  <div id='app'>
+    <li>hello</li>
+    <span>{{name}}</span>
+  </div>
   <script src="/dist/umd/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        name: 'shaexiao'
+      }
+    })
+    setTimeout(() => {
+      vm.name = 'jgmiu'
+    }, 2000)
+    // 1. 响应式原理（vue3, proxy）数组 对象
+    // 2. 组件渲染原理 局部更新 dep watcher
+    // 3. diff算法 什么是虚拟dom 优化 怎么对比 key
+  </script>
 </body>
 </html>
