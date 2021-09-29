@@ -106,9 +106,24 @@ function updateChildren(parent, oldChildren, newChildren) {
   let newStartVnode = newChildren[0] // 新的开始节点
   let newEndVnode = newChildren[newEndIndex] //新的结束节点
 
+  function makeIndexByKey(oldChildren) {
+    let map = {}
+    oldChildren.forEach((item, index) => {
+      map[item.key] = index
+    })
+    return map
+  }
+
+  let map = makeIndexByKey(oldChildren)
+
   while(oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
     // 1. 前端中比较常见的操作： 尾部插入 头部插入 头移动到尾部 尾部移动到头部 正序和反序
-    if(isSameVnode(oldStartVnode, newStartVnode)) {
+
+    if(!oldStartVnode) {
+      oldStartVnode = oldChildren[++oldStartIndex]
+    }else if(!oldEndVnode) {
+      oldEndVnode = oldChildren[--oldEndIndex]
+    } else if(isSameVnode(oldStartVnode, newStartVnode)) {
       // 向后插入（针对与newchild） 从头开始比
       // 比较属性 更新属性 递归
       patch(oldStartVnode, newStartVnode)
@@ -134,9 +149,21 @@ function updateChildren(parent, oldChildren, newChildren) {
       oldEndVnode = oldChildren[--oldEndIndex]
       newStartVnode = newChildren[++newStartIndex]
     } else {
-      // 乱序
+      // 乱序  
+      // 1. 需要先查找老节点当前索引和key的映射。 移动的时候，通过新的key去找老节点。 
+      let moveIndex = map[newStartVnode.key]
+      if(moveIndex == undefined) {
+        // 没有查找到，在老节点的前面插入
+        parent.insertBefore(createElm(newStartVnode), oldStartVnode.el)
+      } else {
+        // 这里为什么没问题？
+        let moveVnode = oldChildren[moveIndex]
+        oldChildren[moveIndex] = undefined
+        patch(moveVnode, newStartVnode)
+        parent.insertBefore(moveVnode.el, oldStartVnode.el)
 
-
+      }
+      newStartVnode = newChildren[++newStartIndex]
     }
     // 为什么v-for要增加key属性（dom diff）？key不能用index（理解， 反序产场景）
   }
@@ -147,6 +174,15 @@ function updateChildren(parent, oldChildren, newChildren) {
       let nextEle = newChildren[newEndIndex + 1] == null? null : newChildren[newEndIndex+1].el
       // insertBefore 的第二个参数为null 等价于 appendChild
       parent.insertBefore(createElm(newChildren[i]), nextEle)
+    }
+  }
+
+  if(oldStartIndex <= oldEndIndex) {
+    for(let i = oldStartIndex; i <= oldEndIndex; i++) {
+      let child = oldChildren[i]
+      if(child != undefined) {
+        parent.removeChild(child.el)
+      }
     }
   }
 
