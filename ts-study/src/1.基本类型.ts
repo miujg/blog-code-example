@@ -84,8 +84,8 @@ let n:never = whileTrue()
 // ts自带类型推导（1.初始化进行类型推导），能自己正确推导出类型的时候
 
 // 问题： string String区别  拆箱 装箱
-// 类也是一种类型 可以描述其实例和类
-// 11..toString 
+// 类也是一种类型 可以描述其实例和基本类型
+// 11..toString ===11.0.toString  一个小数点会认为后面是小数点的东西
 let number1:number = 11
 let number2:number = 11
 // let number3:number = new Number(11) 报错 只能
