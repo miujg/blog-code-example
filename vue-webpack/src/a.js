@@ -1,3 +1,4 @@
 export function test() {
-  console.log('test')
+  console.log('xxx')
+  console.log('1111111')
 }
