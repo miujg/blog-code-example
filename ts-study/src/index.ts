@@ -1,4 +1,2 @@
-let str:String = new String('')
-console.log(typeof str)
-
+console.log(a)
 export {}
