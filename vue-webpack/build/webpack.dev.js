@@ -8,6 +8,32 @@ module.exports = merge(common, {
     hot: true,
     port: 8080
   },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', 
+          'css-loader', 
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('autoprefixer')
+                  // ( { overrideBrowserslist: ['last 15 versions']} )
+                ]
+              }
+            }
+          },
+          'sass-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    
+  ],
   // 配置sourcemap
   devtool: "eval-source-map"
 })
