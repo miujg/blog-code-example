@@ -15,8 +15,5 @@ export default {
 </script>
 
 <style lang="scss">
-h1 {
-  color: red;
-  transform: translateX(100px);
-}
+  @import './index.scss'
 </style>

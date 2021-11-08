@@ -21,7 +21,6 @@ module.exports = merge(common, {
               postcssOptions: {
                 plugins: [
                   require('autoprefixer')
-                  // ( { overrideBrowserslist: ['last 15 versions']} )
                 ]
               }
             }
