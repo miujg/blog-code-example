@@ -1,19 +1,31 @@
 <template>
-  <h1>{{a}}</h1>
+  <div>
+    <h1>{{name}}</h1> 
+    <img src="~assets/logo.png" alt="">
+    <div class="bg"></div>
+  </div>
 </template>
 
-<script>
-import { ref } from '@vue/reactivity'
-export default {
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
   setup() {
-    const a = ref('111')
+    const name = ref<string>('name')
     return {
-      a
+      name
     }
   },
-}
+})
 </script>
 
+
 <style lang="scss">
-  @import './index.scss'
+  @import './index.scss';
+  .bg {
+    width: 200px;
+    height: 200px;
+    background: url("~assets/logo.png");
+    background-size: 100% 100%;
+  }
 </style>
