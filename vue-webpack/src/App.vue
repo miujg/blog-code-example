@@ -1,19 +1,21 @@
 <template>
   <div>
     <h1>{{name}}</h1> 
-    <img src="~assets/logo.png" alt="">
+    <img src="./assets/logo.png" alt="">
     <div class="bg"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import logo from './assets/logo.png'
 
 export default defineComponent({
   setup() {
     const name = ref<string>('name')
     return {
-      name
+      name,
+      logo
     }
   },
 })

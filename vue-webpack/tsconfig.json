@@ -70,6 +70,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/assets/**/*.png"
+    "src/**/*.vue",
   ]
 }

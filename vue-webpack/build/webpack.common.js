@@ -40,7 +40,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif)$/i,
-        type: 'asset/resource'
+        type: 'asset'
         // type: 'javascript/auto',
         // use: [
         //   {
@@ -62,7 +62,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      assets: path.resolve(process.cwd(), './src/assets')
+      assets: path.resolve(process.cwd(), './src/assets'),
+      '@': path.resolve(process.cwd(), './src')
       // asserts: path.resolve(__dirname, '../src/assets')
     }
   }
