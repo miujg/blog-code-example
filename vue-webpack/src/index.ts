@@ -9,6 +9,6 @@ type MyType = {
   name: string
 }
 
-const a: MyType = {name: '123'}
+const a: MyType = { name: '123' }
 
 console.log(a)

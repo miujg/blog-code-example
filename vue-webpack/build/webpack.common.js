@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlguin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const ESLintPlugin = require('eslint-webpack-plugin')
 module.exports = {
   entry: path.resolve(process.cwd(), './src/index.ts'),
   output: {
@@ -8,6 +9,10 @@ module.exports = {
     path: path.resolve(process.cwd(), './dist')
   },
   plugins: [
+    new ESLintPlugin({
+      extensions: ['js', 'ts', 'vue'],
+      exclude: ['node_modules']
+    }),
     new HtmlWebpackPlguin({
       template: path.resolve(process.cwd(), './public/index.html'),
       inject: 'body'

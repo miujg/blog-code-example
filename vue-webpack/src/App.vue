@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{name}}</h1> 
+    <h1>{{name}}</h1>
     <img src="./assets/logo.png" alt="">
     <div class="bg"></div>
   </div>
@@ -11,16 +11,15 @@ import { defineComponent, ref } from 'vue'
 import logo from './assets/logo.png'
 
 export default defineComponent({
-  setup() {
-    const name = ref<string>('name')
+  setup () {
+    const name = ref<string>('11')
     return {
       name,
       logo
     }
-  },
+  }
 })
 </script>
-
 
 <style lang="scss">
   @import './index.scss';
