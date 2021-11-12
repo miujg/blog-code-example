@@ -12,10 +12,14 @@ import logo from './assets/logo.png'
 
 export default defineComponent({
   setup () {
-    const name = ref<string>('11')
+    const name = ref<string>('1122')
+    const obj = ref({
+      name: 'xxx111'
+    })
     return {
       name,
-      logo
+      logo,
+      obj
     }
   }
 })
