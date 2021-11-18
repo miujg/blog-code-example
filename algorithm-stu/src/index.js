@@ -1,43 +1,21 @@
-// 各种排序 时间复杂度 等。。。。
+// 递归相关
 
-// 公共方法 交换数组的两列
-function swap(arr, i, j) {
-  arr[i] = arr[i] ^ arr[j]
-  arr[j] = arr[i] ^ arr[j]
-  arr[i] = arr[i] ^ arr[j]
+// 递归版本： arr[L~R]的最大值
+// 画出执行树，理解树的遍历（中左右）
+// 理解出栈与压栈的执行过程
+function process(arr, l, r) {
+  if(l === r) return arr[l]
+  let mid = l + ((r - l) >> 1 )
+  let leftMax = process(arr, l, mid)
+  let rightMax = process(arr, mid + 1, r)
+  return Math.max(leftMax, rightMax)
 }
 
-// 1) 选择
+let arr = [1, 2, 3,5,8,1,5,7,9,6]
 
-// 2） 冒泡
+console.log(process(arr, 0, 5))
 
-// 3) 插入排序
-// 时间复杂度：O(n^2)
-
-let arr3 = [1,2,5,2,6,9,11,6,32]
-
-function insertionSort(arr) {
-  if(arr == null || arr.length < 2) return
-  for(let i = 1; i < arr.length; i++) {  // 0 ~ i范围有序
-    for(let j = i - 1; j > 0; j--) { // 数据交换
-      if(arr[j] > arr[j + 1] ) swap(arr, j, j+1)  
-    }
-  }
-}
-
-insertionSort(arr3)
-console.log(arr3)
-
-// 4) 二分法 查找某个数
-// 非前提： 有序数组（也可以非无序）
-// 时间复杂度： O(logN)
-
-// 4.1 找某一个数 二分查找 找到返回
-// 4.2 找>=某个数最左侧的位置 二分到底
-// 4.3 局部（定义）最小值
-
-
-// 5) 对数器
-
-
-
+// 理解master公式
+// 母问题拆分 =》 子问题
+// 决策过程
+// T(N) = a * T(N/b) + O(N^b)

@@ -9,6 +9,8 @@ class Watcher {
     this.cb = cb
     this.opts = opts
     this.id = id++
+    // 表示watcher 的状态
+    this.user = opts.user
     this.getter = exprOrfn
     this.deps = [] // watcher 记住 dep
     this.depsId = new Set()

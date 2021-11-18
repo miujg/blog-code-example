@@ -39,9 +39,9 @@ export function mountComponent(vm) {
     // update 虚拟dom =>真实dom
     vm._update(vm._render())
   }
-
+  // true表示渲染watcher 其他是用户watcher
   new Watcher(vm, updateComponent, () => {
     
-  }, {})
+  }, true)
 
 }

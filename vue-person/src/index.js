@@ -4,6 +4,7 @@ import { initMixin } from './init'
 import { lifecycleMixin } from './lifecycle'
 import { renderMixin } from './render'
 import { createElm, patch } from './vdom/patch'
+import { stateMixin } from "./state";
 function Vue(options) {
   // vue的初始化
   this._init(options)
@@ -13,6 +14,7 @@ function Vue(options) {
 initMixin(Vue)
 lifecycleMixin(Vue)
 renderMixin(Vue)
+stateMixin(Vue)
 
 // 混合全局api
 initGlobalApi(Vue)

@@ -17,11 +17,15 @@
       el: '#app',
       data: {
         name: 'shaexiao'
+      },
+      watch: {
+        name: {
+          handler: function(newVal, oldVal) {
+          },
+          deep: true
+        }
       }
     })
-    setTimeout(() => {
-      vm.name = 'jgmiu'
-    }, 2000)
     // 1. 响应式原理（vue3, proxy）数组 对象
     // 2. 组件渲染原理 局部更新 dep watcher
     // 3. diff算法 什么是虚拟dom 优化 怎么对比 key
