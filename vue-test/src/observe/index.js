@@ -1,13 +1,16 @@
+import { Dep } from "../bat/dep";
 import { isObject } from "../bat/util";
 import { arrMethodProto } from "./array";
 
-
 class Observe {
   constructor (data) {
+    // 让属性记住一个Observe类
     Object.defineProperty(data, '__ob__', {
       value: this,
       enumerable: false
     })
+    // 让Observe记住一个Dep
+    this.dep = new Dep()
     if(Array.isArray(data)) {
       // 劫持原型方法
       Object.setPrototypeOf(data, arrMethodProto)
@@ -22,6 +25,7 @@ class Observe {
     Object.keys(data).map(key => {
       let value = data[key]
       observe(value)
+      // 让对象的属性也有
       Object.defineProperty(data, key, {
         get() {
           console.log(`getter: ${key}: ${JSON.stringify(value)}`)

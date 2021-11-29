@@ -56,6 +56,7 @@ function defineReactive(data, key, value) {
   let dep = new Dep()
   Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep
     get() { 
+      debugger
       // 依赖搜集
       if(Dep.target) {
         dep.depend() // 让属性的dep记住watcher，也要让watcher记住 （双向）

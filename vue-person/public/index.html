@@ -8,24 +8,39 @@
 </head>
 <body>
   <div id='app'>
-    <li>hello</li>
-    <span>{{name}}</span>
+    {{ obj }}
   </div>
   <script src="/dist/umd/vue.js"></script>
   <script>
+
     const vm = new Vue({
-      el: '#app',
-      data: {
-        name: 'shaexiao'
-      },
-      watch: {
-        name: {
-          handler: function(newVal, oldVal) {
+      data() {
+        return {
+          obj: {
+            a: 'a', b: 'b', c: 'c'
           },
-          deep: true
+          arr: [1,2,3]
         }
-      }
+      },
+      el: '#app'
     })
+    console.log(vm._data)
+    console.log(vm._data.obj)
+
+
+    // const vm = new Vue({
+    //   el: '#app',
+    //   data: {
+    //     name: 'shaexiao'
+    //   },
+    //   watch: {
+    //     name: {
+    //       handler: function(newVal, oldVal) {
+    //       },
+    //       deep: true
+    //     }
+    //   }
+    // })
     // 1. 响应式原理（vue3, proxy）数组 对象
     // 2. 组件渲染原理 局部更新 dep watcher
     // 3. diff算法 什么是虚拟dom 优化 怎么对比 key
