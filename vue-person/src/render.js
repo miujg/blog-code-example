@@ -7,7 +7,7 @@ export function renderMixin(Vue) {
   Vue.prototype._v = function(text) { // 文本节点
     return createTextVnode(this,text)
   }
-  Vue.prototype._s = function(val) { // 准换为字符串
+  Vue.prototype._s = function(val) { // 转换为字符串
     return val == null? '' : (typeof val === 'object' )? JSON.stringify(val) : val
   }
   // 调用render函数 生成vnode

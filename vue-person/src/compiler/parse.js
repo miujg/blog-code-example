@@ -89,7 +89,7 @@ export function parseHTML(html) {
       chars(text)
     }
   }
-  // 前景 逐个删除html的n个字符
+  // 前进 逐个删除html的n个字符
   function advance(n) {
     html = html.substring(n)
   }

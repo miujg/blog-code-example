@@ -40,6 +40,7 @@ export function mountComponent(vm) {
     vm._update(vm._render())
   }
   // true表示渲染watcher 其他是用户watcher 如： watch
+  // 直接进行第一次渲染
   new Watcher(vm, updateComponent, () => {
     
   }, true)

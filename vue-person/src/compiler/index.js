@@ -2,7 +2,9 @@ import { parseHTML } from './parse'
 import { generate } from './generate'
 
 export function compileToFunction(template) {
+  // template ==> htmlAST
   let ast = parseHTML(template)
+  // htmlAST ==> render
   let code = generate(ast)
   // with 欺骗作用域
   let render = `with(this){return ${code}}`

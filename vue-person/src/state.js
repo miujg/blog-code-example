@@ -18,7 +18,6 @@ export function initState(vm) {
   if(opts.watch) {
     initWatch(vm, opts.watch)
   }
-  console.log(opts.watch)
 }
 
 function initData(vm) {
