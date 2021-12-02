@@ -22,6 +22,7 @@ function swap(arr, i, j) {
 // 递归版本： arr[L~R]的最大值
 // 画出执行树，理解树的遍历（左中右）
 // 理解出栈与压栈的执行过程
+// 找数组中的最大值
 function process1(arr, l, r) {
   if(l === r) return arr[l]
   let mid = l + ((r - l) >> 1 )
@@ -192,4 +193,8 @@ function partation(arr, l, r) {
 const arr5 = [2,4,8,1,3,4,9,3,2,9,6,11,13,5,7,8]
 
 quickSort(arr5, 0, arr5.length - 1)
+
+
+
+
 

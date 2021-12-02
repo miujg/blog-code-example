@@ -16,11 +16,10 @@ function swap(arr, i, j) {
 
 let arr3 = [1,2,5,2,6,9,11,6,32]
 
-function insertionSort(arr) {
-  if(arr == null || arr.length < 2) return
-  for(let i = 1; i < arr.length; i++) {  // 0 ~ i范围有序
-    for(let j = i - 1; j > 0; j--) { // 数据交换
-      if(arr[j] > arr[j + 1] ) swap(arr, j, j+1)  
+function insertSort(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j > 0; j--) {
+      if (arr[j] < arr[j - 1]) swap(arr, j, j - 1)
     }
   }
 }
