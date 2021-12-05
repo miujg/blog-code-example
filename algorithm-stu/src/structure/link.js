@@ -7,7 +7,7 @@
 // 2. 数组的增删比较复杂，涉及扩容、数组项移动. 链表更友好，扩容，新增都很容易
 // 3. 数组查找比较方便, 链表必须从头开始查找。
 
-class Node {
+export class Node {
   constructor (element) {
     this.element = element
     this.next = undefined
@@ -19,6 +19,10 @@ export default class LinkedList {
   constructor() {
     this.count = 0
     this.head = undefined
+  }
+
+  getHead () {
+    return this.head
   }
 
   // 为空插入head 不为空插入尾元素
@@ -44,7 +48,17 @@ export default class LinkedList {
    */
   insert(element, index) {
     if (index >= 0 && index <= this.count) {
-      
+      const node = new Node(element)
+      if (index === 0) {
+        node.next = this.head
+        this.head = node
+      } else {
+        let current = this.getElementAt(index)
+        let nextNode = current.next
+        current.next = node
+        node.next = nextNode
+      }
+      this.count++
     }
   }
 
@@ -59,11 +73,27 @@ export default class LinkedList {
   }
 
   remove(element) {
-
+    const index = this.indexOf(element)
+    let current
+    if (index < 0) {
+      return -1
+    } else if (index === 0) {
+      current = this.head
+      this.head = current.next
+    } else {
+      const prev = this.getElementAt(index - 1)
+      current = prev.next
+      prev.next = current.next
+    }
   }
 
   indexOf (element) {
-
+    let current = this.head
+    for (let i = 0; i < this.count && current != null; i++) {
+      if (element === current.element) return i
+      current = current.next
+    }
+    return -1
   }
 
   removeAt(position) {
@@ -72,13 +102,6 @@ export default class LinkedList {
       if (position === 0) {
         this.head = current.next
       } else {
-        // position的上一个
-        // let prev 
-        // for (let i = 0; i < position; i ++) {
-        //   prev = current
-        //   current = current.next
-        // }
-        // prev.next = current.next
         let prev = this.getElementAt(position - 1)
         current = prev.next
         prev.next = current.next 
@@ -87,12 +110,16 @@ export default class LinkedList {
     }
   }
 
-  isEmpty() {}
+  isEmpty() {
+    return this.count === 0
+  }
 
-  size() {}
+  size() {
+    return this.count
+  }
 
-  toString() {
-    let current = this.head
+  toString(head = this.head) {
+    let current = head
     let arr = []
     while (current != null) {
       arr.push(current.element)
