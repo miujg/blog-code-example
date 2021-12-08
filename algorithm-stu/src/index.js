@@ -1,6 +1,15 @@
 // 单项链表类
 import LinkedList, { Node } from "./structure/link"
 
+function headTostring (head) {
+  let arr = []
+  while (head) {
+    arr.push(head.element)
+    head = head.next
+  }
+  console.log(arr.join(','))
+}
+
 function createLinkByArr (arr) {
   const linkList = new LinkedList()
   arr.forEach(item => linkList.push(item))
@@ -145,6 +154,57 @@ function isPalindrome3 (head) {
 console.log(isPalindrome3(createLinkByArr([1,2,3,4,3,2,1]).getHead()))
 
 /******************************** */
+// 链表荷兰国旗问题
+
+// 不考虑空间复杂度
+// 讲链表放入数组， 
+
+const hnHead = createLinkByArr([3,5,4,6,5,8,9,1,2]).getHead()
+
+function hnSort(head, num) {
+  let sh, st, eh, et, bh, bt
+  while (head != null) {
+    const val = head.element
+    if (val < num) {
+      if (!sh) {
+        sh = head
+        st = head
+      } else {
+        st.next = head
+        st = head
+      }
+    } else if (val > num) {
+      if (!bh) {
+        bh = head
+        bt = head
+      } else {
+        bt.next = head
+        bt = head
+      }
+    } else {
+      if (!eh) {
+        eh = head
+        et = head
+      } else {
+        et.next = head
+        et = head
+      }
+    }
+  }
+  headTostring(sh)
+}
+
+hnSort(hnHead, 5)
+
+
+/******************************** */
+// 链表随机指针问题
+
+/******************************** */
+// 无环 有环链表相交问题
+
+
+
 
 
 
