@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '../store'
 import { applyMixin } from './mixin'
 import ModuleCollection from './module/module-collect'
 
@@ -11,8 +12,19 @@ const forEachValue = (obj, cb) => {
 
 let _Vue
 
+/**
+ * 根据path获取state
+ * @param {*} store 
+ * @param {*} path 
+ */
+function getState(store, path) {
+  return path.reduce((state, current) => {
+    return state[current]
+  }, store.state)
+}
+
 function installModules(store, path, module, rootState) {
-  
+  let namespace = store._modules.getNamespace(path)
   // 状态
   if (path.length > 0) { // 子模块
     let parent = path.slice(0, -1).reduce((memo, current) => {
@@ -25,13 +37,13 @@ function installModules(store, path, module, rootState) {
 
   // action mutation
   module.forEachMutations((mutation, key) => {
-    store.mutations[key] = store.mutations[key] || []
-    store.mutations[key].push(payload => mutation.call(store, module.state, payload))
+    store.mutations[namespace + key] = store.mutations[namespace + key] || []
+    store.mutations[namespace + key].push(payload => mutation.call(store, getState(store, path), payload))
   })
 
   module.forEachActions((action, key) => {
-    store.actions[key] = store.actions[key] || []
-    store.actions[key].push(payload => action.call(store, store, payload))
+    store.actions[namespace + key] = store.actions[namespace + key] || []
+    store.actions[namespace + key].push(payload => action.call(store, store, payload))
   })
 
   module.forEachChildren((childModule, key) => {
@@ -40,8 +52,8 @@ function installModules(store, path, module, rootState) {
 
   // getters
   module.forEachGetters((getterFn, key) => {
-    store.wrapGetters[key] = () => {
-      return getterFn(module.state)
+    store.wrapGetters[namespace + key] = () => {
+      return getterFn(getState(store, path))
     }
   })
 }
@@ -58,6 +70,7 @@ export class Store {
     this.actions = {}
     this.wrapGetters = {}
     this.getters = {}
+    this.strict = options.strict
     const state = options.state
     installModules(this, [], this._modules.root, state)
     forEachValue(this.wrapGetters, (fn, key) => {
@@ -73,24 +86,60 @@ export class Store {
       },
       computed
     })
+    this._commiting = true
+    this._withCommiting = function (fn) {
+      // const committing = this._commiting
+      this._commiting = true 
+      fn()
+      this._commiting = false
+    }
+    // 严格模式下监控报错
+    if (this.strict) {
+      this._vm.$watch(() => this._vm._data.$$state, () => {
+        console.log('xxxx')
+        // 爆出一些警告啥的呀
+        if (!this._commiting) console.warn('mutaion 之外修改')
+      }, {sync: true, deep: true})
+    }
     // console.log(this.state)
     // console.log(this.getters)
     // console.log(this.mutations)
     // console.log(this.actions)
+
+    this._subscribes = []
+    // 执行plugin
+    if(options.plugins) {
+      options.plugins.forEach(plugin => plugin(this))
+    }
+
+    // 严格模式判断
   }
 
   get state() {
     return this._vm._data.$$state
   }
 
+  subscirbe(fn) {
+    this._subscribes.push(fn)
+  }
+
+  replaceState(newState) {
+    // 就这短短的一句 也吧newState变成响应式的了
+    this._vm._data.$$state = newState
+  }
+
   commit = (type, payload) => {
     const mutaions = this.mutations[type]
     if (mutaions) {
-      mutaions.forEach(fn => fn(payload))
+      this._withCommiting(() => {
+        mutaions.forEach(fn => fn(payload)) // 状态更新了
+      })
+      this._subscribes.forEach(fn => fn(type, this.state))
     }
   }
 
   dispatch = (type, payload) => {
+    debugger
     const actions = this.actions[type]
     if (actions) {
       actions.forEach(fn => fn(payload))

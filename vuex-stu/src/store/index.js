@@ -1,9 +1,41 @@
 import Vue from 'vue'
 import Vuex from '@/vuex'
 
+
+const logger = () => (store) => {
+  let prevState = JSON.stringify(store.state)
+  store.subscirbe((mutaionName, state) => {
+    console.log('prev-state', prevState)
+    console.log(mutaionName)
+    prevState = JSON.stringify(state)
+    console.log('next-state', prevState)
+  })
+}
+
+class VuexPersistence {
+  constructor (options) {
+    this.storage = options.storage
+    this.storageName = 'vuex'
+  }
+
+  plugin = (store) => {
+    let newState = JSON.parse(localStorage.getItem(this.storageName))
+    if(newState) store.replaceState(newState)
+    store.subscirbe((mutaionName, state) => {
+      localStorage.setItem(this.storageName, JSON.stringify(state))
+    })
+  }
+}
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  strict: true,
+  namespaced: true,
+  plugins: [
+    // logger()
+    new VuexPersistence({storage: window.localStorage}).plugin
+  ],
   state: {
     name: 'xxx'
   },
@@ -26,6 +58,7 @@ export default new Vuex.Store({
   },
   modules: {
     a: {
+      namespaced: true,
       state: {
         name: 'aaaa'
       },
@@ -36,11 +69,12 @@ export default new Vuex.Store({
       },
       mutations: {
         changeNameA (state, payload) {
-          state.name = payload
+          state.name = state.name + '1'
         }
       },
       modules: {
         c: {
+          namespaced: true,
           state: {
             name: 'cccc'
           },
@@ -53,6 +87,7 @@ export default new Vuex.Store({
       }
     },
     b: {
+      namespaced: true,
       state: {
         name: 'bbb'
       },
@@ -64,7 +99,7 @@ export default new Vuex.Store({
       actions: {
         changeNameAsyncB ({commit}, payload) {
           setTimeout(() => {
-            commit('changeNameB', payload)
+            commit('b/changeNameB', payload)
           }, 2000)
         }
       }

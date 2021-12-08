@@ -7,6 +7,16 @@ export default class ModuleCollection {
     this.root = null
     this.register([], options)
   }
+  // 获取namespace
+  // path ['a', 'b'] => a/b || a || b || ''
+  getNamespace(path) {
+    let module = this.root
+    return path.reduce((namespace, key) => {
+      module = module.getChild(key)
+      return namespace + (module.namespace ? `${key}/` : '')
+    }, '')
+  }
+
   // 遍历 递归 格式化 path
   register(path, rootModule) {
     let newModule = new Module(rootModule)

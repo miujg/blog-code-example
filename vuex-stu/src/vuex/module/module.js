@@ -7,6 +7,10 @@ export default class Module {
     this._state = rawModule.state
   }
 
+  get namespace () {
+    return this._raw.namespaced
+  }
+
   get state () {
     return this._state
   }
