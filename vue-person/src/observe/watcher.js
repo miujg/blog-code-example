@@ -1,3 +1,4 @@
+import { callHook } from "../lifecycle"
 import { popTarget, pushTarget } from "./dep"
 import { queueWatcher } from "./schedular"
 
@@ -9,20 +10,39 @@ class Watcher {
     this.cb = cb
     this.opts = opts
     this.id = id++
-    // 表示watcher 的状态
-    this.user = opts.user
-    this.getter = exprOrfn
+    this.sync = opts.sync
+    this.user = opts.user // 表示watcher是用户watcher
+    this.lazy = opts.lazy // 表示计算属性
+    this.dirty = this.lazy
+    if (typeof exprOrfn === 'function') {
+      this.getter = exprOrfn
+    } else {
+      this.getter = function () {
+        // 根据key 取值: a.b.c.d
+        let path = exprOrfn.split('.')
+        let val = vm
+        for(let i = 0; i < path.length; i++) {
+          val = val._data[path[i]]
+        } 
+        return val
+      }
+    }
     this.deps = [] // watcher 记住 dep
     this.depsId = new Set()
     // this.fn() // 调用render方法， 此时会对模板中的数据进取值
-    this.get()
+    // 老值
+    this.value =  this.lazy ? null : this.get()
   }
-
+  evaluate () {
+    this.value = this.get()
+    this.dirty = false
+  }
   get() { 
     // 这个方法会对属性进行取值 取值的时候记住watcher
     pushTarget(this) // Dep.target = watcher
-    this.getter() // 取值 渲染页面
+    let value =  this.getter.call(this.vm) // 取值 渲染页面
     popTarget() //
+    return value
   }
   // 当属性取值的时候 需要记住watcher 数据变化通知watcher执行
   addDep(dep) {
@@ -37,10 +57,22 @@ class Watcher {
   update() { // 如果多次更改 希望合并成一次 （防抖）
     // this.get()  // 每一次复制都会执行相应key的watcher 不停的重新渲染
     // queueWatcher(this)
-    queueWatcher(this)
+    debugger
+    if (this.sync) {
+      this.run()
+    } else if (this.lazy) {
+      this.dirty = true
+    } else {
+      queueWatcher(this)
+    }
   }
   run() {
-    this.get()
+    let oldVlaue = this.value 
+    let newValue = this.get()
+    this.value = newValue
+    if(this.user) { // 如果当前是用户watcher 执行用户的callback
+      this.cb.call(this.vm, newValue, oldVlaue)
+    }
   }
 }
 

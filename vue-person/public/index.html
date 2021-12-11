@@ -8,13 +8,10 @@
 </head>
 <body>
   <div id='app'>
-    <p class="p-wrapper">
-      <span style="color: red;">{{obj.a}}</span>
-      <span>{{obj.b}}</span>
-      <span>{{obj.c}}</span>
-    </p>
+    <pre>{{name}}</pre> 
   </div>
   <script src="/dist/umd/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
   <script>
 
     const vm = new Vue({
@@ -23,18 +20,37 @@
           obj: {
             a: 'a', b: 'b', c: 'c'
           },
+          name: 'shaexiao',
           arr: [1,2,3]
         }
       },
-      el: '#app'
+      el: '#app',
+      // watch: {
+      //   name: {
+      //     handler: function(newVal, oldVal) {
+      //       console.log(newVal)
+      //       console.log(oldVal)
+      //     }
+      //   }
+      // },
+      computed: {
+        allName() {
+          console.log(this._data.name)
+        }
+      }
     })
-    console.log(vm._data)
+    
+    vm.allName
+    vm.allName
 
-    setTimeout(() => { 
-      vm._data.obj.a = 'aaa'
-      vm._data.obj.b = 'bbb'
-    },2000)
+    setTimeout(() => {
+      vm._data.name = 'jgmiu'
+    }, 1000)
 
+    // watch computed
+    // 1. watch 默认取一次值。computed不会
+    // 2. computed有缓存， 依赖的值不变就不会重新执行
+    // 3. 可以用在模板上
     // const vm = new Vue({
     //   el: '#app',
     //   data: {

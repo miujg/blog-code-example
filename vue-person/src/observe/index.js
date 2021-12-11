@@ -58,7 +58,6 @@ function defineReactive(data, key, value) {
     get() { 
       // 依赖搜集
       if(Dep.target) {
-        console.log(key)
         dep.depend() // 让属性的dep记住watcher，也要让watcher记住 （双向）
         if(childOb) {
           // 数组的依赖搜集 将当前得watcher和数组里联系起来

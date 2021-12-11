@@ -115,6 +115,6 @@ function makeUp(str) {
   return tag => map[tag] || false
 }
 
-export const isReservedTag = makeUp('a,p,div,ul,li,span,input,button')
+export const isReservedTag = makeUp('a,p,div,ul,li,span,input,button,pre')
 
 
