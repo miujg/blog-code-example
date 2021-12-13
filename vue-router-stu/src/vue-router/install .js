@@ -1,6 +1,7 @@
 
 export let _Vue 
-
+import RouterLink from "./components/router-link"
+import RouterView from "./components/router-view"
 
 
 export function install(Vue, options) {
@@ -8,17 +9,29 @@ export function install(Vue, options) {
   // 将router共享给所有属性route
   // 理解一下mixin
   Vue.mixin({
-     beforeCreate() {
+    beforeCreate() {
       if (this.$options.router) {
         // 根实例 this ==> vm
         this._routerRoot = this
         this._router = this.$options.router
-        // this.$router = this.$options.router
         this._router.init(this) // this 根实例
+        // 将 history的current变为响应式
+        Vue.util.defineReactive(this, '_route', this._router.history.current)
       } else {
-        this._routerRoot = this.$parent && this.$parent.$parent._routerRoot
-        // this.$router = this.$parent.$router
+        this._routerRoot = this.$parent && this.$parent._routerRoot
       }
      }
   })
+  Object.defineProperty(Vue.prototype, '$router', {
+    get () {
+      return this._routerRoot._router // push
+    }
+  })
+  Object.defineProperty(Vue.prototype, '$route', {
+    get () {
+      return this._routerRoot._route
+    }
+  })
+  Vue.component('router-link', RouterLink)
+  Vue.component('router-view', RouterView)
 }

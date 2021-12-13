@@ -7,7 +7,7 @@ import BrowserHistory from './history/history';
 export default class VueRouter {
   constructor (options) {
     // 根据用户的配置生成映射表
-    // match addRoutes
+    // match addRoutes(核心，面试常问)
     this.matcher = createMatcher(options.routes || [])
     switch (options.mode) {
       case 'hash':
@@ -18,18 +18,29 @@ export default class VueRouter {
         break;
     }
   }
-
+  match (location) {
+    return this.matcher.match(location)
+  }
+  push (location) {
+    this.history.push(location)
+  }
   // app 为根实例 new Vue那个
   init(app) {
     // 初始化后 先根据路径做一次匹配，后续hash值变化，再次匹配
 
     const history = this.history
 
-    const setupHashListener = () => {
+    const setupListener = () => { // 切片编程
       history.setupListener() // 监听hash值变化
     }
 
-    history.transitionTo(history.getCurrentLocation(), setupHashListener)
+    // 为了响应式
+    history.listen((route) => {
+      // 响应式数据
+      app._route = route
+    })
+    history.transitionTo(history.getCurrentLocation(), setupListener)
+
   }
 }
 

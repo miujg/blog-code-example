@@ -1,4 +1,5 @@
 import createRouteMap from './create-route-map'
+import { createRoute } from './history/base'
 
 
 export default function createMatcher (routes) {
@@ -10,7 +11,8 @@ export default function createMatcher (routes) {
     createRouteMap(routes, pathMap)
   }
   function match (path) { // 给我个路径，匹配路由
-
+    let record = pathMap[path]
+    return createRoute(record, {path})
   }
   return {
     addRoutes,
