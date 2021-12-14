@@ -6,6 +6,7 @@ import BrowserHistory from './history/history';
 // 路由的核心原理 根据路径返回相应的组件 ====> 映射表
 export default class VueRouter {
   constructor (options) {
+    this.beforeEachHooks = []
     // 根据用户的配置生成映射表
     // match addRoutes(核心，面试常问)
     this.matcher = createMatcher(options.routes || [])
@@ -41,6 +42,10 @@ export default class VueRouter {
     })
     history.transitionTo(history.getCurrentLocation(), setupListener)
 
+  }
+
+  beforeEach(fn) {
+    this.beforeEachHooks.push(fn)
   }
 }
 

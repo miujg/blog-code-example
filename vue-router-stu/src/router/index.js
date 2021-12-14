@@ -40,4 +40,9 @@ const router = new VueRouter({
   mode: 'hash'
 })
 
+router.beforeEach((from, to, next) => {
+
+})
+
+
 export default router
