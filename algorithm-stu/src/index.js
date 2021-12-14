@@ -26,5 +26,6 @@ bst.createThreeByArr([5,3,7,2,4,6,8,9,])
 
 const three1 = new Three()
 three1.createThreeByArr([1,2,3,4,5,6,7])
-console.log(three1.isCBT(three1.getRoot()))
+// console.log(three1.isCBT(three1.getRoot()))
+console.log(three1.max())
 

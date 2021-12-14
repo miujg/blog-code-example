@@ -266,9 +266,33 @@ export class Three {
 
       const leftData = process(node.left)
       const rightData = process(node.right)
+
       let height = Math.max(leftData.height, rightData.height) + 1
       let isBalance = leftData.isBalance && rightData.isBalance && Math.abs(leftData.height - rightData.height) < 2
       return {isBalance, height}
+    }
+  }
+
+  // 树型dp求解最小值
+  min(node = this.root) {
+
+  }
+  // 树型dp求解最大值
+  max(node = this.root) {
+    return process(node)
+    function process (node) {
+      if(node == null) return null
+      let leftMax = process(node.left)
+      let rightMax = process(node.right)
+      // 求最大值
+      return Math.max(leftMax, rightMax, node.val)
+      // 求最小值
+      // let min = node.val
+      // if (leftMax != null) min = Math.min(leftMax, min)
+      // if (rightMax != null) min = Math.min(rightMax, min)
+      // return min
+      // 求和
+      // return leftMax + rightMax + node.val
     }
   }
 
