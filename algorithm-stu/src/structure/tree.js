@@ -10,11 +10,39 @@ export class Node {
   }
 }
 
-// 二叉树类
+// 普通二叉树类
+// 满二叉树 完全二叉树
 export class Three {
   constructor() {
     this.root = null
   }
+
+  /**
+   * 根据val 插入值
+   * @param {*} targetVal 树种的值
+   * @param {*} insertVal 插入的值
+   * @param {*} position right or left
+   */
+  insertByVal (targetVal, insertVal, position) {
+    const node = this.root
+    if(node == null) return
+    const queue = new Queue()
+    queue.add(node)
+    while(!queue.isEmpty()) {
+      const curNode = queue.poll()
+      if (curNode.val == targetVal && !curNode[position]) {
+        curNode[position] = new Node(insertVal)
+        break
+      } 
+      if (curNode.left) {
+        queue.add(curNode.left)
+      }
+      if (curNode.right) {
+        queue.add(curNode.right)
+      }
+    }
+  }
+
   // 插入节点
   insert (val) {
     if (this.root == null) {
@@ -67,7 +95,7 @@ export class Three {
   inOrderTraverse(node) {
     if (node == null) return
     this.inOrderTraverse(node.left)
-    console.log(node)
+    console.log(node.val)
     this.inOrderTraverse(node.right)
   }
   // 中序迭代
@@ -153,4 +181,132 @@ export class Three {
   getRoot () {
     return this.root
   }
+  // 是否是二叉搜索树
+  isBST (node) {
+    let preVal = Number.MIN_VALUE
+    // 如果是二叉搜索树，中序遍历一定有序且递增
+    function checkBST(node) {
+      if (node == null) return true
+      let isLeftBst = checkBST(node.left)
+      if (!isLeftBst) {
+        return false
+      } 
+      // 这里进行对比
+      if (preVal < node.val) {
+        preVal = node.val
+      } else {
+        return false
+      }
+      return checkBST(node.right)
+    }
+    return checkBST(node)
+  }
+  // 用树型Dp的方式判断是否是二叉搜索树
+  isBSTDp (node) {
+    return process(node).isBs
+
+    function process(node) {
+      if (node == null) return null
+      let leftData = process(node.left)
+      let rightData = process(node.right)
+
+      let min = node.val
+      let max = node.val
+      let isBs = true
+
+      if (leftData != null) {
+        max = Math.max(max, leftData.max)
+        min = Math.min(min, leftData.min)
+      }
+      if (rightData != null) {
+        max = Math.max(max, rightData.max)
+        min = Math.min(min, rightData.min)
+      }
+
+      if (leftData != null &&  ( !leftData.isBs || node.val <= leftData.max)) {
+        isBs = false
+      }
+      if (rightData != null && ( !rightData.isBs || node.val >= rightData.max)) {
+        isBs = false
+      }
+
+      return {max, min, isBs}
+
+    }
+  }
+  // 是否是满二叉树
+  // 宽度遍历
+  isCBT(node) {
+    return process(node).isCb
+    // num heihgt isbc
+    function process(node) {
+      if(node == null) return {num: 0, height: 0, isCb: true}
+
+      let leftData = process(node.left)
+      let rightData = process(node.right)
+
+      let num = leftData.num + rightData.num + 1
+      let height = Math.max(leftData.height, rightData.height) + 1
+      let isCb = true
+      // if (leftData.num > 0 && leftData.num !== (Math.pow(2,leftData.height) - 1)) isCb = false
+      // if (rightData.num > 0 && rightData.num !== (Math.pow(2,rightData.height) - 1)) isCb = false
+      if (num !== (Math.pow(2, height) - 1)) isCb = false
+      return {num, height, isCb}
+    }
+  }
+  // 判断满二叉树
+
+  // 判断平衡二叉树
+  // 通过 树形DP的思想
+  isBanlanced(node) {
+    return process(node).isBalance
+
+    function process (node) {
+      if (node == null) return {height: 0, isBalance: true}
+
+      const leftData = process(node.left)
+      const rightData = process(node.right)
+      let height = Math.max(leftData.height, rightData.height) + 1
+      let isBalance = leftData.isBalance && rightData.isBalance && Math.abs(leftData.height - rightData.height) < 2
+      return {isBalance, height}
+    }
+  }
+
+}
+
+// 二叉搜索树
+export class BSTThree extends Three {
+  constructor() {
+    super()
+  }
+
+  insert(val) {
+    if (this.root == null) {
+      this.root = new Node(val)
+    } else {
+      this.insertNode(this.root, val)
+    }
+  }
+
+  insertNode(node, val) {
+    if (node == null) {
+      return
+    }
+    if (val <= node.val) {
+      if (node.left != null) {
+        this.insertNode(node.left, val)
+      } else {
+        node.left = new Node(val)
+        return
+      }
+    } else {
+      if (node.right != null) {
+        this.insertNode(node.right, val)
+      } else {
+        node.right = new Node(val)
+        return
+      }
+    }
+  }
+
 }
