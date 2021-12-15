@@ -296,6 +296,115 @@ export class Three {
     }
   }
 
+  // 树型dp求树的最大高度
+  getHeight(node = this.root) {
+    return process(node)
+    function process(node) {
+      if(node == null) return 0
+      let leftHeight = process(node.left)
+      let rightHeight = process(node.right)
+      return Math.max(leftHeight, rightHeight) + 1
+    }
+  }
+
+  // 根据val，获取节点
+  getNodeByVal(val, node = this.root) {
+    if(node == null) return
+    if(node.val === val) return node
+    let leftNode = this.getNodeByVal(val, node.left)
+    if (leftNode) return leftNode
+    return this.getNodeByVal(val, node.right)
+  }
+
+  /**
+   * 返回node1 与 node2 的最低公共祖先
+   * @param {*} node1 
+   * @param {*} node2 
+   * @param {*} root 
+   */
+  getLca(node1, node2, root = this.root) {
+    // 使用 set map代码更好理解
+    // 使用map设置每一个节点的父节点
+    const fatherMap = new Map()
+    setFatherMap(null, root, fatherMap)
+    // node1 node2 的祖先链分别放入各自的set
+    const set1 = new Set()    
+    set1.add(node1)
+    const set2 = new Set()   
+    set2.add(node2)
+    let cur = node1
+    while (fatherMap.get(cur) != null) {
+      set1.add(fatherMap.get(cur))
+      cur = fatherMap.get(cur)
+    }
+    cur = node2 
+    while (fatherMap.get(cur) != null) {
+      set2.add(fatherMap.get(cur))
+      cur = fatherMap.get(cur)
+    }
+    // 最低共同祖先
+    let commonFather = null
+    // 遍历set1 
+    for(let val of set1.values()) {
+      if(set2.has(val)) {
+        commonFather = val
+        break
+      }
+    }
+    return commonFather
+
+    function setFatherMap(parent, node, fatherMap) {
+      if (node == null) return
+      fatherMap.set(node, parent)
+      setFatherMap(node, node.left, fatherMap)
+      setFatherMap(node, node.right, fatherMap)
+    }
+  }
+  /**
+   * 抽象的代码
+   * @param {*} node1 
+   * @param {*} node2 
+   * @param {*} head 
+   * @returns 
+   */
+  getLca2(node1, node2, head = this.root) {
+    if (head == null || head == node1 || head == node2) {
+      return head
+    }
+    let left = this.getLca2(node1, node2, head.left)
+    let right = this.getLca2(node1, node2, head.right)
+    if (left != null && right != null) return head
+    return left != null ? left : right
+  }
+
+  // 求后继节点
+  getSuccessorNode(node) {
+
+  }
+
+  // 先序 序列化
+  serialByPre(node = this.root) {
+    if (node == null) return '#,'
+    let res = `${node.val},`
+    res += this.serialByPre(node.left)
+    res += this.serialByPre(node.right)
+    return res
+  }
+  // 先序 反序列化
+  reconByPre(preStr) {
+    const queue = new Queue(preStr.split(',').filter(item => item != ''))
+    return reconOrder(queue)
+    function reconOrder(queue) {
+      let str = queue.poll()
+      if (str === '#') return null
+      const curNode = new Node(str)
+      curNode.left = reconOrder(queue)
+      curNode.right = reconOrder(queue)
+      return curNode
+    }
+
+  }
+
 }
 
 // 二叉搜索树

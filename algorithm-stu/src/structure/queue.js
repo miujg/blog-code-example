@@ -1,6 +1,6 @@
 export default class Queue {
-  constructor() {
-    this.arr = []
+  constructor(arr) {
+    this.arr = arr || []
   }
 
   // 入队列
