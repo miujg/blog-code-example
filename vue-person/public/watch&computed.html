@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    <pre>{{name}}</pre> 
+  </div>
+  <script src="/dist/umd/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+  <script>
+
+    const vm = new Vue({
+      data() {
+        return {
+          obj: {
+            a: 'a', b: 'b', c: 'c'
+          },
+          name: 'shaexiao',
+          arr: [1,2,3]
+        }
+      },
+      el: '#app',
+      // watch: {
+      //   name: {
+      //     handler: function(newVal, oldVal) {
+      //       console.log(newVal)
+      //       console.log(oldVal)
+      //     }
+      //   }
+      // },
+      computed: {
+        allName() {
+          console.log(this._data.name)
+        }
+      }
+    })
+    
+    vm.allName
+    vm.allName
+
+    setTimeout(() => {
+      vm._data.name = 'jgmiu'
+    }, 1000)
+
+    // watch computed
+    // 1. watch 默认取一次值。computed不会
+    // 2. computed有缓存， 依赖的值不变就不会重新执行
+    // 3. 可以用在模板上
+    // const vm = new Vue({
+    //   el: '#app',
+    //   data: {
+    //     name: 'shaexiao'
+    //   },
+    //   watch: {
+    //     name: {
+    //       handler: function(newVal, oldVal) {
+    //       },
+    //       deep: true
+    //     }
+    //   }
+    // })
+    // 1. 响应式原理（vue3, proxy）数组 对象
+    // 2. 组件渲染原理 局部更新 dep watcher
+    // 3. diff算法 什么是虚拟dom 优化 怎么对比 key
+  </script>
+</body>
+</html>

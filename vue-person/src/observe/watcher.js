@@ -57,6 +57,7 @@ class Watcher {
   update() { // 如果多次更改 希望合并成一次 （防抖）
     // this.get()  // 每一次复制都会执行相应key的watcher 不停的重新渲染
     // queueWatcher(this)
+    debugger
     if (this.sync) {
       this.run()
     } else if (this.lazy) {
