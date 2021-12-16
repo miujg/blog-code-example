@@ -18,6 +18,7 @@ class Watcher {
       this.getter = exprOrfn
     } else {
       this.getter = function () {
+        // 这里取值的时候，就会让dep记住watcher
         // 根据key 取值: a.b.c.d
         let path = exprOrfn.split('.')
         let val = vm
@@ -51,16 +52,17 @@ class Watcher {
     if(!(this.depsId.has(id))) { // dep 是非重复 watcher 肯定不会重复 
       this.depsId.add(id)
       this.deps.push(dep)
+      // 让这个dep 也记住这个wathcer
       dep.addSub(this)
     }
   }
   update() { // 如果多次更改 希望合并成一次 （防抖）
     // this.get()  // 每一次复制都会执行相应key的watcher 不停的重新渲染
     // queueWatcher(this)
-    debugger
     if (this.sync) {
       this.run()
     } else if (this.lazy) {
+      // 计算属性
       this.dirty = true
     } else {
       queueWatcher(this)

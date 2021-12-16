@@ -4,6 +4,7 @@ let id = 0
 class Dep {
   constructor() {
     this.id = id++
+    // dep 记住 watcher
     this.subs = [] // 属性记住watcher
   }
   depend() {
@@ -11,6 +12,7 @@ class Dep {
     Dep.target.addDep(this)
   }
   addSub(watcher) { // 存储watcher
+    console.log(watcher)
     this.subs.push(watcher)
   }
   notify() {

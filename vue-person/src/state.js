@@ -16,11 +16,11 @@ export function initState(vm) {
   }
   // 如果有watch
   if(opts.watch) {
-    // initWatch(vm, opts.watch)
+    initWatch(vm, opts.watch)
   }
 
   if(opts.computed) {
-    initComputed(vm, opts.computed) 
+    // initComputed(vm, opts.computed) 
   }
 }
 

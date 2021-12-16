@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id='app'>
-    <pre>{{name}}</pre> 
+    <pre>{{name1}}</pre>
   </div>
   <script src="/dist/umd/vue.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
@@ -17,35 +17,47 @@
     const vm = new Vue({
       data() {
         return {
-          obj: {
-            a: 'a', b: 'b', c: 'c'
-          },
-          name: 'shaexiao',
-          arr: [1,2,3]
+          name1: 'shaexiao', // 1
+          school: { // __ob__.dep.id = 2 dep.id = 8
+            name2: '大学', // dep.id = 3
+            teacher: { // __ob__.dep.id = 4 dep.id = 7
+              name3: 'jgmiu', // dep.id = 5
+              age: 26 // dep.id = 6
+            }
+          }
         }
       },
       el: '#app',
-      // watch: {
-      //   name: {
-      //     handler: function(newVal, oldVal) {
-      //       console.log(newVal)
-      //       console.log(oldVal)
-      //     }
-      //   }
-      // },
-      computed: {
-        allName() {
-          console.log(this._data.name)
+      watch: {
+        name1: {
+          handler: function(newVal, oldVal) {
+            console.log(newVal)
+            console.log(oldVal)
+          }
         }
-      }
+      },
+      // computed: {
+      //   allName() {
+      //     console.log(this._data.name)
+      //   }
+      // }
     })
-    
-    vm.allName
-    vm.allName
 
     setTimeout(() => {
-      vm._data.name = 'jgmiu'
-    }, 1000)
+      // vm._data.school.name2 = 'xxxx'
+      vm._data.name1 = 'xxx'
+    }, 3000)
+
+    // console.log(vm._data)
+    // vm._data.name
+    // vm._data.school
+
+    // vm.allName
+    // vm.allName
+
+    // setTimeout(() => {
+    //   vm._data.name = 'jgmiu'
+    // }, 3000)
 
     // watch computed
     // 1. watch 默认取一次值。computed不会
