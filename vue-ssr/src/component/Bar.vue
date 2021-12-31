@@ -1,5 +1,5 @@
 <template>
-  <h1 @click="handleClick" class="bar">Bar11</h1>
+  <h1 @click="handleClick" class="bar">Bar1111</h1>
 </template>
 
 <script>

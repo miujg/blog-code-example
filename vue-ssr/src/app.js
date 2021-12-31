@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-const vm = new Vue({
-  el: '#app',
-  render: h => h(App)
-})
-
-// console.log('aaa')
+export default () => {
+  const app = new Vue({
+    render: h => h(App)
+  })
+  return { app }
+}
