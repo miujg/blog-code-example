@@ -7,11 +7,17 @@ const path = require('path')
 const vueServerRenderer = require('vue-server-renderer')
 const koaStatic = require('koa-static')
 
-const serverBundle = fs.readFileSync('./dist/server.bundle.js', 'utf-8')
+// // 生成服务端的静态html
+// const serverBundle = fs.readFileSync('./dist/server.bundle.js', 'utf-8')
+// // 生成静态html模板
 const template = fs.readFileSync('./dist/index.ssr.html', 'utf-8')
 
+const serverBundle = require('./dist/vue-ssr-server-bundle.json')
+const clientManifest = require('./dist/vue-ssr-client-manifest.json')
+
 const render = vueServerRenderer.createBundleRenderer(serverBundle, {
-  template
+  template,
+  clientManifest
 })
 
 router.get('/',async (ctx)=>{

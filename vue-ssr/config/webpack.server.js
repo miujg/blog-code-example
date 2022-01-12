@@ -2,6 +2,7 @@ const path = require('path')
 const { merge } = require('webpack-merge')
 const base = require('./webpack.base.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
 // 服务端 给node
 module.exports = merge(base, {
@@ -20,6 +21,7 @@ module.exports = merge(base, {
       minify: false,
       // 服务端html 不需要引入js
       excludeChunks: ['server']
-    })
+    }),
+    new VueSSRServerPlugin()
   ]
 })
