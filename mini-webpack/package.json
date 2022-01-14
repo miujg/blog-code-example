@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/parser": "^7.16.8",
-    "@babel/traverse": "^7.16.8"
+    "@babel/traverse": "^7.16.8",
+    "ejs": "^3.1.6"
   }
 }
