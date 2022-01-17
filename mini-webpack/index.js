@@ -5,6 +5,9 @@ import parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import path from 'path'
 import ejs from 'ejs'
+import { transformFromAst } from 'babel-core'
+
+let id = 0
 
 function createAsset(filePath) {
   // 获取文件(main.js)内容 
@@ -23,16 +26,23 @@ function createAsset(filePath) {
   const dep = []
   // 遍历ast，
   traverse.default(ast, {
-    // 获取 import 
+    // 获取 import
     ImportDeclaration({node}) {
+      // esm => common
       dep.push(node.source.value)
     }
   })
 
+  const { code } = transformFromAst(ast, null, {
+    presets: ['env']
+  })
+
   return {
     filePath,
-    source,
-    dep
+    code,
+    dep,
+    mapping: {},
+    id: id++
   }
 }
 
@@ -45,23 +55,27 @@ function createGraph () {
 
   for (const asset of queue) {
     asset.dep.forEach(relativePath => {
-      const asset = createAsset(path.resolve('./example', relativePath))
-      queue.push(asset)
+      const child = createAsset(path.resolve('./example', relativePath))
+      asset.mapping[relativePath] = child.id
+      queue.push(child)
     });
   }
   return queue
 }
 
-
-const graph = createGraph()
-
 // 基于graph -》 bundle （模板生成器ejs）
 
 function build (graph) {
+
   const template = fs.readFileSync('./example/bundle.ejs', {encoding: 'utf-8'})
-  const source = ejs.render(template)
-  console.log(source)
+  const source = ejs.render(template, {data: graph})
   fs.writeFileSync('./dist/bundle.js', source)
 }
 
-build()
+
+
+const graph = createGraph()
+
+build(graph)
+
+
