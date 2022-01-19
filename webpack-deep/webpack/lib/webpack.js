@@ -1,5 +1,6 @@
 const Compiler = require("./Compiler");
 const NodeEnvironmentPlugin = require('./node/NodeEnvironmentPlugin')
+const WebpackOptionsApply = require('./WebpackOptionsApply')
 const webpack = (options, callback) => {
   // 验证options是否合法
 
@@ -16,7 +17,7 @@ const webpack = (options, callback) => {
       plugin.apply(compiler)
     }
   }
-
+  new WebpackOptionsApply().process(options, compiler)
   return compiler
 }
 
