@@ -166,9 +166,7 @@ var p = new Promise((resolve, reject) => {
 })
 
 p.then(data => {
-  console.log(aaa)
-  return data
-}).catch(err => {
-  console.log('error')
-  console.error(err)
+  return new Promise((resolve, reject) => {
+    resolve(data + 1)
+  })
 })
