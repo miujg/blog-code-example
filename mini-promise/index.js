@@ -2,17 +2,21 @@
 function resolvePromise(promise2, x, resolve, reject) {
   var then 
   var thenCalledOrThrow = false
-  // If promise and x refer to the same object, reject promise with a TypeError as the reason
+  // 如果x与promise2是同一个对象，返回一个类型错误
   if (promise2 === x) {
     throw new TypeError('Chaining cycle detected for promise')
   }
 
+  // x是一个promise对象
   if (x instanceof Promise) {
+    // 如果x状态为pending
     if (x.status === 'pending') {
+      // promise保持pending状态，知道x成功或者失败
       x.then(value => {
         resolvePromise(promise2, value, resolve, reject)
       }, reject)
     } else {
+      // 采用x的状态（成功或者失败）
       x.then(resolve, reject)
     }
   }
@@ -23,17 +27,31 @@ function resolvePromise(promise2, x, resolve, reject) {
       then = x.then
       // then 是一个函数
       if (typeof then === 'function') {
-
+        // 执行then方法
+        then.call(x, y => {
+          if (!thenCalledOrThrow) {
+            thenCalledOrThrow = true
+            resolvePromise(promise2, y, resolve, reject)
+          }
+        }, r => {
+          if (!thenCalledOrThrow) {
+            thenCalledOrThrow = true
+            reject(r)
+          }
+        })
       } else {
         resolve(x)
       }
     } catch (error) {
-      
+      if (!thenCalledOrThrow) {
+        thenCalledOrThrow = true
+        reject(error)
+      }
     }
   } else {
+    // 如果x不是函数或者对象，用x来完成promise
     resolve(x)
   }
-
 }
 
 // pending resolved rejected
@@ -86,29 +104,7 @@ Promise.prototype.then = function(onResolved, onRejected) {
 
   if (self.status === 'resolved') {
     promise2 = new Promise(function(resolve, reject) {
-      try {
-        var x = onResolved(self.data)
-        resolvePromise(promise2, x, resolve, reject)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  if (self.status === 'rejected') {
-      promise2 = new Promise(function(resolve, reject) {
-      try {
-        var x = onRejected(self.data)
-        resolvePromise(promise2, x, resolve, reject)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  if (self.status === 'pending') {
-    promise2 = new Promise(function(resolve, reject) {
-      self.onResolvedCallback.push(function(resolve, reject) {
+      setTimeout(() => {
         try {
           var x = onResolved(self.data)
           resolvePromise(promise2, x, resolve, reject)
@@ -116,14 +112,44 @@ Promise.prototype.then = function(onResolved, onRejected) {
           reject(error)
         }
       })
+    })
+  }
+
+  if (self.status === 'rejected') {
+      promise2 = new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          try {
+            var x = onRejected(self.data)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        })
+    })
+  }
+
+  if (self.status === 'pending') {
+    promise2 = new Promise(function(resolve, reject) {
+      self.onResolvedCallback.push(function(value) {
+        setTimeout(() => {
+          try {
+            var x = onResolved(value)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        })
+      })
       
-      self.onRejectedCallback.push(function(resolve, reject) {
-        try {
-          var x = onRejected(self.data)
-          resolvePromise(promise2, x, resolve, reject)
-        } catch (error) {
-          reject(error)
-        }
+      self.onRejectedCallback.push(function(reason) {
+        setTimeout(() => {
+          try {
+            var x = onRejected(reason)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        })
       })
     })
   }
@@ -136,18 +162,13 @@ Promise.prototype.catch = function(onRejected) {
 }
 
 var p = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(10)
-  },2000)
+  resolve(10)
 })
 
 p.then(data => {
-  console.log(data)
+  console.log(aaa)
+  return data
+}).catch(err => {
+  console.log('error')
+  console.error(err)
 })
-
-// new Promise(resolve=>resolve(8))
-//   .then()
-//   .then()
-//   .then(function foo(value) {
-//     alert(value)
-//   })
