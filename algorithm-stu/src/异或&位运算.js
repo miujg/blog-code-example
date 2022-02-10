@@ -51,8 +51,9 @@ function printOddTimesNum2(arr) {
 let { onlyOne, eor2 } = printOddTimesNum2(arr1)
 console.log(onlyOne, eor2)
 
-// let a = 0b0011110110000 
-// console.log(a & (~a + 1))
+// 一个数组包含 n-1 个成员，这些成员是 1 到 n 之间的整数，且没有重复，请找出缺少的那个数字。
+// 最快的解答方法，就是把所有数组成员（A[0] 一直到 A[n-2]）与 1 到 n 的整数全部放在一起，进行异或运算。
+// 两两配对为0 ， 没配上对的露出
 
 
 
