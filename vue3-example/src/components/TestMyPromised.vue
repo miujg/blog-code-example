@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>--------------</h1>
     <MyPromised :promise="usersPromise">
       <template v-slot:pending>
         <p>Loading.yyyy..</p>

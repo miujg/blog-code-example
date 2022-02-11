@@ -15,6 +15,7 @@ export const MyPromised = defineComponent({
     promise: {} as PropType<Promise<unknown> | null | undefined>,
   },
   setup(props, {slots}) {
+    // 将props变成ref对象
     const propsAsRefs = toRefs(props)
     const promiseState = reactive<UsePromiseResult>(
       usePromise(propsAsRefs.promise)

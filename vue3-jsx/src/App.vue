@@ -1,20 +1,24 @@
 <template>
-  <promised v-if="false" />
-  <test v-if="false" />
-  <test-my-promised v-if="false" />
+  <Test>
+    <template v-slot:pending>
+      <h1>loading...</h1>
+    </template>
+    <template v-slot="data">
+      <pre>{{data}}</pre>
+    </template>
+    <template v-slot:error>
+      <pre>error</pre>
+    </template>
+  </Test>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Test from './components/Test.vue';
-import TestMyPromised from './components/TestMyPromised.vue';
-import Promised from './components/TestPromised.vue'
+import Test from './components/Test.ts' 
 export default defineComponent({
   name: 'App',
   components: {
-    Promised,
     Test,
-    TestMyPromised,
   }
 });
 </script>

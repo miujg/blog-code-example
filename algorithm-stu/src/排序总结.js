@@ -55,6 +55,7 @@ insertSort(arr)
 // 左边的最大值  右边的最大值 ===》 Math.max  ===》 总的最大值
 function process(arr, l, r) {
   if(l === r) return arr[l]
+  // 位运算获取重点
   let mid = l + ((r - l) >> 1 )
   let leftMax = process(arr, l, mid)
   let rightMax = process(arr, mid + 1, r)

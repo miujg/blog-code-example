@@ -44,6 +44,13 @@ let arr = [1, 2, 3,5,8,1,5,7,9,6]
 // 归并排序（mergesort）
 // 双指针
 
+function mergeSort(arr, l, r) {
+  if (l === r) return
+  const mid = l + ((r - l) >> 1)
+  mergeSort(arr, l, mid)
+  mergeSort(arr, mid + 1, r)
+  merge(arr, l, mid, r)
+}
 
 function merge (arr, l, mid, r) {
   const help = new Array(r - l + 1)
@@ -67,16 +74,8 @@ function merge (arr, l, mid, r) {
   }
 }
 
-function process(arr, l, r) {
-  if (l === r) return
-  const mid = l + ((r - l) >> 1)
-  process(arr, l, mid)
-  process(arr, mid + 1, r)
-  merge(arr, l, mid, r)
-}
-
-let arr2 = [1, 4, 6, 2, 5, 8]
-process(arr2, 0, arr2.length - 1)
+// let arr2 = [1, 4, 6, 2, 5, 8]
+// process(arr2, 0, arr2.length - 1)
 
 // ===> master公式 T(N) = 2*(N/2) + O(N)
 // ===> a = 2 b = 2 c = 1
