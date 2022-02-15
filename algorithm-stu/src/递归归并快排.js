@@ -3,127 +3,201 @@
 // 2. 归并排序
 // 3. 荷兰国旗 快排
 
-/**
- * 公共方法 交换数组
- * @param {*} arr 
- * @param {*} i 
- * @param {*} j 
- * @returns 
- */
+// 归并排序
+// 1. 理解递归序 (树的遍历)
+// 2. 递归master公式（子问题等规模的递归）
+// 3. 归并排序
+
+import Stack from "./structure/stack"
+
+
+const arr = createArr(10)
+console.log(arr)
+console.log('---------------------')
+
+// 交换arr[i] 与 arr[j]
 function swap(arr, i, j) {
-  if(i === j) return
+  if (i === j) return
   arr[i] = arr[i] ^ arr[j]
   arr[j] = arr[i] ^ arr[j]
   arr[i] = arr[i] ^ arr[j]
 }
 
+// 创建数组
+function createArr(n) {
+  const arr = []
+  for(let i = 0; i < n; i++) {
+    arr.push(Math.ceil(100* Math.random()))
+  }
+  return arr
+}
 
 
-// 递归版本： arr[L~R]的最大值
-// 画出执行树，理解树的遍历（左中右）
-// 理解出栈与压栈的执行过程
-// 找数组中的最大值
-function process1(arr, l, r) {
-  if(l === r) return arr[l]
-  let mid = l + ((r - l) >> 1 )
-  let leftMax = process(arr, l, mid)
-  let rightMax = process(arr, mid + 1, r)
+// 递归求最大值：
+function processMax(arr, l = 0, r = arr.length - 1) {
+  if (l === r) return arr[l]
+  let mid = l + ((r -l) >> 1)
+  // 左边最大值
+  let leftMax = processMax(arr, l, mid)
+  // 右边最大值
+  let rightMax = processMax(arr, mid + 1, r)
+  // Math.max(左边最大值，右边最大值) ==》 总的最大值
   return Math.max(leftMax, rightMax)
 }
 
-let arr = [1, 2, 3,5,8,1,5,7,9,6]
 
-// 递归的时间复杂度 ===》 理解master公式
-// 母问题拆分 =》 子问题
-// 决策过程
-// T(N) = a * T(N/b) + O(N^c)
-
-// ===> 推出三种情况
-
-
-// 归并排序（mergesort）
-// 双指针
-
-function mergeSort(arr, l, r) {
-  if (l === r) return
-  const mid = l + ((r - l) >> 1)
+function mergeSort(arr, l = 0, r = arr.length - 1) {
+  if (l === r) return arr[l]
+  let mid = l + ((r - l) >> 1)
+  // 左边有序
   mergeSort(arr, l, mid)
+  // 右边有序
   mergeSort(arr, mid + 1, r)
+  // 左边右边合并有序
   merge(arr, l, mid, r)
 }
 
-function merge (arr, l, mid, r) {
-  const help = new Array(r - l + 1)
-  let i = 0
-  let p1 = l
-  let p2 = mid + 1
-  // 越界检查
-  while (p1 <= mid && p2 <= r) {
-    help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++]
+function merge(arr, l, mid, r) {
+  // 合并 [l,mid]  [mid+1, r]
+  // 1.设置两个指针,指针1==>l  指针2==>mid+1
+  // 2.比较两个指针所指的值，小的推入help数组，向右边移动
+  // 3.周而复始，两者指针都遍历一遍之后就 help有序
+  let help = []
+  let i = l
+  let j = mid + 1
+
+  while(i <= mid && j <= r) {
+    arr[i] < arr[j] ? help.push(arr[i++]) : help.push(arr[j++])
   }
-  // 有一个越界, 就把那个剩下的拷贝到help后面
-  while (p1 <= mid) {
-    help[i++] = arr[p1++]
+
+  while(i <= mid) {
+    help.push(arr[i++])
   }
-  while (p2 <= r) {
-    help[i++] = arr[p2++]
+
+  while(j <= r) {
+    help.push(arr[j++])
   }
-  // help 有序 将help拷贝到arr
-  for (let i = 0; i < help.length; i ++) {
-    arr[l + i] = help[i]
-  }
+  // 将help拷贝给arr 注意起点位置
+  help.forEach((item,index) => arr[index + l] = item)
 }
 
-// let arr2 = [1, 4, 6, 2, 5, 8]
-// process(arr2, 0, arr2.length - 1)
+// mergeSort(arr)
+// console.log(arr)
 
-// ===> master公式 T(N) = 2*(N/2) + O(N)
-// ===> a = 2 b = 2 c = 1
-// O(N * logN)
-// 选择 冒泡 插入 O(N^2) 等差数列
-
+// 迭代方式实现 归并排序 todo
 
 // 归并 ====》 小和问题
+// 在数组中，左边比当前数小的数，累加的结果
+// 如： 数组 [1, 3, 4,  2, 5]
+// 1 左边比它小的： null
+// 3 左边比它小的： 1
+// 4 左边比它小的： 1,3
+// 2 左边比它小的： 1
+// 5 左边比它小的： 1,3,4,2
+// 结果累加
+
 
 const arr3 = [1, 3, 4,  2, 5]
 
-function process3(arr, l, r) {
-  if (l === r) return 0
-  const mid = l + ((r - l) >> 1)
-  return  process3(arr, l, mid) + process3(arr, mid + 1, r) + merge3(arr, l, mid, r)
+// 双指针 暴力破解
+// 时间复杂度（等差数列）：O(n^2)
+function smallCount(arr) {
+  let sum= 0
+  let j = 1
+  while(j <= arr.length) {
+    let i = 0
+    // let result = `比${j}:${arr[j]}小的：`
+    while(i < j) {
+      if(arr[i] < arr[j]) {
+        // result += arr[i] + ','
+        sum += arr[i]
+      }
+      i++
+    }
+    j++
+  }
+  return sum 
 }
 
-function merge3(arr, l, mid, r) {
-  const help = new Array(r - l + 1)
-  let  i = 0
-  let p1 = l 
-  let p2 = mid + 1
+// 转换思路（排序过程统计）
+// 1, 3, 4,  2, 5
+// 1: 右侧比1打的数有 4个
+// 3: 右侧比3打的数有 2个
+// 4: 右侧比4打的数有 1个
+// 2: 右侧比4打的数有 1个
+// 1*4 + 3*2 + 4*1 + 2*1
+
+
+function smallCount1(arr, l = 0, r = arr.length - 1) {
+  if(l === r) return 0
+  let mid = l + ((r - l) >> 1 )
+  return smallCount1(arr, l, mid) + smallCount1(arr, mid + 1, r) + merge1(arr, l, mid, r)
+}
+
+function merge1(arr, l, mid, r) {
+  let i = l
+  let j = mid + 1
+  let help = []
   let res = 0
-  while(p1 <= mid && p2 <= r) {
-    if(arr[p1] < arr[p2]) {
-      help[i++] = arr[p1]
-      // console.log(arr[p1] + '*' + (r - p2 + 1))
-      res += arr[p1++] * (r - p2 + 1)
+
+  while(i <= mid && j <= r) {
+    // arr[i] < arr[j] ? help.push(arr[i++]) : help.push(arr[j++])
+    if(arr[i] < arr[j]) {
+      help.push(arr[i])
+      res += arr[i++] * (r - j + 1)
     } else {
-      help[i++] = arr[p2++]
+      help.push(arr[j++])
     }
   }
-  while (p1 <= mid) {
-    help[i++] = arr[p1++]
+
+  while(i <= mid) {
+    help.push(arr[i++])
   }
-  while (p2 <= r) {
-    help[i++] = arr[p2++]
+
+  while(j <= r) {
+    help.push(arr[j++])
   }
-  for (let i = 0; i < help.length; i ++) {
-    arr[l + i] = help[i]
-  }
+  // 将help拷贝给arr 注意起点位置
+  help.forEach((item,index) => arr[index + l] = item)
   return res
 }
 
+// 数组中的逆序对
 
-// 归并 逆序对
 
-// merge soft 改写的题 每年必考
+function nxd(arr, l = 0, r = arr.length - 1) {
+  if(l === r) return 0
+  let mid = l + ((r - l) >> 1 )
+  return nxd(arr, l, mid) + nxd(arr, mid + 1, r) + nxdMerge(arr, l, mid, r)
+}
+
+function nxdMerge(arr, l, mid, r) {
+  let i = l
+  let j = mid + 1
+  let help = []
+  let res = 0
+
+  while(i <= mid && j <= r) {
+    // arr[i] < arr[j] ? help.push(arr[i++]) : help.push(arr[j++])
+    if(arr[i] > arr[j]) {
+      help.push(arr[i++])
+      res += (r - j + 1)
+    } else {
+      help.push(arr[j++])
+    }
+  }
+
+  while(i <= mid) {
+    help.push(arr[i++])
+  }
+
+  while(j <= r) {
+    help.push(arr[j++])
+  }
+  // 将help拷贝给arr 注意起点位置
+  help.forEach((item,index) => arr[index + l] = item)
+  return res
+}
 
 
 // ------ 快排  ----- 荷兰国旗 ----- 双指针
