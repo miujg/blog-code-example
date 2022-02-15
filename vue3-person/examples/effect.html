@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <script>
+    const {effect, reactive} = VueReactivity
+
+    const state = reactive({name: 'jgmiu', age: 27, arr: [1,2], friend: {name: 'shaexiao', age: 26}})
+    effect(() => {
+      console.log('render~~')
+      state.arr
+      // document.getElementById('app').innerHTML = `info: ${state.arr[1]}`
+      // state.arr[2]
+    })
+
+    setTimeout(() => {
+      state.arr.length = 100
+    }, 2000)
+  </script>
+</body>
+</html>

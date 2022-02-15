@@ -29,6 +29,13 @@ const readonlyMap = new WeakMap()
 
 // 是不是进仅读， 是不是深度  curry实现
 // new Proxy() 拦截数据的读取和修改
+/**
+ * 
+ * @param target 代理目标
+ * @param isReadonly 是否只读
+ * @param baseHandler 用于proxy的handler
+ * @returns 
+ */
 export function createReactiveObject (target, isReadonly, baseHandler) {
   // 如果目标不是对象 无法拦截。 
   // 基本类型使用ref

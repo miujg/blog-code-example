@@ -1,7 +1,9 @@
 // 实现 new proxy(target, handler)
 
-import { extend, isObject } from "@vue/shared"
+import { extend, hasChanged, hasOwn, isArray, isIntergetKey, isObject } from "@vue/shared"
 import { reactive, readonly } from "."
+import { track, trigger } from "./effect"
+import { TrackOptypes, TriggerOrTypes } from "./operators"
 
 // 仅读 set的时候报异常
 // 是不是深度
@@ -47,11 +49,14 @@ function createGetter(isReadonly = false, isShallow = false) {
     // Reflect 与 proxy没特别的关系，只是经常组合在一起用
 
     // reaciver是代理对象
-    // {name: 'xxx', firends: [{name: 'yyy}]} 此时的res为第二层
+    // {name: 'xxx', firends: [{name: 'yyy}]} 此时的res为第二层: 'xxx'、[{name: 'yyy'}]
     const res = Reflect.get(target, key, reaciver)
 
     if (!isReadonly) {
       // 搜集依赖， 数据变化后更新相应视图
+      // 属性记住响应式effect ---> 搜集effect
+      track(target, TrackOptypes.GET, key)
+
     }
 
     // 因为res是第二层，且是浅的，所以直接返回
@@ -73,6 +78,35 @@ function createGetter(isReadonly = false, isShallow = false) {
 // 核心拦截设置功能
 function createSetter(isShallow = false) {
   return function set(target, key, value, reciver) {
-    const res = Reflect.set(target, key, value, reciver)
+    // 获取老值 可能是对象 可能是数组 可能是基本类型
+    const oldValue = target[key]
+
+    // 数组 还是索引
+    // 索引在数组范围内没
+    // 这个方法就是判断是否新增属性
+    const hadKey = isArray(oldValue) && isIntergetKey(key)? Number(key) < target.length : 
+    hasOwn(target, key) 
+
+    // 设置新值
+    const result = Reflect.set(target, key, value, reciver)
+    if(!hadKey) {
+      // 对象新增的属性 或者 数组新增索引
+      trigger(target, TriggerOrTypes.ADD, key, value)
+    } else if (hasChanged(oldValue, value)) {
+      // 值有改变
+      trigger(target, TriggerOrTypes.SET, key, value, oldValue)
+    } else {
+      // 值没改变
+    }
+
+    // 区分新增还是修改
+    // 数组 vue2 无法监控更改索引 无法更改数组的长度
+
+    // 判断是否是新增
+
+
+    // 数据更新的时， 通知应有属性的effect重新执行
+
+    return result
   }
 }
