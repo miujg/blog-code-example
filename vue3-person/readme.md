@@ -1,7 +1,7 @@
 ### vue2 与 vue3 源码区别
 
 #### 使用层面
-1. modrepo，将模块拆分package。（方便管理，结构清晰，知识代码体积大）
+1. modrepo，将模块拆分package。（方便管理，结构清晰，可能仓库代码体积大）
 2. 采用ts进行类型校验， vue2采用flow
 3. vue3性能优化， 支持tree-shaking, 不适用就不打包
 4. vue REFc

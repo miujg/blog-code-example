@@ -9,8 +9,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "node scripts/dev.js",
-    "build": "node scripts/build.js",
-    "test": "rollup -c --environment TARGET:reactivity"
+    "build": "node scripts/build.js"
   },
   "keywords": [],
   "author": "",

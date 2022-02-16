@@ -1,6 +1,7 @@
 import ts from 'rollup-plugin-typescript2' // 解析ts插件
 import { nodeResolve } from '@rollup/plugin-node-resolve' // 解析第三方模块
 import path from 'path'
+// 解析json，这里主要用于解析package.json
 import json from '@rollup/plugin-json'
 // import serve from 'rollup-plugin-serve'
 
