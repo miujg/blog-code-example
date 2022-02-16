@@ -50,3 +50,7 @@ ref为什么要用class
 2. ref
 3. toRef,响应式解构 toRefs
 4. effect track trigger
+
+
+## 展望
+effect并没有合并功能 watchEffect -> runtime-core -> watch -> watch flush post
