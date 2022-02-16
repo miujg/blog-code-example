@@ -6,6 +6,7 @@ let uid = 0
 let activeEffect:any
 // effect栈
 let effectStack:any[] = []
+// 搜集依赖的栈
 const targetMap = new WeakMap()
 
 export function effect(fn, options:any = {}) {
@@ -68,9 +69,8 @@ export function track(target, action, key) {
   }
 }
 
-
+// 找属性对应的effect
 export function trigger(target, type, key, newValue, oldValue?) {
-  console.log(newValue, oldValue)
   // 如果这个属性没有搜集过effect 不需要做任何操作
   const depsMap = targetMap.get(target)
   if(!depsMap) return
@@ -102,6 +102,7 @@ export function trigger(target, type, key, newValue, oldValue?) {
       add(depsMap.get(key)) 
     }
     // 修改数组中的某一个索引 怎么办?state.arr ([1,2,3]) => state.arr[100] 100这一项没有搜集到依赖，要更新吗？
+    // 特殊处理了，如果直接修改索引， length的effect也加入进去
     switch(type) {
       case TriggerOrTypes.ADD:
         if (isArray(target) && isIntergetKey(key)) {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <script>
+    const { ref, effect, toRef } = VueReactivity
+    // 普通值转换为一个对象，value属性指向原来的值
+    let name = ref('jgmiu')
+
+    console.log(name)
+
+    effect(() => {
+      document.getElementById('app').innerHTML = name.value  // track
+    })
+
+    setTimeout(() => {
+      name.value = 'shaexiao' // trigger
+    }, 2000)
+
+    // effect中的所有属性都会搜集这个effect  track
+    // 当这个属性值发生变换的时候，会重新执行 trigger
+
+    
+
+  </script>
+</body>
+</html>

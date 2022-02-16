@@ -37,3 +37,10 @@ reactivity（响应式）， runtime-core(与平台无关的运行时)， runtim
 }
 ```
 > main是给commonjs使用， module：webpack、工程化的使用等
+
+## 一些问题
+
+1. ref内部使用defineProperty。因为ref实现是基于es6-》class set get。es6就是es5创建对象的语法糖，也就是defineProperty
+ref为什么要用class
+
+2. toRefs响应式解构，解构后还是响应式，只是调用的时候要加.value, 使用场景。类似于map辅助函数，少些一点。
