@@ -7,10 +7,28 @@
   <title>Document</title>
 </head>
 <body>
+  <div id="app"></div>
   <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
   <script>
-    const {reactive, shallowReactive, readonly, shallowReadonly} = VueReactivity
-    const p1 = shallowReadonly({name: 'xx', age: 27, firend: {name: 'jgmiu'}})
+    const {reactive, shallowReactive, readonly, shallowReadonly, effect} = VueReactivity
+    const target = {
+      name: 'jgmiu',
+      car: {
+        name: 'ca'
+      },
+      arr: [1,2,3]
+    }
+    const obj = reactive(target)
+
+    console.log(obj)
+
+    effect(() => {
+      document.getElementById('app').innerHTML = obj.car.name
+    })
+
+    setTimeout(() => {
+      obj.name = 'shaeXiao111'
+    }, 2000)
   </script>
 </body>
 </html>

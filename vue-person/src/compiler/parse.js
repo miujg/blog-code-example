@@ -61,6 +61,38 @@ export function parseHTML(html) {
       currentParent.children.push(element)
     }
   }
+  // 前进 逐个删除html的n个字符
+  function advance(n) {
+    html = html.substring(n)
+  }
+  
+  function parseStartTag() {
+    // 开始标签 <div   div
+    let start = html.match(startTagOpen)
+    if(start) {
+      const match = {
+        tagName: start[1],
+        attrs: []
+      }
+      advance(start[0].length)
+      // 提取属性
+      let end, attrs
+      // end 判断有没有解析结束即：>, attrs 匹配属性 
+      while(!(end = html.match(startTagClose)) && (attrs = html.match(attribute)) ) {
+        advance(attrs[0].length)
+        match.attrs.push({
+          name: attrs[1],
+          value: attrs[3] || attrs[4] || attrs[5]
+        })
+      }
+      if(end) {
+        advance(end[0].length)
+        return match
+      } 
+    }
+    
+  }
+
   while(html) {
     // 判断是否是开始标签
     let textEnd = html.indexOf('<')
@@ -88,36 +120,6 @@ export function parseHTML(html) {
       advance(text.length)
       chars(text)
     }
-  }
-  // 前进 逐个删除html的n个字符
-  function advance(n) {
-    html = html.substring(n)
-  }
-  function parseStartTag() {
-    // 开始标签 <div   div
-    let start = html.match(startTagOpen)
-    if(start) {
-      const match = {
-        tagName: start[1],
-        attrs: []
-      }
-      advance(start[0].length)
-      // 提取属性
-      let end, attrs
-      // end 判断有没有解析结束即：>, attrs 匹配属性 
-      while(!(end = html.match(startTagClose)) && (attrs = html.match(attribute)) ) {
-        advance(attrs[0].length)
-        match.attrs.push({
-          name: attrs[1],
-          value: attrs[3] || attrs[4] || attrs[5]
-        })
-      }
-      if(end) {
-        advance(end[0].length)
-        return match
-      } 
-    }
-    
   }
   return root
 }

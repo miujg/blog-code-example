@@ -12,7 +12,6 @@ class Dep {
     Dep.target.addDep(this)
   }
   addSub(watcher) { // 存储watcher
-    console.log(watcher)
     this.subs.push(watcher)
   }
   notify() {

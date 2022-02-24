@@ -40,9 +40,10 @@ export const shallowReadonlyHandlers = extend({
 
 // 核心拦截获取功能
 function createGetter(isReadonly = false, isShallow = false) {
-  // reaciver为代理对象
+  /**
+   * 这个三个参数就是 new Proxy，get的三个参数
+   */
   return function get(target, key, reaciver) {
-    
     // Reflect：to-do
     // 后续object的方法，迁移到Reflect
     // target[key] = value, 可能会失败，并不会报异常，也没有返回表示。 Reflect具备返回值
@@ -52,6 +53,7 @@ function createGetter(isReadonly = false, isShallow = false) {
     // {name: 'xxx', firends: [{name: 'yyy}]} 此时的res为第二层: 'xxx'、[{name: 'yyy'}]
     const res = Reflect.get(target, key, reaciver)
 
+    // 不是readonly 搜集依赖
     if (!isReadonly) {
       // 搜集依赖， 数据变化后更新相应视图
       // 属性记住响应式effect ---> 搜集effect

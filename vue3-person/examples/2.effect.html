@@ -13,17 +13,14 @@
     const {effect, reactive} = VueReactivity
 
     const state = reactive({name: 'jgmiu', age: 27, arr: [1,2], friend: {name: 'shaexiao', age: 26}})
+    debugger
     effect(() => {
       console.log('render~~')
-      state.arr
+      state.name
       // document.getElementById('app').innerHTML = `info: ${state.arr[1]}`
       // state.arr[2]
     })
-
-    setTimeout(() => {
-      state.arr.length = 100
-    }, 2000)
-
+      
     // effect中的所有属性都会搜集这个effect  track
     // 当这个属性值发生变换的时候，会重新执行 trigger
 

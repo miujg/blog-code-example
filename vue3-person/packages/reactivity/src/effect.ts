@@ -25,8 +25,8 @@ export function effect(fn, options:any = {}) {
 function createReactiveEffect(fn, options) {
   const effect = function reactiveEffect () {
     // 已经加入过得effect，不再加入
-    // if (!effectStack.includes(effect)) {
-    if (true) {
+    if (!effectStack.includes(effect)) {
+    // if (true) {
       try {
         // 必须放在这里，品
         effectStack.push(effect)
@@ -70,7 +70,7 @@ export function track(target, action, key) {
 }
 
 // 找属性对应的effect
-export function trigger(target, type, key, newValue, oldValue?) {
+export function trigger(target, type, key, newValue?, oldValue?) {
   // 如果这个属性没有搜集过effect 不需要做任何操作
   const depsMap = targetMap.get(target)
   if(!depsMap) return
@@ -111,7 +111,13 @@ export function trigger(target, type, key, newValue, oldValue?) {
     }
   }
 
-  effects.forEach((effect:any) => effect())
+  effects.forEach((effect:any) => {
+    if (effect.options.scheduler) {
+      effect.options.scheduler(effect)
+    } else {
+      effect()
+    }
+  })
 }
 
 // {name: 'jgmiu', age: 19} => name => [effect1, effect2]

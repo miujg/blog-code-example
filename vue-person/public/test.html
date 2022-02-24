@@ -8,11 +8,10 @@
 </head>
 <body>
   <div id='app'>
-    <span>{{obj.name}}</span>
+    <pre>{{obj.name}}</pre>
   </div>
-  <!-- <span>{{obj.arr}}</span> -->
-  <script src="/dist/umd/vue.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+  <!-- <script src="/dist/umd/vue.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <script>  
     const vm = new Vue({
       el: '#app',
@@ -28,9 +27,6 @@
         }
       }
     })
-    setTimeout(() => {
-      vm._data.obj.name = 'shaexiao'
-    },2000)
   </script>
 </body>
 </html>

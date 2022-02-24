@@ -51,12 +51,15 @@ function  dependArray(value) {
 function defineReactive(data, key, value) {
   // 递归实现深度劫持
   // 数组的专用dep
+
+  // childOb data[key]为对象的时候才有
   let childOb = observe(value)
   // 每一个属性都有一个dep dep用于操作当前的watcher
   let dep = new Dep()
   Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep
     get() { 
-      // 依赖搜集
+      console.log(data, key, childOb)
+      // 首先保证全局有个watcher
       if(Dep.target) {
         dep.depend() // 让属性的dep记住watcher，也要让watcher记住 （双向）
         if(childOb) {
@@ -71,6 +74,8 @@ function defineReactive(data, key, value) {
       return value
     },
     set(newValue) {
+      debugger
+      console.log(data, key, childOb)
       if(newValue == value) return
       observe(newValue) // 继续劫持用户设置的值，有可能设置了一个新对象
       value = newValue

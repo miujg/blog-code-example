@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <script>
+    const { reactive, computed, ref, effect } = VueReactivity
+    
+    // 缓存 computed effect(lazy) + scheduler + 缓存标识
+
+    // 1. 常规用法：
+    // const age = ref(18)
+    // // 计算属性， 默认不执行
+    // const myAge = computed(() => {
+    //   return age.value + 1
+    // })
+    // // 有缓存，在age没有边的情况下，不回去重新计算
+    // // 依靠ComputedRef 内部的_dirty来实现的
+    // debugger
+    // console.log(myAge.value) // 计算
+    // // 重置依靠ComputedRef的 dirty， 取新的值
+    // age.value = 20 
+    // console.log(myAge.value) // 去缓存的值
+
+    // 2.当计算属性应用在effect中的时候
+    const age = ref(18)
+    const myAge = computed(() => {
+      // age 与 computed的effect相关联
+      return age.value + 1
+    })
+    effect(() => {
+      // const appInnerHTML = document.getElementById('app').innerHTML
+      // appInnerHTML = myAge.value
+      console.log(myAge.value)
+    })
+    age.value = 19
+
+
+  </script>
+</body>
+</html>
