@@ -3,7 +3,7 @@
 // 必须用5.1.1版本及以下， v6只支持import导入
 const execa = require('execa')
 
-const target = 'reactivity'
+const target = 'runtime-dom'
 
 build(target)
 
