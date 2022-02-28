@@ -40,5 +40,5 @@ function setupStatefulComponent(instance) {
   // 1.代理 todo
 
   // 2. 获取组件类型 拿到组件的setup方法
-  const {setup} = instance.type 
+  const {setup} = instance.type
 }
