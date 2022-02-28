@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .img {
+      width: 200px;
+      height:200px;
+      background-color: gray;
+      margin-bottom: 100px;
+    }
+    .pic {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img1.jpeg">
+    </div>
+    <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img2.jpeg">
+    </div>
+    <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img3.jpeg">
+    </div>
+    <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img4.jpeg">
+    </div>
+    <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img5.jpeg">
+    </div>
+     <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img6.jpeg">
+    </div>
+     <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img7.jpeg">
+    </div>
+     <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img8.jpeg">
+    </div>
+     <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img9.jpeg">
+    </div>
+     <div class="img">
+      <img class="pic" alt="加载中" data-src="./imgs/img10.jpeg">
+    </div>
+  </div>
+
+  <script>
+    const imgs = document.getElementsByTagName('img')
+    const viewHeight = document.documentElement.clientHeight
+    function lazyload (e) {
+      for(let i = 0; i < imgs.length; i++) {
+        const distance = viewHeight - imgs[i].getBoundingClientRect().top
+        if(distance >= 0 ){
+          // 给元素写入真实的src，展示图片
+          imgs[i].src = imgs[i].getAttribute('data-src')
+          // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
+          num = i + 1
+        }
+      }
+    }
+    window.addEventListener('scroll', lazyload)
+  </script>
+</body>
+</html>
