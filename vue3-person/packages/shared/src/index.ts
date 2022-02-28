@@ -8,3 +8,4 @@ export const isString = value => typeof value == 'string'
 export const isIntergetKey = key => parseInt(key) + '' === key
 export const hasOwn = (target, key) => Object.prototype.hasOwnProperty.call(target, key)
 export const hasChanged = (oldValue, newValue) => oldValue !== newValue 
+export * from './shapeFlag'

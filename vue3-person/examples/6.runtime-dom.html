@@ -7,36 +7,50 @@
   <title>Document</title>
 </head>
 <body>
-  <script src="../packages/runtime-dom/dist/runtime-dom.global.js"></script>
+  <div id="app"></div>
+  <script src="../packages/runtime-dom/dist/runtime-dom.global.js"></script> 
   <script>
-    const { createApp, h, reactive } = VueRuntimeDOM
-    // optionsApi --> compositimeApi
-    // 方便tree-shake
-    // 数据推断问题（this.xxx  ==> 困惑），对ts支持不友好
-    // 方法分散，不能组合
+    const { createApp } = VueRuntimeDom
+    const App = {
+      setup(props, context) {
 
-    let App = {
-      props: {
-        test: String
       },
-      setup(props, ctx) { // 替换beforeCreate 只运行一次
-        const state = reactive({name: 111})
-        // return {
-        //   state
-        // }
-        console.log(props.test) // window
-        console.log(ctx)
-        return () => {
-          // 不在使用this
-          return h('div', {style:{color: 'red'}}, state.name)  
-        }
-      },
-      // render(proxy) { //同理vue2
-      //   console.log(proxy.state)
-      //   return h('div', {style:{color: 'red'}}, proxy.state.name)
-      // }
+      render (proxy) { // effect函数
+        console.log('render')
+      }
     }
-    createApp(App, {test: 'xxx'}).mount('#app')
+    const app = createApp(App, {name: 'xx'})
+    app.mount('#app')
+  </script>
+  <script>
+    // const { createApp, h, reactive } = VueRuntimeDOM
+    // // optionsApi --> compositimeApi
+    // // 方便tree-shake
+    // // 数据推断问题（this.xxx  ==> 困惑），对ts支持不友好
+    // // 方法分散，不能组合
+
+    // let App = {
+    //   props: {
+    //     test: String
+    //   },
+    //   setup(props, ctx) { // 替换beforeCreate 只运行一次
+    //     const state = reactive({name: 111})
+    //     // return {
+    //     //   state
+    //     // }
+    //     console.log(props.test) // window
+    //     console.log(ctx)
+    //     return () => {
+    //       // 不在使用this
+    //       return h('div', {style:{color: 'red'}}, state.name)  
+    //     }
+    //   },
+    //   // render(proxy) { //同理vue2
+    //   //   console.log(proxy.state)
+    //   //   return h('div', {style:{color: 'red'}}, proxy.state.name)
+    //   // }
+    // }
+    // createApp(App, {test: 'xxx'}).mount('#app')
   </script>
 </body>
 </html>

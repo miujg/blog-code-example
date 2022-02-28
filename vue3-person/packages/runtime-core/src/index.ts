@@ -1,1 +1,4 @@
-console.log('core')
+
+export {
+  createRenderer
+} from './renderer'
