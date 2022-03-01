@@ -38,3 +38,5 @@ export function createApp (rootComponent, rootProps) {
   return app
 }
 
+export * from '@vue/runtime-core'
+

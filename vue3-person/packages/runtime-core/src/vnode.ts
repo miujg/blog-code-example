@@ -1,6 +1,10 @@
 import { isArray, isObject, isString } from "@vue/shared"
 import { ShapeFlags } from '@vue/shared'
 
+export function isVnode(vnode) {
+  return vnode.__v_isVnode
+}
+
 // h('div', {style: {}}, childred)
 export const createVNode = function(type, props, childred?) {
   // 判断是元素还是组件
@@ -30,11 +34,18 @@ function normalizeChildren(vnode, childred) {
   // 不对儿子进行处理
   if (childred == null) {
 
-  } else if (isArray(vnode)) {
+  } else if (isArray(childred)) {
     type = ShapeFlags.ARRAY_CHILDREN
   } else {
     type = ShapeFlags.TEXT_CHILDREN
   }
   // 联合类型
-  vnode.shapeFlag |= vnode.shapeFlag
+  vnode.shapeFlag |= type
+}
+
+export const Text = Symbol('Text')
+// 文本转换为 文本对应的vnode
+export function normalizeVNode (child) {
+  if (isObject(child)) return child
+  return createVNode(Text, null, String(child))
 }

@@ -1,6 +1,6 @@
 export const nodeOps = {
   // createElement, 不同的平台创建元素方式不同 (此处只增对浏览器)
-  createElemet: tagName => document.createElement(tagName),
+  createElement: tagName => document.createElement(tagName),
   remove: child => {
     const parent = child.parentNode
     if (parent) {
@@ -17,5 +17,5 @@ export const nodeOps = {
   setElementText: (el, text) => el.textContent = text,
   // ----文本操作----
   createText: text => document.createTextNode(text),
-  setText: (node, text) => node.nodeValue = text
+  setText: (node, text) => node.nodeValue = text,
 }

@@ -1,20 +1,22 @@
-import { ShapeFlags } from "@vue/shared"
+import { isFunction, isObject, ShapeFlags } from "@vue/shared"
+import { PublicInstanceProxyHandlers } from "./componentPublicInstance"
 
 // 根据虚拟dom创建组件实例
 export const createComponentInstance = (vnode) => {
   const instance = {
     vnode,
-    type: vnode.type,
-    // vnode.props 包含 props + attrs
-    props: {}, 
+    type: vnode.type, // 并不太语义化 组件的type 就是 component对象。 元素的type 就是 'div'
     attrs: {}, // $attrs
     slots: {}, // props
-    setupState: {}, // setup如果返回对象，就是这个对象
     ctx: {},
     render: null,
-    isMounted: false // 标识组件是否挂载
+    isMounted: false, // 标识组件是否挂载,
+    // vnode.props 包含 props + attrs
+    props: {}, 
+    setupState: {name: 'setupState'}, // setup如果返回对象，就是这个对象
+    data: {name: 'data'}  // vue2的那个data
   }
-  // 上下文
+  // 上下文 用于代理 而不是代理源对象
   instance.ctx = { _: instance }
   return instance
 }
@@ -37,8 +39,56 @@ export const setupComponent = (instance) => {
 }
 
 function setupStatefulComponent(instance) {
-  // 1.代理 todo
 
-  // 2. 获取组件类型 拿到组件的setup方法
-  const {setup} = instance.type
+  // 获取组件类型 拿到组件的setup方法
+  const Component = instance.type
+  let  { setup } = Component
+  // 代理proxy传给render
+  // proxy 可以拿到setup props data
+  instance.proxy = new Proxy(instance.ctx, PublicInstanceProxyHandlers as any)
+  if (setup) {
+    // 给setup传参
+    // 创建上下文 并不等于组件实例
+    const setupContext = createSetupContext(instance)
+    // 可能是对象 也可能是函数
+    const setupResult = setup(instance.props, setupContext)
+    handleSetupResult(instance, setupResult)
+  } 
+  finishComponentSetup(instance)
+}
+
+function handleSetupResult(instance, setupResult) {
+  if (isFunction(setupResult)) {
+    // 组件的render方法
+    instance.render = setupResult
+  } else if(isObject(setupResult)) {
+    instance.setupState = setupResult
+  }
+}
+
+function createSetupContext(instance) {
+  // 为什么不能直接用instance, 过滤一些东西。 
+  return {
+    attrs: instance.attrs,
+    slots: instance.slots,
+    emit: () => {},
+    // 暴露组件的方法
+    expose: () => {}
+  }
+}
+
+function finishComponentSetup(instance) {
+  const Component = instance.type
+  if (!instance.render) {
+    if (Component.render && Component.template) {
+      // 对template进行编译 产生render函数
+      // 将生成的render函数放在实例上
+      // todo
+
+    }
+    // 编译好之后赋值给instance
+    instance.render = Component.render
+  }
+  // 对vue2.0api兼容处理   todo
+
 }
