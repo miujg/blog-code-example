@@ -10,28 +10,27 @@
   <div id="app"></div>
   <script src="../packages/runtime-dom/dist/runtime-dom.global.js"></script> 
   <script>
-    const { createApp, h, reactive } = VueRuntimeDom
+    const { createApp, h, reactive, ref } = VueRuntimeDom
     const App = {
       // context 不等于 组件实例。 
       // 获取组件实例有专门的方法
       setup(props, context) { 
         const state = reactive({name: 'jgmiu'})
+        const flag = ref(true)
         const handleClick = () => {
-          state.name = 'shaexiao'
-          state.name = 'shaexiao1'
-          state.name = 'shaexiao2'
-          state.name = 'shaexiao3'
-          state.name = 'jgmiu'
+          flag.value = !flag.value
         }
         return () => {
-          return h('div', {style: {color: 'red'}, onClick: handleClick}, state.name)
+          return flag.value? 
+            h('div', {onClick: handleClick, style: {color: 'red'}}, 'jgmiu')
+            : h('p', {onClick: handleClick, style: {color: 'yellow'}}, 'shaexiao')
         }
-      },
+      }
       // proxy 整合 props 与 attrs。
       // 不用通过 instance.props.name 这种方式访问
-      render (proxy) { // effect函数
-        return h('div', {style: {color: 'red'}}, ['xx', h('span', 'jgmiu')])
-      }
+      // render (proxy) { // effect函数
+      //   return h('div', {style: {color: 'red'}}, ['xx', h('span', 'jgmiu')])
+      // }
     }
     const app = createApp(App, {age: 12})
     app.mount('#app')

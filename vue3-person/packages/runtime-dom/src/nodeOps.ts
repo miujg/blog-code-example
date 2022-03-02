@@ -18,4 +18,6 @@ export const nodeOps = {
   // ----文本操作----
   createText: text => document.createTextNode(text),
   setText: (node, text) => node.nodeValue = text,
+  // 获取一个节点的下一个节点
+  nextSibling: (node:HTMLElement) => node.nextSibling 
 }
