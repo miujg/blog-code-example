@@ -23,7 +23,7 @@
         return () => {
           return flag.value? 
             h('div', {onClick: handleClick, style: {color: 'red'}}, 'jgmiu')
-            : h('p', {onClick: handleClick, style: {color: 'yellow'}}, 'shaexiao')
+            : h('div', {onClick: handleClick, style: {color: 'yellow'}}, 'shaexiao')
         }
       }
       // proxy 整合 props 与 attrs。

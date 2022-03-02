@@ -120,8 +120,145 @@ export function createRenderer(rendererOptions) {
 
     }
   }
+  // 比较两个带key的孩子数组
+  const patchKeyChildren = (c1, c2, el) => {
+    // 指针
+    let i = 0
+    let e1 = c1.length - 1
+    let e2 = c2.length - 1
 
-  const patchChildren = (n1, n2, container) => {}
+    // 先考虑特殊情况：
+
+    // 从头开始比，遇到不同的就停止(尽可能的减少比对的区域)
+    // // sync from start
+    while(i <= e1 && i <= e2 ) {
+      const n1 = c1[i]
+      const n2 = c2[i]
+      if(isSameVNodeType(n1, n2)) {
+        // 递归比 深度遍历
+        patch(n1, n2, el)
+      } else {
+        break
+      }
+      i++
+    }
+
+    // 次数i不用置为0的原因：
+    // abcd    abfmcd  
+    // 不置为0，可以提取出fm
+
+    // 从尾部开始比较
+    // sync from end
+    while(i <= e1 && i <= e2 ) {
+      const n1 = c1[e1]
+      const n2 = c2[e2]
+      if(isSameVNodeType(n1, n2)) {
+        // 递归比 深度遍历
+        patch(n1, n2, el)
+      } else {
+        break
+      }
+      e1--
+      e2--
+    }
+    
+    // 怎么确定是挂载还是卸载
+    // i的值大于e1 说明老的少 挂载
+    if (i > e1) { // 有一方比对完毕（特殊情况） // common sequence + mount (同序列挂载)
+      // 挂载
+      if(i <= e2) {
+        // 确定参照物
+        const nextPos = e2 + 1 
+        const anchor =  nextPos < c2.length ? c2[nextPos].el : null
+        // 向前插入 还是向后插入
+        while(i <= e2) {
+          // 通过例子 abc dabc 来理解这里 细品
+          patch(null, c2[i], el, anchor)
+          i++
+        }
+      }
+    } else if(i > e2) { // 有一方比对完毕（特殊情况） // common sequence + unmount （同序列卸载）
+      // 老的多
+      // 卸载
+      while(i<=e1) {
+        unmount(c1[i])
+        i++
+      }
+    } else {
+      // 乱序比较 需要尽可能的复用
+      // 用新的元素元素做成一个映射表，一样的复用
+      // 不一样的要插入
+      let s1 = i 
+      let s2 = i
+      console.log(s1, e1, s2, e2)
+    } 
+  }
+
+  // 销毁儿子
+  const unmountChildren = (childred) => {
+    for (let i = 0; i < childred.length; i++ ) {
+      unmount(childred[i])
+    }
+  }
+
+  // 比较儿子
+  const patchChildren = (n1, n2, el) => {
+    // 1. 老的有儿子 新的没有
+    // 2. 老的没儿子 新的有儿子
+    // 3. 新老都有儿子
+    // 4. 新老都是文本
+
+    const c1 = n1.childred
+    const c2 = n2.childred
+
+    const prevShapeFlag = n1.shapeFlag
+    const shapeFlag = n2.shapeFlag
+
+    // 新的是文本
+    if (shapeFlag & ShapeFlags.TEXT_CHILDREN) {
+      // 老的有孩子 新的却是一个文本。 需要把老的里面的儿子移除
+      if (prevShapeFlag & ShapeFlags.ARRAY_CHILDREN) {
+        unmountChildren(c1) // 如果c1中包含组件会调用组件的销毁方法
+      }
+
+      // 都是文本 且不相等
+      if (c1 !== c2) {
+        hostSetElementText(el, c2)
+      }
+    } else {
+      // 现在是数组(一个元素也是数组) ， 上一次有可能是文本 或者数组
+
+      // 当前是元素/数组 之前是数组
+      if (prevShapeFlag & ShapeFlags.ARRAY_CHILDREN) {
+        if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
+          // 两个数组的比较 （都是数组 且 都不是文本）
+          // dom-diff算法 *****  最核心 ****  
+          // 比较两个带key的孩子
+          patchKeyChildren(c1, c2, el)
+
+        } else {
+          // 当前没有孩子  特殊情况
+          unmountChildren(c1)
+        }
+      } else {
+        // 之前是文本 
+        if (prevShapeFlag & ShapeFlags.TEXT_CHILDREN) {
+          // 之前的文本清空
+          hostSetElementText(el, '')
+          // 之前文本 这次数组
+          if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
+            // 之前的文本清空了， 当前的数组挂载到el上
+            mountChildren(c2, el)
+          } else {
+            // 当前没有孩子  特殊情况
+            unmountChildren(c1)
+          }
+        } else {
+          // 之前没有孩子
+        }
+      }
+    }
+  }
 
   const patchElement = (n1, n2, container, anchor=null) => {
     // 元素是相同节点
@@ -131,9 +268,8 @@ export function createRenderer(rendererOptions) {
     const oldProps = n1.props || {}
     const newProps = n2.props || {}
     pathchProps(oldProps, newProps, el)
-
     // 儿子的比较
-    patchChildren(n1, n2, container)
+    patchChildren(n1, n2, el)
   }
 
   const processElement = (n1, n2, container, anchor=null) => {

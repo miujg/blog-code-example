@@ -20,11 +20,41 @@
         const handleClick = () => {
           flag.value = !flag.value
         }
+        // return () => {
+        //   return flag.value? 
+        //     h('div', {onClick: handleClick, style: {color: 'red'}}, [
+        //       h('span', '1'), 
+        //       h('span', '2')
+        //     ])
+        //     : h('div', {onClick: handleClick, style: {color: 'blue'}}, 
+        //       h('p', {}, 'ppp')
+        //     )
+        // }
+
         return () => {
-          return flag.value? 
-            h('div', {onClick: handleClick, style: {color: 'red'}}, 'jgmiu')
-            : h('div', {onClick: handleClick, style: {color: 'yellow'}}, 'shaexiao')
+          return flag.value?
+            h('ul', {onClick: handleClick, style: {color: 'red'}}, [
+              h('li', {key: 'a'}, 'a'),
+              h('li', {key: 'b'}, 'b'),
+              h('li', {key: 'c'}, 'c'),
+              h('li', {key: 'd'}, 'd'),
+              h('li', {key: 'e'}, 'e'),
+              h('li', {key: 'f'}, 'f'),
+              h('li', {key: 'g'}, 'g'),
+            ])
+            :
+            h('ul', {onClick: handleClick, style: {color: 'blue'}}, [
+              h('li', {key: 'a'}, 'a'),
+              h('li', {key: 'b'}, 'b'),
+              h('li', {key: 'e'}, 'e'),
+              h('li', {key: 'c'}, 'c'),
+              h('li', {key: 'd'}, 'd'),
+              h('li', {key: 'h'}, 'h'),
+              h('li', {key: 'f'}, 'f'),
+              h('li', {key: 'g'}, 'g'),
+            ])
         }
+
       }
     }
     const app = createApp(App, {age: 12})
