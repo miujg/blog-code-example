@@ -37,15 +37,12 @@ export function createRenderer(rendererOptions) {
         instance.isMounted = true
       } else {
         // 更新逻辑
-        console.log('update')
         // diff (diff  序列优化 watchApi 声明周期) 
         // 比较两个虚拟节点
         const proxyToUse = instance.proxy
         const prevTree = instance.subTree
         const nextTree = instance.render.call(proxyToUse, proxyToUse)
         // 核心 比较这两棵树（diff）
-        console.log(prevTree)
-        console.log(nextTree)
         patch(prevTree, nextTree, container)
       }
     }, {
@@ -191,6 +188,31 @@ export function createRenderer(rendererOptions) {
       let s1 = i 
       let s2 = i
       console.log(s1, e1, s2, e2)
+
+      // vue3 使用新的做映射表
+      // 新的 key 与 索引 做成映射表
+      const keyToNewIndex = new Map()
+      for (let i = s2; i <= e2; i++) {
+        const childVNode = c2[i]
+        keyToNewIndex.set(childVNode.key, i)
+      }
+      // 找到能复用的
+      // 老的找新的 
+      for (let i = s1; i <= e1; i++) {
+        const oldVNode = c1[i]
+        const newIndex = keyToNewIndex.get(oldVNode.key)
+        if (newIndex === undefined) {
+          // 老的在新的没有 需要删除
+          unmount(oldVNode)
+        } else {
+          // 老的在新的里面，开始比对。比对完之后 位置不对
+          patch(oldVNode, c2[newIndex], el)
+        }
+      }
+
+      // 有些没有被patch到。 有些插入顺序不正确
+      // 需要移动节点 并且新增节点插入
+      // 算法 最长递增子序列
     } 
   }
 

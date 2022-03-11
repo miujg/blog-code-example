@@ -20,17 +20,8 @@
         const handleClick = () => {
           flag.value = !flag.value
         }
-        // return () => {
-        //   return flag.value? 
-        //     h('div', {onClick: handleClick, style: {color: 'red'}}, [
-        //       h('span', '1'), 
-        //       h('span', '2')
-        //     ])
-        //     : h('div', {onClick: handleClick, style: {color: 'blue'}}, 
-        //       h('p', {}, 'ppp')
-        //     )
-        // }
 
+        // 乱序的条件
         return () => {
           return flag.value?
             h('ul', {onClick: handleClick, style: {color: 'red'}}, [
@@ -39,6 +30,7 @@
               h('li', {key: 'c'}, 'c'),
               h('li', {key: 'd'}, 'd'),
               h('li', {key: 'e'}, 'e'),
+              h('li', {key: 'q'}, 'q'),
               h('li', {key: 'f'}, 'f'),
               h('li', {key: 'g'}, 'g'),
             ])

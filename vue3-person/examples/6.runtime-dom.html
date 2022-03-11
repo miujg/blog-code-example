@@ -11,29 +11,44 @@
   <script src="../packages/runtime-dom/dist/runtime-dom.global.js"></script> 
   <script>
     const { createApp, h, reactive, ref } = VueRuntimeDom
+    // 考虑三种情况
+    // 组件 文本节点 元素（走一遍）
+    // ----------- 文本
     const App = {
       // context 不等于 组件实例。 
       // 获取组件实例有专门的方法
       setup(props, context) { 
-        const state = reactive({name: 'jgmiu'})
+        const state = reactive({name1: 'jgmiu11', name2: 'shaexiao'})
         const flag = ref(true)
         const handleClick = () => {
           flag.value = !flag.value
         }
-        return () => {
-          return flag.value? 
-            h('div', {onClick: handleClick, style: {color: 'red'}}, 'jgmiu')
-            : h('div', {onClick: handleClick, style: {color: 'yellow'}}, 'shaexiao')
+        setTimeout(() => {
+          state.name1 = '11'
+          state.name1 = '12'
+          state.name1 = '13'
+          state.name1 = '14'
+        }, 2000)
+        return {
+          state
         }
-      }
+        // return (proxy) => {
+        //   debugger
+        //   return flag.value? 
+        //     h('div', {onClick: handleClick, style: {color: 'red'}}, proxy.state.name1)
+        //     : h('div', {onClick: handleClick, style: {color: 'yellow'}}, proxy.state.name2)
+        // }
+      },
       // proxy 整合 props 与 attrs。
       // 不用通过 instance.props.name 这种方式访问
-      // render (proxy) { // effect函数
-      //   return h('div', {style: {color: 'red'}}, ['xx', h('span', 'jgmiu')])
-      // }
+      render (proxy) { // effect函数
+        return h('div', {style: {color: 'red'}}, proxy.state.name1)
+      }
     }
+
     const app = createApp(App, {age: 12})
     app.mount('#app')
+
   </script>
   <script>
     // const { createApp, h, reactive } = VueRuntimeDOM
