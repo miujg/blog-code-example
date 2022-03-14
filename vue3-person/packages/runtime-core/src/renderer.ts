@@ -117,7 +117,7 @@ export function createRenderer(rendererOptions) {
 
     }
   }
-  // 比较两个带key的孩子数组
+  // 比较两个带key的孩子数组 domdiff
   const patchKeyChildren = (c1, c2, el) => {
     // 指针
     let i = 0
@@ -196,7 +196,13 @@ export function createRenderer(rendererOptions) {
         const childVNode = c2[i]
         keyToNewIndex.set(childVNode.key, i)
       }
-      // 找到能复用的
+
+
+      const tobePatched = e2 - s2 + 1
+      const newIndexToOldIndexMap = new Array(tobePatched).fill(0)
+
+
+      // 找到能复用的 老的在新的没有找到就删除
       // 老的找新的 
       for (let i = s1; i <= e1; i++) {
         const oldVNode = c1[i]
@@ -204,9 +210,36 @@ export function createRenderer(rendererOptions) {
         if (newIndex === undefined) {
           // 老的在新的没有 需要删除
           unmount(oldVNode)
-        } else {
-          // 老的在新的里面，开始比对。比对完之后 位置不对
+        } else { // 老的在新的里面，开始比对。比对完之后 位置不对
+          // 新旧索引关系 ，新的在老的那里是第几个（从1开始）。
+          newIndexToOldIndexMap[newIndex - s2] = i + 1
+          // 最后为0表示要插入
+
           patch(oldVNode, c2[newIndex], el)
+        }
+      }
+
+      let increasingNewIndexSequence = getSequence(newIndexToOldIndexMap)
+      let j = increasingNewIndexSequence.length - 1
+
+      for (let i = tobePatched - 1; i >= 0; i--) {
+        let currentIndex = i + s2 // 找到h的索引
+        let child = c2[i + s2]
+        // 找到参照物
+        let anchor = currentIndex + 1 < c2.length ? c2[currentIndex + 1].el : null
+        
+        if(newIndexToOldIndexMap[i] === 0) { // 为0说明没有被patch过
+          patch(null, child, el, anchor)
+        } else {
+          // 全部移动 不太好
+
+          // 使用递增子序列
+          if (i != increasingNewIndexSequence[j]) {
+            hostInsert(child.el, el, anchor) // 操作d 以d的下一个为参照物
+
+          } else {
+            j-- // 跳过不需要移动的元素
+          }
         }
       }
 
@@ -214,6 +247,58 @@ export function createRenderer(rendererOptions) {
       // 需要移动节点 并且新增节点插入
       // 算法 最长递增子序列
     } 
+  }
+
+  // 最长递增子序列
+  function getSequence(arr) {
+    const len = arr.length 
+    // 返回递增的索引
+    const result = [0]
+    const p = arr.slice(0)
+    let start
+    let end
+    let middle
+    for (let i = 0; i < len; i++) {
+      const arrI = arr[i]
+      // 为0的时候表示要删除,这种情况不需要排
+      if (arrI !== 0) {
+        // result的最后一项（索引）
+        let resultLastIndex = result[result.length - 1]
+        // 如果result的最后一项 小于 arr当前项， 直接添加到后面
+        if (arr[resultLastIndex] < arrI) {
+          // 将索引加入进去 
+          // 每次放的时候，让这一项记录前一项
+          p[i] = resultLastIndex 
+          result.push(i)
+          // 跳出循环
+          continue
+        }
+        start = 0,
+        end = result.length - 1
+        while (start < end) { // 重合说明找到
+          middle = ((start + end) / 2) | 0
+          if(arr[result[middle]] < arrI) {
+            start = middle + 1
+          } else {
+            end = middle - 1
+          }
+        }
+        if(arrI < arr[result[start]]) {
+          if (start > 0) { //替换
+            p[i] = result[start - 1]
+          }
+          result[start] = i
+  
+        }
+      }
+    }
+    let len1 = result.length - 1
+    let last = result[len1 - 1]
+    while (len1-- > 0) { // 根据前驱节点 
+      result[len1] = last
+      last = p[last]
+    }
+    return result
   }
 
   // 销毁儿子

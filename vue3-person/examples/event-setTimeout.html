@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #out {
+      height: 160px;
+      width: 160px;
+      background: red;
+    }
+    #inner {
+      height: 60px;
+      width: 60px;
+      background: yellow;
+    }
+  </style>
+</head>
+<body>
+  <!-- <div id="out">
+    <div id="inner"></div>
+  </div> -->
+  <script>
+    // const inner = document.getElementById('inner')
+    // const out = document.getElementById('out')
+    // document.addEventListener('click', () => {
+    //   console.log('document')
+    // })
+    // out.addEventListener('click', (e) => {
+    //   console.log(this, e.target, e.currentTarget)
+    //   console.log('out')
+    // })
+    // inner.addEventListener('click', (e) => {
+    //   console.log(inner === e.target)
+    //  console.log('inner') 
+    // })
+
+    function triggerEvent(target, eventType, eventDetail) {
+      // 自定义事件
+      const event = new CustomEvent(eventType, {
+        detail: eventDetail
+      })
+      // 将事件派发到相应元素
+      target.dispatchEvent(event)
+    }
+  </script>
+</body>
+</html>

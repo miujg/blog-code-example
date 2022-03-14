@@ -7,9 +7,64 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <button id="firstButton">firstButton</button>
+  <button id="secondButton">secondButton</button>
   <script>
+    // ------- 摘抄自 修言
+    // 当 macro-task 出队时，任务是一个一个执行的；而 micro-task 出队时，任务是一队一队执行的（如下图所示）
+    // 常见的 macro-task 比如： setTimeout、setInterval、 setImmediate、script（整体代码）、 I/O 操作、UI 渲染等。
+    // 常见的 micro-task 比如: process.nextTick、Promise、MutationObserver
+
+    // ------- 《js忍者秘籍》
+    // “微任务使得我们能够在重新渲染UI之前执行指定的行为，避免不必要的UI重绘，UI重绘会使应用程序的状态不连续。”
+
+    // “如何将复杂的任务分解为不阻塞事件循环的小任务”
+
+
+    // 图解eventloop
+    // const firstButton = document.getElementById("firstButton");
+    // const secondButton = document.getElementById("secondButton");
+    // firstButton.addEventListener("click", function firstHandler() {
+    //   Promise.resolve().then(() => {
+    //     /*Some click handle code that runs for 4 ms*/  
+    //   })
+    //   /*Some click handle code that runs for 8 ms*/
+    // });
+    // secondButton.addEventListener("click", function secondHandler() {
+    //   /*Click handle code that runs for 5ms*/
+    // });
+    /*Code that runs for 15ms*/
+
+    // --- 计时器的理解 -----
+    // “将长时间运行的任务分解为不阻塞事件循环的小任务，以阻止浏览器渲染，浏览器渲染过程会使得应用程序运行缓慢、没有反应。”
+
     
+    setTimeout(() => {
+      /* 6ms */
+    }, 10)
+
+    setInterval(() => {
+      /* 8ms */
+    }, 10);
+
+    const firstButton = document.getElementById("firstButton");
+    firstButton.addEventListener('click', () => {
+      /* 10ms */
+    })
+
+    // /*Code that runs for 18ms*/
+
+
+
+
+
+
+
+
+
+
+
+
   </script>
 </body>
 </html>
