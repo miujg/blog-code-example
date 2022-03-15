@@ -1,0 +1,36 @@
+@import "../common/var.scss";
+
+// .z-button{}
+@mixin b($block) {
+  $B: $namespace+ '-' +$block;
+  .#{$B} {
+    @content;
+  }
+}
+
+// .z-button.is-xx
+@mixin when($state) {
+  @at-root {
+    &.#{$state-prefix+$state} {
+      @content;
+    }
+  }
+}
+
+// &--primary ==> .z-button--primary
+@mixin m($modifier) {
+  @at-root {
+    #{&+$modifier-separator+$modifier} {
+      @content;
+    }
+  }
+}
+
+// &_header ==> .z-button__header
+@mixin e($element) {
+  @at-root {
+    #{&+$element-separator+$element} {
+      @content;
+    }
+  }
+}
