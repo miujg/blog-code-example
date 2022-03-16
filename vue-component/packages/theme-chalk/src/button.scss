@@ -1,0 +1,28 @@
+@import './common/var.scss';
+@import './mixins/mixin.scss';
+
+// @for
+
+@include b(button) { // z-button
+    display: inline-block;
+    min-height: 40px;
+    padding: 0 6px;
+    & [class*="m-icon-"] {
+        & + span {
+            margin-left: 5px;
+        }
+    }
+    @include when(disabled) {
+        cursor: not-allowed;
+    }
+    @include when(loading) {
+        // 事件取消掉
+        pointer-events: none;
+    }
+    @include when(round) {
+        border-radius: 8px;
+    }
+    @include m(primary) {
+        @include button-type($--color-white, $--color-primary, $--color-primary)
+    }
+}

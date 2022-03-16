@@ -1,7 +1,7 @@
 <template>
   <div>
-    <m-button></m-button>
-    <m-icon name="kexuejishu"></m-icon>
+    <m-button icon="m-icon-shangjiantou1">点击</m-button>
+    <!-- <m-icon name="kexuejishu"></m-icon> -->
   </div>
 </template>
 
