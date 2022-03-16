@@ -24,22 +24,17 @@ module.exports = {
       commonjs2: 'vue'
     }
   },
+  resolve: {
+    alias: {
+      '@m-ui': path.resolve(__dirname, '../packages'),
+      'mui': path.resolve(__dirname, '../test')
+    }
+  },
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              appendTsSuffixTo: [/\.vue$/]
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(js)x?$/,
-        // exclude: /node_modules/,
+        test: /\.(j|t)s$/,
+        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {

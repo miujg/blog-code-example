@@ -6,9 +6,6 @@ import path from 'path'
 import { getPackagesSync } from '@lerna/project'
 import vue from 'rollup-plugin-vue'
 
-// 获取packages下的所有package.json
-const inputs = getPackagesSync().map(pck => pck.name).filter(name => name.includes('@m-ui'))
-
 export default {
   input: path.resolve(__dirname, '../packages/m-ui/index.ts'),
   output: {
