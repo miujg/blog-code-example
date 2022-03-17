@@ -1,0 +1,26 @@
+{
+  "name": "@m-ui/row",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "miujg <1066647329@qq.cpm>",
+  "homepage": "https://github.com/miujg/blog-code-example#readme",
+  "license": "ISC",
+  "main": "lib/row.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miujg/blog-code-example.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/miujg/blog-code-example/issues"
+  }
+}
