@@ -1,5 +1,5 @@
 <template>
-    <i :class="`m-icon-${name}`"></i>
+    <i :class="name"></i>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ export default {
   props: {
     name: {
       type: String,
-      dafault: '11'
+      dafault: 'm-icon-jiazai'
     }
   },
   setup() {

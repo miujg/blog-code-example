@@ -1,17 +1,11 @@
-@import './common/var.scss';
 @font-face {
   font-family: "m-ui-icons"; /* Project id 2885304 */
-  src: url('./fonts/iconfont.woff2?t=1647332769576') format('woff2'),
-       url('./fonts/iconfont.woff?t=1647332769576') format('woff'),
-       url('./fonts/iconfont.ttf?t=1647332769576') format('truetype');
+  src: url('./fonts/iconfont.woff?t=1647482334930') format('woff'),
+       url('./fonts/iconfont.ttf?t=1647482334930') format('truetype');
 }
 
-[class^="#{$namespace}-icon-"] {
-  font-family: "m-ui-icons" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.m-icon-jiazai:before {
+  content: "\e7ba";
 }
 
 .m-icon-xiajiantou:before {

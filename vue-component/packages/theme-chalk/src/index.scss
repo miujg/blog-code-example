@@ -1,2 +1,12 @@
 @import './button.scss';
 @import './icon.scss';
+
+// 属性选择器 https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors
+// 由于icon.scss会进场换，所以移动到这里
+[class^="#{$namespace}-icon-"] {
+  font-family: "m-ui-icons" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

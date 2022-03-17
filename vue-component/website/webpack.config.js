@@ -29,8 +29,10 @@ module.exports = {
         loader: 'vue-loader'
       },
       {
-        test: /\.(svg|otf|ttf|woff|woff2|eot|gif|png)$/,
-        loader: 'url-loader'
+        test: /\.(svg|otf|ttf|woff|woff2|eot|gif|png)$/i,
+        // 详情查看webpack资源模块：https://webpack.docschina.org/guides/asset-modules/
+        type: 'asset/resource'
+        // loader: 'url-loader'
       },
       {
         test: /\.(scss|css)$/,
