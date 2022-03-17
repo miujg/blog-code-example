@@ -7,10 +7,10 @@
   "scripts": {
     "website-dev": "webpack serve --config ./website/webpack.config.js",
     "build:theme": "gulp build --gulpfile packages/theme-chalk/gulpfile.js",
-    "build": "webpack --config builds/webpack.config.js",
     "build:esm-bundle": "rollup -c ./builds/rollup.config.bundle.js",
     "build:esm": "rollup -c ./builds/rollup.config.js",
-    "build:umd": "rollup -c ./builds/rollup.umd.js"
+    "build:umd": "rollup -c ./builds/rollup.umd.js",
+    "build": "webpack --config builds/webpack.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.17.7",

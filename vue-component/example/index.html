@@ -7,10 +7,23 @@
   <title>Document</title>
 </head>
 <body>
+  <div id="app">
+    <m-button>xxx</m-button>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+  <script>
+    console.log(typeof exports === "object" && typeof module !== "undefined")
+    console.log(typeof define === "function" && define.amd)
+    console.log(typeof globalThis !== "undefined")
+    console.log(globalThis)
+  </script>
   <script src="../lib/index.umd.js"></script>
   <script>
-    console.log(Vue)
+    const { createApp } = Vue
+    const app = {
+      setup() {},
+    }
+    createApp(app).use(MUI).mount('#app')
   </script>
 </body>
 </html>

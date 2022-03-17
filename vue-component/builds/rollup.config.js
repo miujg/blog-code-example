@@ -11,7 +11,6 @@ const inputs = getPackagesSync().map(pck => pck.name).filter(name => name.includ
 
 export default inputs.map(name => {
   const pckName = name.split('@m-ui/')[1]
-  console.log(pckName, '----->')
   return {
     input: path.resolve(__dirname, `../packages/${pckName}/index.ts`),
     output: {

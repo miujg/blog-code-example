@@ -3,7 +3,6 @@
 import typescript from "rollup-plugin-typescript2"
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import path from 'path'
-import { getPackagesSync } from '@lerna/project'
 import vue from 'rollup-plugin-vue'
 
 export default {
@@ -11,7 +10,11 @@ export default {
   output: {
     name: 'MUI',
     format: 'umd',
-    file: 'lib/index.umd.js'
+    file: 'lib/index.umd.js',
+    globals: {
+      // umd的vue3全局变量为Vue， 所以要将vue重名为Vue
+      vue: 'Vue'
+    }
   },
   plugins: [
     nodeResolve(),
@@ -30,5 +33,5 @@ export default {
   ],
   external(id) { // 排除vue
     return /^vue/.test(id)
-  }
+  },
 }

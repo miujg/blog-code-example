@@ -5,6 +5,9 @@
 
 // webpack 打包 udm
 
+
+/** webpack 打包软连接的时候找不到模块， 至今没有找到原因  */
+
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 
