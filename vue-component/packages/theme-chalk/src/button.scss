@@ -4,13 +4,24 @@
 // @for
 
 @include b(button) { // z-button
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
     display: inline-block;
+    vertical-align: middle;
+    text-align: center;
     min-height: 40px;
-    padding: 0 6px;
-    & [class*="m-icon-"] {
+    padding: 0 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    & [class*="#{$namespace}-icon-"] {
         & + span {
             margin-left: 5px;
         }
+    }
+    // 圆角按钮
+    @include when(round) {
+      border-radius: 20px;
     }
     @include when(disabled) {
         cursor: not-allowed;
@@ -19,10 +30,24 @@
         // 事件取消掉
         pointer-events: none;
     }
-    @include when(round) {
-        border-radius: 8px;
-    }
+    // 主要按钮
     @include m(primary) {
         @include button-type($--color-white, $--color-primary, $--color-primary)
+    }
+    // 警告按钮
+    @include m(warning) {
+      @include button-type($--color-white, $--color-warning, $--color-warning)
+    }
+    // 危险按钮
+    @include m(danger) {
+      @include button-type($--color-white, $--color-danger, $--color-danger)
+    }
+    // 成功按钮
+    @include m(success) {
+      @include button-type($--color-white, $--color-success, $--color-success)
+    }
+    // 默认按钮
+    @include m(default) {
+      @include button-type($--color-white, $--color-info, $--color-info)
     }
 }
