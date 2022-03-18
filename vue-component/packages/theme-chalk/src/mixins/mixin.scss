@@ -40,3 +40,19 @@
   border-color: $border-color;
   background-color: $background-color;
 }
+
+// 根据breakpoints 返回正确的媒体查询条件
+@mixin get-media($key, $map: $breakpoints){
+  // @media screen and (min-width: 992px) {
+  //   @content;
+  // }
+  // 判断key在不在map里面
+  @if map-has-key($map, $key) {
+    @media only screen and #{unquote(map-get($map, $key))}{
+    // @media screen and (min-width: 992px) {
+      @content;
+    }
+  } @else {
+    @warn "Undefined points: `#{$map}`";
+  }
+}

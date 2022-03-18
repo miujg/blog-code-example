@@ -1,0 +1,13 @@
+@import "../common/var.scss";
+@import "./mixin.scss";
+
+@mixin col-size($size) {
+  @include get-media($size) {
+    @for $i from 1 through 24 {
+      .#{$namespace}-col-#{$size}-#{$i} {
+        max-width: (1/24 * $i * 100) * 1%;
+        flex: (1/24 * $i * 100) * 1%;
+      }
+    }
+  }
+}

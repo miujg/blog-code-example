@@ -27,7 +27,7 @@
     </m-col>
   </m-row>
   <h4>分栏间隔</h4>
-  <m-row :gutter="20">
+  <m-row :gutter="10">
     <m-col :span="6">
       <div class="item" style="background: red">111</div>
     </m-col>
@@ -42,7 +42,7 @@
     </m-col>
   </m-row>
   <h4>justify-content</h4>
-  <m-row :gutter="20" justify="center">
+  <m-row :gutter="10" justify="center">
     <m-col :span="6">
       <div class="item" style="background: red">111</div>
     </m-col>
@@ -51,7 +51,7 @@
     </m-col>
   </m-row>
   <h4>响应式相关</h4>
-  <m-row :gutter="20" justify="center">
+  <m-row :gutter="10" justify="center">
     <m-col :span="6" :md='{span: 8, offset: 3}'>
       <div class="item" style="background: red">111</div>
     </m-col>
