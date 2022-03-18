@@ -25,6 +25,14 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
+        // https://webpack.docschina.org/configuration/module#resolve-fully-specified
+        test: /\.(t|j|mj)s$/,
+        include: path.resolve(__dirname, '../node_modules/element-plus'),
+        resolve: {
+          fullySpecified: false
+        }
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader'
       },

@@ -1,5 +1,5 @@
 <template>
-  <h3>按钮组件：</h3>
+  <h4>按钮组件：</h4>
   <m-button type="primary">主要按钮</m-button>
   <m-button type="warning">警告按钮</m-button>
   <m-button type="danger">危险按钮</m-button>

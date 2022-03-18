@@ -1,6 +1,7 @@
 // 定义变量
 @import '../mixins/config.scss';
 
+// 主题色的修改
 $--color-primary: #409eff;
 $--color-white: #ffffff;
 $--color-black: #000000;
@@ -9,3 +10,16 @@ $--color-warning: #e6a23c;
 $--color-danger: #f56c6c;
 $--color-info: #909399;
 
+// Break-point 集中屏幕大小的分割
+$sm: 768px !default;
+$md: 992px !default;
+$lg: 1200px !default;
+$xl: 1920px !default;
+
+$breakpoints: (
+  'xs': '(max-width: #{$sm})', // < sm
+  'sm': '(min-width: #{$sm})', // >= sm
+  'md': '(min-width: #{$md})', // >= md
+  'lg': '(min-width: #{$lg})', // >= lg
+  'xl': '(min-width: #{$xl})', // >= xl
+) !default;
