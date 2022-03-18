@@ -11,6 +11,7 @@ export default {
     name: 'MUI',
     format: 'umd',
     file: 'lib/index.umd.js',
+    // umd 或 iife 的情况下生效
     globals: {
       // umd的vue3全局变量为Vue， 所以要将vue重名为Vue
       vue: 'Vue'
