@@ -2,7 +2,8 @@
   <!-- <button-example /> -->
   <!-- <row-col /> -->
   <!-- <element-preview /> -->
-  <checkbox-example />
+  <!-- <checkbox-example /> -->
+  <transfer-example />
 
 </template>
 
@@ -12,13 +13,15 @@ import ButtonExample from './example/button-example.vue'
 import RowCol from './example/row-col.vue'
 import ElementPreview from './example/element-preview.vue'
 import CheckboxExample from './example/checkbox-example.vue'
+import transferExample from './example/transfer-example.vue'
 
 export default defineComponent({
   components: {
     ButtonExample, 
     RowCol, 
     ElementPreview, 
-    CheckboxExample
+    CheckboxExample,
+    transferExample
   },
   setup() {
     

@@ -5,6 +5,7 @@ import Row from '@m-ui/row'
 import Col from '@m-ui/col'
 import Checkbox from '@m-ui/checkbox'
 import CheckboxGroup from '@m-ui/checkbox-group'
+import Transfer from '@m-ui/transfer'
 import { App } from 'vue'
 
 // // 统一出口
@@ -14,7 +15,8 @@ const components = [
   Row,
   Col,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Transfer
 ]
 
 const install = (app:App) => {

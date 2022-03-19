@@ -10,6 +10,7 @@
         :indeterminate="indeterminate"
         :value="label"
       >
+      <!-- vue的特点， 对于checkbox，如果绑定的是一个数组， value在数组里面 则被选中 -->
     </span>
     <span class="z-checkbox__label">
       <slot>{{label}}</slot>
