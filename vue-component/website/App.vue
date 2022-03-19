@@ -1,7 +1,8 @@
 <template>
-    <!-- <button-example /> -->
-    <row-col />
-    <element-preview />
+  <!-- <button-example /> -->
+  <!-- <row-col /> -->
+  <!-- <element-preview /> -->
+  <checkbox-example />
 
 </template>
 
@@ -10,9 +11,15 @@ import { defineComponent } from 'vue'
 import ButtonExample from './example/button-example.vue'
 import RowCol from './example/row-col.vue'
 import ElementPreview from './example/element-preview.vue'
+import CheckboxExample from './example/checkbox-example.vue'
 
 export default defineComponent({
-  components: {ButtonExample, RowCol, ElementPreview},
+  components: {
+    ButtonExample, 
+    RowCol, 
+    ElementPreview, 
+    CheckboxExample
+  },
   setup() {
     
   }
