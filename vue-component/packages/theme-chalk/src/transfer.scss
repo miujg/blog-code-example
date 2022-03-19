@@ -1,0 +1,13 @@
+@import "./common/var.scss";
+@import "./mixins/mixin.scss";
+
+@include b(transfer) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include e(panel) {
+    display: flex;
+    border: 1px solid #333;
+    width: 300px;
+  }
+}
