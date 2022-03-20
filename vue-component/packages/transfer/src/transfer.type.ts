@@ -16,3 +16,13 @@ export interface ITransferProps {
   modelValue: Key[], // 右边数据
   props: Props // 别名
 }
+
+export interface ITransferPanelProps {
+  data: any[],
+  props?: Props
+}
+
+export interface IPanelState {
+  checked: Key[],
+  allChecked: Boolean
+}

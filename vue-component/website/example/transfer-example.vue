@@ -24,7 +24,7 @@ function useTransfer() {
   }
   return {
     transferData: ref<Option[]>(generateData()),
-    rightValue: [1,4],
+    rightValue: ref([1,4]),
     transferProp: {
       key: 'key',
       label: 'label',
