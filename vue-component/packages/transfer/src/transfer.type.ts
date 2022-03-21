@@ -24,5 +24,6 @@ export interface ITransferPanelProps {
 
 export interface IPanelState {
   checked: Key[],
-  allChecked: Boolean
+  allChecked: Boolean,
+  indeterminate: Boolean
 }

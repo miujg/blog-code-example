@@ -1,7 +1,12 @@
 <template>
   <div class="m-transfer__panel">
     列表
-    <m-checkbox v-model="allChecked" @change="handleCheckAllChange">全选</m-checkbox>
+    <m-checkbox v-model="allChecked" 
+      @change="handleCheckAllChange"
+      :indeterminate="indeterminate"
+    >
+      全选
+    </m-checkbox>
     <div>
       <m-checkbox-group v-model="checked">
         <m-checkbox v-for="item in data" :key="item[keyProp]" :label="item[keyProp]" :disabled="item[disabledProp]">
@@ -41,7 +46,9 @@ export default defineComponent({
     // 有一个自己的状态
     const panelState = reactive({
       checked: [], // 选中的
-      allChecked: false
+      allChecked: false,
+      // 是否处于半选状态
+      indeterminate: false
     })
 
     // 根据props 算出key。 动态的

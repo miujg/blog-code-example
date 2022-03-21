@@ -26,6 +26,7 @@ export default defineComponent({
     data: {
       type: Array as PropType<Array<DataItem>>
     },
+    // 右边的
     modelValue: {
       type: Array as PropType<Array<Key>>
     },
@@ -63,8 +64,13 @@ export default defineComponent({
       })
       emit('update:modelValue', currentValue)
     }
+    // 左边到右边。 添加到左边，会重新计算
     const addToRight = () => {
-      console.log('addToRight')
+      const currentValue = props.modelValue.slice(0) // 拷贝当前右边的索引
+      checkedState.leftChecked.forEach(item => {
+        currentValue.push(item)
+      })
+      emit('update:modelValue', currentValue)
     }
 
     return {
