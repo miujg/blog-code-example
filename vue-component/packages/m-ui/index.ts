@@ -6,6 +6,8 @@ import Col from '@m-ui/col'
 import Checkbox from '@m-ui/checkbox'
 import CheckboxGroup from '@m-ui/checkbox-group'
 import Transfer from '@m-ui/transfer'
+import Form from '@m-ui/form'
+import FormItem from '@m-ui/form-item'
 import { App } from 'vue'
 
 // // 统一出口
@@ -16,7 +18,9 @@ const components = [
   Col,
   Checkbox,
   CheckboxGroup,
-  Transfer
+  Transfer,
+  Form,
+  FormItem
 ]
 
 const install = (app:App) => {

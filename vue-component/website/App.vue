@@ -3,18 +3,19 @@
   <!-- <row-col /> -->
   <!-- <element-preview /> -->
   <!-- <checkbox-example /> -->
-  <transfer-example />
-  <!-- <h1>111</h1> -->
-
+  <!-- <transfer-example /> -->
+  <form-example />
 </template>
 
 <script lang="ts">
+
 import { defineComponent } from 'vue'
 import ButtonExample from './example/button-example.vue'
 import RowCol from './example/row-col.vue'
 import ElementPreview from './example/element-preview.vue'
 import CheckboxExample from './example/checkbox-example.vue'
-import transferExample from './example/transfer-example.vue'
+import TransferExample from './example/transfer-example.vue'
+import FormExample from './example/form-example.vue'
 
 export default defineComponent({
   components: {
@@ -22,7 +23,8 @@ export default defineComponent({
     RowCol, 
     ElementPreview, 
     CheckboxExample,
-    transferExample
+    TransferExample,
+    FormExample
   },
   setup() {
     
