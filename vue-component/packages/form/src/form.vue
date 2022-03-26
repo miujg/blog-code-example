@@ -5,9 +5,14 @@
 </template>
 
 <script lang="ts">
-import { FormRules, LabelPosition } from './form.types'
-import { computed, defineComponent, PropType, provide } from 'vue'
+import { FormRules, LabelPosition, ValidataFunc, Events } from './form.types'
+import { computed, defineComponent, PropType, provide, reactive } from 'vue'
 import { useNamespace } from '@m-ui/hooks'
+import { useMitt } from './useForm'
+import mitt, {Emitter} from 'mitt'
+// import { Events, ValidataFunc } from './form.types'
+
+export const emitter: Emitter<Events> = mitt<Events>()
 
 export default defineComponent({
   name: 'MForm',
@@ -31,14 +36,23 @@ export default defineComponent({
       rules: props.rules || {} 
     })    
     const ns = useNamespace('form')
+    const validataFuncs: ValidataFunc = {}
+    useMitt(validataFuncs)
     const classs = computed(() => {
       return [
         ns.b(),
         ns.m(`label-${props.labelPosition}`)
       ]
     })
+    const validate = () => {
+      Object.keys(validataFuncs).forEach((key:string) => {
+        validataFuncs[key](key)
+      })
+    }
+
     return {
-      classs
+      classs,
+      validate,
     }
   }
 })

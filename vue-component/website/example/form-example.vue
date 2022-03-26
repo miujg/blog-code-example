@@ -1,5 +1,5 @@
 <template>
-  <m-form :model="model" :rules="rules">
+  <m-form :model="model" :rules="rules" ref="ruleFormRef">
     <m-form-item prop="name" label="姓名">
       <input type="text" v-model="model.name" />
     </m-form-item>
@@ -9,19 +9,26 @@
       </template>
       <input type="text" v-model="model.age" />
     </m-form-item>
+    <div @click="submit(ruleFormRef)">submit</div>
   </m-form>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 
 function useForm() {
   const model = reactive({
     name: 'xxx',
     age: 24,
   })
+  const ruleFormRef = ref()
+  const submit = (ruleFormRef) => {
+    ruleFormRef.validate()
+  }
   return {
-    model
+    model,
+    ruleFormRef,
+    submit
   }
 }
 

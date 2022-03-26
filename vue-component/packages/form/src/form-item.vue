@@ -29,10 +29,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const mform:IMForm = inject('MForm', {})
+    const mform:IMForm = inject('MForm', {model: {}, rules: {}})
     return {
       ...useFormItemClasss(),
-      ...useRules(props,mform.model)
+      ...useRules(props,mform)
     }
   }
 })

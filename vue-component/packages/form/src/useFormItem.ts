@@ -1,9 +1,9 @@
 import { useNamespace } from '@m-ui/hooks'
 import { computed, reactive } from 'vue'
 import { IFormItemProps } from './form-item.types'
-import { Arrayable, FormItemRule, IMForm } from './form.types'
+import { Arrayable, FormItemRule, IMForm, ValidataFunc } from './form.types'
 import type { RuleItem } from 'async-validator'
-import mitt, {Emitter} from 'mitt'
+import { emitter } from './useForm'
 
 // class相关
 export const useFormItemClasss = () => {
@@ -37,17 +37,21 @@ export const useRules = (props:IFormItemProps, mform:IMForm) => {
     message: ''
   })
   // 封装各个form-item的校验函数
-  const validata = (modelKey: string) => {
-    const rules:Arrayable<FormItemRule> = mform.rules[props.prop]
+  const validata = (modelKey: string):boolean => {
+    const rules:Arrayable<FormItemRule> = mform.rules[modelKey]
     if (Array.isArray(rules)) {
       rules.every((rule:RuleItem) => {
-        
+
       })
     } else {
 
     }
+    return false
   }
   // 使用emitter将校验函数发送给form组件
+  const itemValidataFun: ValidataFunc = {}
+  itemValidataFun[props.prop] = validata
+  emitter.emit('validataFunc', itemValidataFun)
   return {
     formItemStatus
   }

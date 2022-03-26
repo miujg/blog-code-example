@@ -27,3 +27,13 @@ export interface IMForm {
   model: Record<string, any>,
   rules: FormRules
 }
+
+// mitt 监听相关
+
+export type ValidataFunc = {
+  [key: string]: (text: string) => boolean
+}
+
+export type Events = {
+  validataFunc: ValidataFunc,
+}
