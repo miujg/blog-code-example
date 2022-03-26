@@ -5,10 +5,11 @@
       <slot name="label" />
     </label>
     <slot />
-    <div :class="errClass" v-if="!$slots.error">error</div>
-    <div v-else :class="errClass">
+    <!-- <div :class="errClass" v-if="!$slots.error">{{formItemStatus.message}}</div> -->
+    <div :class="errClass" v-if="!formItemStatus.error">{{formItemStatus.message}}</div>
+    <!-- <div v-else :class="errClass">
       <slot name="error" />
-    </div>
+    </div> -->
   </div>
 </template>
 

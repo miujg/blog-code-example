@@ -36,7 +36,7 @@ function useRule() {
   const checkAge = (rule: any, value: any, callBack: any) => {
     console.log(rule)
     console.log(value)
-    callBack()
+    callBack(new Error('xxxx'))
   }
   const rules = reactive({
     name: [{required: true, message: 'new name', trigger: 'blur'}],

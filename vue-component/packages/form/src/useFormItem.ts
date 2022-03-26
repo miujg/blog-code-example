@@ -38,15 +38,26 @@ export const useRules = (props:IFormItemProps, mform:IMForm) => {
   })
   // 封装各个form-item的校验函数
   const validata = (modelKey: string):boolean => {
-    const rules:Arrayable<FormItemRule> = mform.rules[modelKey]
-    if (Array.isArray(rules)) {
-      rules.every((rule:RuleItem) => {
-
-      })
-    } else {
-
-    }
-    return false
+    let rules:Arrayable<FormItemRule> = mform.rules[modelKey]
+    rules = Array.isArray(rules)? rules : [rules]
+    const value = mform.model[modelKey]
+    formItemStatus.error = rules.every((rule:RuleItem) => {
+      let passed = true
+      formItemStatus.message = rule.message as string
+      if (rule.required) {
+        passed = value.trim() !== ''
+      } else if (rule.validator) {
+        // 自定义校验
+        const callback = (error?: string|Error):void => {
+          passed = error === undefined
+          formItemStatus.message = error === undefined? '' :
+            typeof error === 'string' ? error : error.message
+        }
+        rule.validator(rule, value, callback, {}, {})
+      }
+      return passed
+    })
+    return formItemStatus.error
   }
   // 使用emitter将校验函数发送给form组件
   const itemValidataFun: ValidataFunc = {}
