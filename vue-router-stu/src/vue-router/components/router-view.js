@@ -4,7 +4,9 @@ export default {
   functional: true,
   name: 'router-view',
   render(h, {parent, data}) {
+    debugger
     // 28 12:00
+    // route变化重新渲染
     let parentName = parent.$options.name
     let route = parent.$route
     let records = route.matched
@@ -18,7 +20,6 @@ export default {
       }
       parent = parent.$parent
     }
-    console.log(records, deepth)
     // return h(records[0].component)
     if (records[deepth]) return h(records[deepth].component, data)
   }

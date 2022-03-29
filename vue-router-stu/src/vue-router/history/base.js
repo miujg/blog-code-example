@@ -16,6 +16,7 @@ function runQueue(queue, iterator, cb) {
 export function createRoute(record, location) {
   let res = []
   while (record) {
+    // 向上去record,一层一层的添加到res
     res.unshift(record)
     record = record.parent
   }
@@ -44,12 +45,10 @@ export default class History {
     let route = this.router.match(location)
     
     // 执行hooks
-
     let queue = [].concat(this.router.beforeEachHooks)
-    debugger
     runQueue(queue, iterator, () => {
       this.current = route 
-      // 为了响应式
+      // 为了响应式 route变了之后， router view 变
       this.cb(route) // -----> 核心更新路由
       onCompleate && onCompleate()
     })

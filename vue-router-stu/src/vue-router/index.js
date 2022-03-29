@@ -35,8 +35,9 @@ export default class VueRouter {
       history.setupListener() // 监听hash值变化
     }
 
-    // 为了响应式
+    // route变化 --》 router-view
     history.listen((route) => {
+      console.log(route, 'change~~~~')
       // 响应式数据
       app._route = route
     })

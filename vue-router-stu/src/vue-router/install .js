@@ -6,12 +6,13 @@ import RouterView from "./components/router-view"
 
 export function install(Vue, options) {
   _Vue = Vue
-  // 将router共享给所有属性route
+  // 将router共享给所有组件
+  // 初始化router
   // 理解一下mixin
   Vue.mixin({
     beforeCreate() {
+      // 根实例 this ==> vm， 判断是否是根组件。
       if (this.$options.router) {
-        // 根实例 this ==> vm
         this._routerRoot = this
         this._router = this.$options.router
         this._router.init(this) // this 根实例
@@ -20,7 +21,7 @@ export function install(Vue, options) {
       } else {
         this._routerRoot = this.$parent && this.$parent._routerRoot
       }
-     }
+    }
   })
   Object.defineProperty(Vue.prototype, '$router', {
     get () {
