@@ -44,7 +44,7 @@ export default class History {
     }
     let route = this.router.match(location)
     
-    // 执行hooks
+    // 执行hooks 权限校验在这里进行
     let queue = [].concat(this.router.beforeEachHooks)
     runQueue(queue, iterator, () => {
       this.current = route 

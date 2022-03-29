@@ -4,7 +4,6 @@ export default {
   functional: true,
   name: 'router-view',
   render(h, {parent, data}) {
-    debugger
     // 28 12:00
     // route变化重新渲染
     let parentName = parent.$options.name

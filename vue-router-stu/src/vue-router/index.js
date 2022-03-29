@@ -37,7 +37,6 @@ export default class VueRouter {
 
     // route变化 --》 router-view
     history.listen((route) => {
-      console.log(route, 'change~~~~')
       // 响应式数据
       app._route = route
     })
