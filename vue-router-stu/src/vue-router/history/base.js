@@ -40,6 +40,7 @@ export default class History {
   transitionTo(location, onCompleate) {
 
     const iterator = (hook, cb) => {
+      // to from changeRoute
       hook(this.router, this.current, cb)
     }
     let route = this.router.match(location)

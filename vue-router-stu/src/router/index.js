@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import VueRouter from '@/vue-router'
-// import VueRouter from 'vue-router'
+// import VueRouter from '@/vue-router'
+import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import A from '../views/A.vue'
@@ -21,6 +21,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     // component: About,
     component: About,
+    // 需要
+    meta: { requiresAuth: true },
     // component: function () {
     //   return import(/* webpackChunkName: "about" */ '../views/About.vue')
     // }
@@ -44,9 +46,14 @@ const router = new VueRouter({
   mode: 'hash'
 })
 
-// router.beforeEach((from, to, next) => {
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    console.log('需要验证')
+  }
+  next()
+})
 
-// })
+
 
 
 export default router
