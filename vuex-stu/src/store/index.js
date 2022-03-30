@@ -34,7 +34,7 @@ export default new Vuex.Store({
   namespaced: true,
   plugins: [
     // logger()
-    new VuexPersistence({storage: window.localStorage}).plugin
+    // new VuexPersistence({storage: window.localStorage}).plugin
   ],
   state: {
     name: 'xxx'
@@ -69,7 +69,7 @@ export default new Vuex.Store({
       },
       mutations: {
         changeNameA (state, payload) {
-          state.name = state.name + '1'
+          state.name = payload
         }
       },
       modules: {

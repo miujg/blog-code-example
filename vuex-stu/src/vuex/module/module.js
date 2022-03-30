@@ -2,8 +2,11 @@ import { forEachValue } from '../utils'
 
 export default class Module {
   constructor (rawModule) {
+    // 原始数据
     this._raw = rawModule
+    // 孩子
     this._children = {}
+    // state
     this._state = rawModule.state
   }
 

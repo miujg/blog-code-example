@@ -31,16 +31,19 @@ function installModules(store, path, module, rootState) {
       return memo[current]
     }, rootState)
     // 响应式
-    Vue.set(parent, path[path.length - 1], module.state)
+    // Vue.set(parent, path[path.length - 1], module.state)
+    parent[path[path.length - 1]] = module.state
     // parent[path[path.length - 1]] = module.state
   }
 
-  // action mutation
+  // 安装mutation
   module.forEachMutations((mutation, key) => {
     store.mutations[namespace + key] = store.mutations[namespace + key] || []
+    // commit之后会走到这里, 得到store state payload
     store.mutations[namespace + key].push(payload => mutation.call(store, getState(store, path), payload))
   })
 
+  // 安装action
   module.forEachActions((action, key) => {
     store.actions[namespace + key] = store.actions[namespace + key] || []
     store.actions[namespace + key].push(payload => action.call(store, store, payload))
@@ -64,6 +67,8 @@ export class Store {
     // 嵌套modual
     // options => 格式化属性结构
     // 专门的类用于模块收集
+
+    // 将用户传入的options，变成modules
     this._modules = new ModuleCollection(options)
     // 不考虑namespace的情况下 将module中的mutations 和 actions取出
     this.mutations = {}
@@ -72,18 +77,24 @@ export class Store {
     this.getters = {}
     this.strict = options.strict
     const state = options.state
+    // 安装模块
     installModules(this, [], this._modules.root, state)
+    console.log(state)
     forEachValue(this.wrapGetters, (fn, key) => {
+      // 将getter的key变成计算属性的key
       computed[key] = fn
       Object.defineProperty(this.getters, key, {
         get: () => this._vm[key]
       })
     })
+    console.log(computed)
     // state getter定义
     this._vm = new _Vue({
+      // 只是为了将state变成响应式
       data: {
         $$state: state
       },
+      // getter全部变为计算属性
       computed
     })
     this._commiting = true
@@ -129,6 +140,7 @@ export class Store {
   }
 
   commit = (type, payload) => {
+    debugger
     const mutaions = this.mutations[type]
     if (mutaions) {
       this._withCommiting(() => {
@@ -139,7 +151,6 @@ export class Store {
   }
 
   dispatch = (type, payload) => {
-    debugger
     const actions = this.actions[type]
     if (actions) {
       actions.forEach(fn => fn(payload))
