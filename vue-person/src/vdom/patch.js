@@ -38,7 +38,6 @@ export function patch(oldVnode, vnode) {
 
     // 3. 元素相同， 复用老节点 更新属性
     let el = vnode.el = oldVnode.el
-    // 用老的属性和新的虚拟节点进行比对
     updateProperties(vnode, oldVnode.data)
 
     // 4. tag一样属性更新之后， 更新儿子
@@ -94,7 +93,7 @@ export function createElm(vnode) {
   return vnode.el
 }
 
-// dom-diff 双指针
+// dom-diff 双指针  核心！！！！！！！
 function updateChildren(parent, oldChildren, newChildren) {
   let oldStartIndex = 0 //老的头索引
   let oldEndIndex = oldChildren.length - 1 // 老的尾索
@@ -130,7 +129,7 @@ function updateChildren(parent, oldChildren, newChildren) {
       oldStartVnode = oldChildren[++oldStartIndex]
       newStartVnode = newChildren[++newStartIndex]
     } else if(isSameVnode(oldEndVnode, newEndVnode)) {
-      // 向前插入 从尾开始比
+      // 从头开始比
       patch(oldEndVnode, newEndVnode)
       oldEndVnode = oldChildren[--oldEndIndex]
       newEndVnode = newChildren[--newEndIndex]
@@ -143,7 +142,7 @@ function updateChildren(parent, oldChildren, newChildren) {
       oldStartVnode = oldChildren[++oldStartIndex]
       newEndVnode = newChildren[--newEndIndex]
     } else if(isSameVnode(oldEndVnode, newStartVnode)) {
-      // 比较老尾新头
+      // 比较老尾新头, 
       patch(oldEndVnode, newStartVnode)
       parent.insertBefore(oldEndVnode.el, oldStartVnode.el)
       oldEndVnode = oldChildren[--oldEndIndex]
@@ -156,10 +155,13 @@ function updateChildren(parent, oldChildren, newChildren) {
         // 没有查找到，在老节点的前面插入
         parent.insertBefore(createElm(newStartVnode), oldStartVnode.el)
       } else {
-        // 这里为什么没问题？
+        // 这里为什么没问题？ <-- 能有啥问题。我之前脑子抽了
         let moveVnode = oldChildren[moveIndex]
+        // 将原有位置置为null
         oldChildren[moveIndex] = undefined
+        // 比较两者的孩子
         patch(moveVnode, newStartVnode)
+        // 将存在的移动到oldStart的全面
         parent.insertBefore(moveVnode.el, oldStartVnode.el)
 
       }
@@ -167,16 +169,19 @@ function updateChildren(parent, oldChildren, newChildren) {
     }
     // 为什么v-for要增加key属性（dom diff）？key不能用index（理解， 反序产场景）
   }
-  if(newStartIndex <= newEndIndex) { // 新的比老的多 ，多的插入到老的后面 或者前面
+  // 新的比老的多 ，多的插入到老的后面 或者前面
+  if(newStartIndex <= newEndIndex) { 
     for(let i = newStartIndex; i <= newEndIndex; i++) {
+      debugger
       // 向前插入 向后插入
-      // 判断尾指针 动了尾指针。如果动了尾指针，则下一个有值（像前插入）。如果没动尾指针，下一个没值
+      
+      // 理解一下，找参照物。
       let nextEle = newChildren[newEndIndex + 1] == null? null : newChildren[newEndIndex+1].el
       // insertBefore 的第二个参数为null 等价于 appendChild
       parent.insertBefore(createElm(newChildren[i]), nextEle)
     }
   }
-
+  // 老的比新的多， 多的删掉
   if(oldStartIndex <= oldEndIndex) {
     for(let i = oldStartIndex; i <= oldEndIndex; i++) {
       let child = oldChildren[i]

@@ -6,7 +6,7 @@ export function createElement(vm, tag, data={}, ...children) {
     return vnode(vm, tag, data, data.key, children, undefined)
   } else {
     // 自定义组件
-    const Ctor = vm.$options.components[tag]
+    const Ctor = vm.$options.components[tag] // 对象或元素
     // 组件的核心 Vue.extend
     return createComponent(vm, tag, data, data.key, children, Ctor)
   }
@@ -15,7 +15,6 @@ export function createElement(vm, tag, data={}, ...children) {
 function createComponent(vm, tag, data, key, children, Ctor) {
   if(isObject(Ctor)) {
     Ctor = vm.$options._base.extend(Ctor)
-    console.log(Ctor.options)
   }
   // 给组件增加生命周期
   data.hook = {

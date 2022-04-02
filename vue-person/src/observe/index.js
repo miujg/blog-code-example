@@ -58,7 +58,6 @@ function defineReactive(data, key, value) {
   let dep = new Dep()
   Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep
     get() { 
-      console.log(data, key, childOb)
       // 首先保证全局有个watcher
       if(Dep.target) {
         dep.depend() // 让属性的dep记住watcher，也要让watcher记住 （双向）
@@ -74,10 +73,8 @@ function defineReactive(data, key, value) {
       return value
     },
     set(newValue) {
-      debugger
-      console.log(data, key, childOb)
       if(newValue == value) return
-      observe(newValue) // 继续劫持用户设置的值，有可能设置了一个新对象
+      childOb = observe(newValue) // 继续劫持用户设置的值，有可能设置了一个新对象
       value = newValue
       dep.notify() // 通知dep中记录的watcher去执行
     }

@@ -8,7 +8,7 @@ export function initGlobalApi(Vue) {
     this.options = megerOptions(this.options, mixin)
     return this
   }
-
+  
   Vue.options._base = Vue // Vue的构造函数 后面会用到
   Vue.options.components = {} // 用来存放组件的定义
   Vue.component = function(id, definition) {
@@ -23,7 +23,7 @@ export function initGlobalApi(Vue) {
   Vue.extend = function(options) {
     const Super = this
     // 子组件初始化是 会new VueComponent
-    const Sub = function VueComponent (options){
+    const Sub = function VueComponent ( ){
       this._init(options)
     }
     Sub.cid = cid++

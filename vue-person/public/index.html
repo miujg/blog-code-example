@@ -8,33 +8,29 @@
 </head>
 <body>
   <div id='app'>
-    <span>{{obj.name}}</span>
   </div>
   <!-- <span>{{obj.arr}}</span> -->
   <script src="/dist/umd/vue.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
   <script>  
-    const vm = new Vue({
-      el: '#app',
-      data () {
-        return {
-          obj: {
-            name: 'jgmiu',
-            car: {
-              name: 'ca'
-            },
-            arr: [1,2,3]
-          }
-        }
-      }
-    })
-    setTimeout(() => {
-      debugger
-      vm._data.obj.name = 'shaexiao0'
-      vm._data.obj.name = 'shaexiao1'
-      vm._data.obj.name = 'shaexiao2'
-      vm._data.obj.name = 'shaexiao3'
-    },2000)
+    // 组件渲染相关测试
+    // Vue.component('my-btn', {
+    //   template: '<button>按钮</button>'
+    // })
+    // const vm = new Vue({
+    //   el: '#app',
+    //   data () {
+    //     return {
+    //       obj: {
+    //         name: 'jgmiu',
+    //         car: {
+    //           name: 'ca'
+    //         },
+    //         arr: [1,2,3]
+    //       }
+    //     }
+    //   }
+    // })
   </script>
 </body>
 </html>
