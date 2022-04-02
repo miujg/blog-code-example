@@ -190,10 +190,6 @@ function updateChildren(parent, oldChildren, newChildren) {
       }
     }
   }
-
-
-
-
 }
 
 function updateProperties(vnode, oldProps = {}) {

@@ -18,17 +18,17 @@
       },
       arr: [1,2,3]
     }
-    const obj = reactive(target)
+    debugger
+    const objRef = reactive(target)
+    console.log(objRef.name)
+    
+    // effect(() => {
+    //   document.getElementById('app').innerHTML = objRef.car.name
+    // })
 
-    console.log(obj)
-
-    effect(() => {
-      document.getElementById('app').innerHTML = obj.car.name
-    })
-
-    setTimeout(() => {
-      obj.name = 'shaeXiao111'
-    }, 2000)
+    // setTimeout(() => {
+    //   obj.name = 'shaeXiao111'
+    // }, 2000)
   </script>
 </body>
 </html>

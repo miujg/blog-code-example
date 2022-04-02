@@ -140,7 +140,6 @@ export class Store {
   }
 
   commit = (type, payload) => {
-    debugger
     const mutaions = this.mutations[type]
     if (mutaions) {
       this._withCommiting(() => {
