@@ -165,7 +165,7 @@ export function createRenderer(rendererOptions) {
       // 挂载
       if(i <= e2) {
         // 确定参照物
-        const nextPos = e2 + 1 
+        const nextPos = e2 + 1
         const anchor =  nextPos < c2.length ? c2[nextPos].el : null
         // 向前插入 还是向后插入
         while(i <= e2) {

@@ -7,36 +7,37 @@
   <title>Document</title>
 </head>
 <body>
-  <button id="test"> click me </button>
+  <!-- <button id="test"> click me </button> -->
+  <script src="./index.js"></script>
 
   <script>
-    function Button () {
-      this.clicked = false
-      this.click = function () {
-        console.log(this.clicked)
-      }
-    }
+    // function Button () {
+    //   this.clicked = false
+    //   this.click = function () {
+    //     console.log(this.clicked)
+    //   }
+    // }
 
-    var button = new Button()
-    var buttonDom = document.getElementById('test')
-    // 次数的this为window。相当于以下代码, 函数作为函数被调用 或者理解为 函数采用默认规则
-    // var fun = button.click
-    // fun()
-    buttonDom.addEventListener('click', button.click)
+    // var button = new Button()
+    // var buttonDom = document.getElementById('test')
+    // // 次数的this为window。相当于以下代码, 函数作为函数被调用 或者理解为 函数采用默认规则
+    // // var fun = button.click
+    // // fun()
+    // buttonDom.addEventListener('click', button.click)
 
 
 
-    var $ = {
-      ajax(options) {
-        setTimeout(options.cb, 1000)
-      }
-    }
+    // var $ = {
+    //   ajax(options) {
+    //     setTimeout(options.cb, 1000)
+    //   }
+    // }
 
-    $.ajax({
-      cb: function() {
-        console.log(this)
-      }
-    })
+    // $.ajax({
+    //   cb: function() {
+    //     console.log(this)
+    //   }
+    // })
 
 
   </script>
