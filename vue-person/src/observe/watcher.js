@@ -17,6 +17,8 @@ class Watcher {
     if (typeof exprOrfn === 'function') {
       this.getter = exprOrfn
     } else {
+      // exprOrfn 可能是watch的key值
+      // 在vm上取值
       this.getter = function () {
         // 这里取值的时候，就会让dep记住watcher
         // 根据key 取值: a.b.c.d
@@ -31,11 +33,13 @@ class Watcher {
     this.deps = [] // watcher 记住 dep
     this.depsId = new Set()
     // this.fn() // 调用render方法， 此时会对模板中的数据进取值
-    // 老值
+    // 老值 用于watcher
     this.value =  this.lazy ? null : this.get()
   }
+  // 给计属性
   evaluate () {
     this.value = this.get()
+    // 缓存
     this.dirty = false
   }
   get() { 

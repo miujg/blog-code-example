@@ -158,6 +158,8 @@ export function createRenderer(rendererOptions) {
       e1--
       e2--
     }
+
+    console.log(i, e1, e2)
     
     // 怎么确定是挂载还是卸载
     // i的值大于e1 说明老的少 挂载
@@ -187,7 +189,6 @@ export function createRenderer(rendererOptions) {
       // 不一样的要插入
       let s1 = i 
       let s2 = i
-      console.log(s1, e1, s2, e2)
 
       // vue3 使用新的做映射表
       // 新的 key 与 索引 做成映射表
@@ -204,6 +205,7 @@ export function createRenderer(rendererOptions) {
 
       // 找到能复用的 老的在新的没有找到就删除
       // 老的找新的 
+      debugger
       for (let i = s1; i <= e1; i++) {
         const oldVNode = c1[i]
         const newIndex = keyToNewIndex.get(oldVNode.key)

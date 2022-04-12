@@ -55,15 +55,22 @@ let vm2 = new Vue({
   }
 })
 
+
 let rende2 = compileToFunction(`<ul>
-  <li key="G">G</li>
-  <li key="F">F</li>
   <li key="E">E</li>
   <li key="A">A</li>
+  <li key="F">F</li>
   <li key="B">B</li>
-  <li key="C">C</li>
-  <li key="D">D</li>
-</ul>`) 
+</ul>`)
+// let rende2 = compileToFunction(`<ul>
+//   <li key="G">G</li>
+//   <li key="F">F</li>
+//   <li key="E">E</li>
+//   <li key="A">A</li>
+//   <li key="B">B</li>
+//   <li key="C">C</li>
+//   <li key="D">D</li>
+// </ul>`) 
 let newVnode = rende2.call(vm2)
 
 setTimeout(() => {

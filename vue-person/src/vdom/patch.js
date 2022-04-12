@@ -123,13 +123,13 @@ function updateChildren(parent, oldChildren, newChildren) {
     }else if(!oldEndVnode) {
       oldEndVnode = oldChildren[--oldEndIndex]
     } else if(isSameVnode(oldStartVnode, newStartVnode)) {
-      // 向后插入（针对与newchild） 从头开始比
+      // 从头开始比
       // 比较属性 更新属性 递归
       patch(oldStartVnode, newStartVnode)
       oldStartVnode = oldChildren[++oldStartIndex]
       newStartVnode = newChildren[++newStartIndex]
     } else if(isSameVnode(oldEndVnode, newEndVnode)) {
-      // 从头开始比
+      // 从尾部 开始比
       patch(oldEndVnode, newEndVnode)
       oldEndVnode = oldChildren[--oldEndIndex]
       newEndVnode = newChildren[--newEndIndex]
@@ -172,7 +172,6 @@ function updateChildren(parent, oldChildren, newChildren) {
   // 新的比老的多 ，多的插入到老的后面 或者前面
   if(newStartIndex <= newEndIndex) { 
     for(let i = newStartIndex; i <= newEndIndex; i++) {
-      debugger
       // 向前插入 向后插入
       
       // 理解一下，找参照物。
