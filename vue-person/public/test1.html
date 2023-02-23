@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    {{ msg }}
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>  
+    let msg = 'hello'
+    // 获取dom
+    const app = document.querySelector('#app')
+    app.innerHTML = msg
+    
+    // const vm = new Vue({
+    //   el: '#app',
+    //   data () {
+    //     return {
+    //       a: 'A',
+    //       b: 'B',
+    //       c: 'C',
+    //       d: 'D'
+    //     }
+    //   }
+    // })
+    
+    // 组件渲染相关测试
+    // Vue.component('my-btn', {
+    //   template: '<button>按钮</button>'
+    // })
+    // const vm = new Vue({
+    //   el: '#app',
+    //   data () {
+    //     return {
+    //       obj: {
+    //         name: 'jgmiu',
+    //         car: {
+    //           name: 'ca'
+    //         },
+    //         arr: [1,2,3]
+    //       }
+    //     }
+    //   }
+    // })
+  </script>
+</body>
+</html>
